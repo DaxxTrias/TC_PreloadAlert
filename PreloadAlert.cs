@@ -39,7 +39,6 @@ namespace PreloadAlert
         private bool isAreaChanged = false;
         private bool isLoading;
         private Vector2 lastLine;
-        private float maxWidth;
         private Dictionary<string, PreloadConfigLine> personalAlertStrings;
         private readonly List<string> PreloadDebug = new List<string>();
         private Action PreloadDebugAction;
@@ -365,39 +364,38 @@ namespace PreloadAlert
 
         public override void Render()
         {
+            const string loadingText = "Loading...";
             PreloadDebugAction?.Invoke();
             if (!canRender) return;
-            var startDrawPoint = GameController.LeftPanel.StartDrawPoint.Translate(
-                -GameController.IngameState.IngameUi.MapSideUI.Width, 0).Translate(
-                (float)Settings.DrawXOffset.Value, 0.0f);
-            var f = startDrawPoint.Y;
-            maxWidth = 0;
+            var textTopRight = GameController.LeftPanel.StartDrawPoint.Translate(
+                Settings.DrawXOffset.Value - GameController.IngameState.IngameUi.MapSideUI.Width);
+            var drawPoint = textTopRight;
+            var textSize = isLoading
+                ? Graphics.MeasureText(loadingText)
+                : DrawAlerts.Select(x => Graphics.MeasureText(x.Text)).ToList()
+                    switch { var s => new Vector2(s.DefaultIfEmpty(Vector2.Zero).Max(x => x.X), s.Sum(x => x.Y)) };
+            var bounds = new RectangleF(textTopRight.X - textSize.X - 55,
+                textTopRight.Y, textSize.X + 60, textSize.Y);
+
+            Graphics.DrawImage("preload-new.png", bounds, Settings.BackgroundColor);
 
             if (isLoading)
             {
-                lastLine = Graphics.DrawText("Loading...", startDrawPoint, Color.Orange, FontAlign.Right);
-                startDrawPoint.Y += lastLine.Y;
-                maxWidth = Math.Max(lastLine.X, maxWidth);
+                lastLine = Graphics.DrawText(loadingText, drawPoint, Color.Orange, FontAlign.Right);
+                drawPoint.Y += lastLine.Y;
             }
             else
             {
                 foreach (var line in DrawAlerts)
                 {
-                    lastLine = Graphics.DrawText(line.Text, startDrawPoint,
+                    lastLine = Graphics.DrawText(line.Text, drawPoint,
                         line.FastColor?.Invoke() ?? line.Color ?? Settings.DefaultTextColor, FontAlign.Right);
 
-                    startDrawPoint.Y += lastLine.Y;
-                    maxWidth = Math.Max(lastLine.X, maxWidth);
+                    drawPoint.Y += lastLine.Y;
                 }
             }
 
-            var bounds = new RectangleF(GameController.LeftPanel.StartDrawPoint.Translate(
-                -GameController.IngameState.IngameUi.MapSideUI.Width, 0).Translate(
-                (float)Settings.DrawXOffset.Value, 0.0f).X - maxWidth - 55,
-                GameController.LeftPanel.StartDrawPoint.Y, maxWidth + 60, startDrawPoint.Y - f);
-
-            Graphics.DrawImage("preload-new.png", bounds, Settings.BackgroundColor);
-            GameController.LeftPanel.StartDrawPoint = startDrawPoint;
+            GameController.LeftPanel.StartDrawPoint = drawPoint;
         }
 
         public Dictionary<string, PreloadConfigLine> LoadConfig(string path)
