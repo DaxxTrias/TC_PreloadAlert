@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <OutputPath>..\..\..\..\PoeHelper\Plugins\Compiled\PreloadAlert\</OutputPath>
+    <OutputPath>..\..\..\..\..\PoeHelper\Plugins\Compiled\PreloadAlert\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Core.csproj">
