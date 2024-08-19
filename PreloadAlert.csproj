@@ -1,21 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <OutputPath>..\..\..\..\..\PoeHelper\Plugins\Compiled\PreloadAlert\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <DebugType>embedded</DebugType>
+    <PathMap>$(MSBuildProjectDirectory)=$(MSBuildProjectName)</PathMap>
+    <EmbedAllSources>true</EmbedAllSources>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Core.csproj">
+    <Reference Include="ExileCore">
+      <HintPath>$(exapiPackage)\ExileCore.dll</HintPath>
       <Private>False</Private>
-    </ProjectReference>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="LinqFaster" Version="1.0.0" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
     <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
   </ItemGroup>
