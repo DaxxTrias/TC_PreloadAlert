@@ -1,5 +1,5 @@
 using System;
-using SharpDX;
+using System.Drawing;
 
 namespace PreloadAlert
 {
