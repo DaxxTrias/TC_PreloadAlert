@@ -273,7 +273,7 @@ namespace PreloadAlert
                 isLoading = false;
                 return;
             }
-            //Core.ParallelRunner.Run(new Coroutine(Parse(), this, "Preload parse"));
+            Parse();
 
             isLoading = false;
         }
@@ -293,7 +293,7 @@ namespace PreloadAlert
                         {
                             var memory = GameController.Memory;
                             FilesFromMemory filesFromMemory = new FilesFromMemory(memory);
-                            var AllFiles = filesFromMemory.GetAllFilesSync();
+                            var AllFiles = filesFromMemory.GetAllFiles();
                             int areaChangeCount = GameController.Game.AreaChangeCount;
                             foreach (var file in AllFiles)
                             {
