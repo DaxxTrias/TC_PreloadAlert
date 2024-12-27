@@ -15,8 +15,8 @@ namespace PreloadAlert
             Strongboxes = new ToggleNode(true);
             //PerandusBoxes = new ToggleNode(true);
             Essence = new ToggleNode(true);
-            CorruptedArea = new ToggleNode(true);
-            CorruptedTitle = new ToggleNode(true);
+            //CorruptedArea = new ToggleNode(true);
+            //CorruptedTitle = new ToggleNode(true);
             //Bestiary = new ToggleNode(true);
             TextSize = new RangeNode<int>(16, 10, 50);
             //BackgroundColor = new ColorBGRA(0, 0, 0, 255);
@@ -133,6 +133,7 @@ namespace PreloadAlert
         //public ColorNode CadiroTrader { get; set; }
         public ToggleNode Essence { get; set; }
         public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        public ColorNode EssenceOfFlames { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode RemnantOfCorruption { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfAnger { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfHatred { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);

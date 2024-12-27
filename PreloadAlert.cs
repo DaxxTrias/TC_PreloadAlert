@@ -427,7 +427,7 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Monsters/BloodMonsters/BloodCretin",
-                    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfElectricity}
+                    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfFlames}
                 },
                 //{
                 //    "Metadata/Monsters/Daemon/EssenceDaemonMeteorFirestorm",
