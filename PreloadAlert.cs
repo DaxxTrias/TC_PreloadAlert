@@ -422,101 +422,109 @@ namespace PreloadAlert
             Essences = new Dictionary<string, PreloadConfigLine>
             {
                 {
-                    "Metadata/Monsters/Daemon/EssenceDaemonMeteorFirestorm",
-                    new PreloadConfigLine {Text = "Essence of Anguish", FastColor = () => Settings.EssenceOfAnguish}
+                    "Metadata/Monsters/Mercenary/Infected/InfectedMercenary",
+                    new PreloadConfigLine {Text = "Essence of Electricity", FastColor = () => Settings.EssenceOfElectricity}
                 },
                 {
-                    "Metadata/Monsters/Daemon/EssenceDaemonFirePulse",
-                    new PreloadConfigLine {Text = "Essence of Anger", FastColor = () => Settings.EssenceOfAnger}
+                    "Metadata/Monsters/BloodMonsters/BloodCretin",
+                    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfElectricity}
                 },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonColdPulse",
-                    new PreloadConfigLine {Text = "Essence of Hatred", FastColor = () => Settings.EssenceOfHatred}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonLightningPulse",
-                    new PreloadConfigLine {Text = "Essence of Wrath", FastColor = () => Settings.EssenceOfWrath}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonChaosDegenPulse",
-                    new PreloadConfigLine {Text = "Essence of Misery (Suggest: Corruption)", FastColor = () => Settings.EssenceOfMisery}
-                }, //Suggest Corruption
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonOrbOfStormsDaemon",
-                    new PreloadConfigLine {Text = "Essence of Torment", FastColor = () => Settings.EssenceOfTorment}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonGhost",
-                    new PreloadConfigLine {Text = "Essence of Fear", FastColor = () => Settings.EssenceOfFear}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonFrostBomb",
-                    new PreloadConfigLine {Text = "Essence of Suffering", FastColor = () => Settings.EssenceOfSuffering}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonGrab",
-                    new PreloadConfigLine {Text = "Essence of Envy (Suggest: Corruption)", FastColor = () => Settings.EssenceOfEnvy}
-                }, //Suggest Corruption
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDodge",
-                    new PreloadConfigLine {Text = "Essence of Zeal", FastColor = () => Settings.EssenceOfZeal}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDamageTaken",
-                    new PreloadConfigLine {Text = "Essence of Loathing", FastColor = () => Settings.EssenceOfLoathing}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterCrit",
-                    new PreloadConfigLine {Text = "Essence of Scorn (Suggest: Corruption)", FastColor = () => Settings.EssenceOfScorn}
-                }, //Suggest Corruption
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectVortex",
-                    new PreloadConfigLine {Text = "Essence of Sorrow", FastColor = () => Settings.EssenceOfSorrow}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonKaruiSpirit",
-                    new PreloadConfigLine {Text = "Essence of Contempt", FastColor = () => Settings.EssenceOfContempt}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonFireRuneTrap",
-                    new PreloadConfigLine {Text = "Essence of Rage", FastColor = () => Settings.EssenceOfRage}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonChaosGolem",
-                    new PreloadConfigLine {Text = "Essence of Dread (Suggest: Corruption)", FastColor = () => Settings.EssenceOfDread}
-                }, //Suggest Corruption
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonBloodProjectileDaemon",
-                    new PreloadConfigLine {Text = "Essence of Greed", FastColor = () => Settings.EssenceOfGreed}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonLivingCrystals",
-                    new PreloadConfigLine {Text = "Essence of Woe", FastColor = () => Settings.EssenceOfWoe}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonSummonSpiders",
-                    new PreloadConfigLine {Text = "Essence of Doubt", FastColor = () => Settings.EssenceOfDoubt}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectShocked",
-                    new PreloadConfigLine {Text = "Essence of Spite", FastColor = () => Settings.EssenceOfSpite}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonMadness1",
-                    new PreloadConfigLine {Text = "Essence of Hysteria", FastColor = () => Settings.EssenceOfHysteria}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonInsanity1",
-                    new PreloadConfigLine {Text = "Essence of Insanity", FastColor = () => Settings.EssenceOfInsanity}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonHorror1",
-                    new PreloadConfigLine {Text = "Essence of Horror", FastColor = () => Settings.EssenceOfHorror}
-                },
-                {
-                    "Metadata/Monsters/Daemon/EssenceDaemonTerror1_",
-                    new PreloadConfigLine {Text = "Essence of Delirium", FastColor = () => Settings.EssenceOfDelirium}
-                }
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonMeteorFirestorm",
+                //    new PreloadConfigLine {Text = "Essence of Anguish", FastColor = () => Settings.EssenceOfAnguish}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonFirePulse",
+                //    new PreloadConfigLine {Text = "Essence of Anger", FastColor = () => Settings.EssenceOfAnger}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonColdPulse",
+                //    new PreloadConfigLine {Text = "Essence of Hatred", FastColor = () => Settings.EssenceOfHatred}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonLightningPulse",
+                //    new PreloadConfigLine {Text = "Essence of Wrath", FastColor = () => Settings.EssenceOfWrath}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonChaosDegenPulse",
+                //    new PreloadConfigLine {Text = "Essence of Misery (Suggest: Corruption)", FastColor = () => Settings.EssenceOfMisery}
+                //}, //Suggest Corruption
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonOrbOfStormsDaemon",
+                //    new PreloadConfigLine {Text = "Essence of Torment", FastColor = () => Settings.EssenceOfTorment}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonGhost",
+                //    new PreloadConfigLine {Text = "Essence of Fear", FastColor = () => Settings.EssenceOfFear}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonFrostBomb",
+                //    new PreloadConfigLine {Text = "Essence of Suffering", FastColor = () => Settings.EssenceOfSuffering}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonGrab",
+                //    new PreloadConfigLine {Text = "Essence of Envy (Suggest: Corruption)", FastColor = () => Settings.EssenceOfEnvy}
+                //}, //Suggest Corruption
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDodge",
+                //    new PreloadConfigLine {Text = "Essence of Zeal", FastColor = () => Settings.EssenceOfZeal}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDamageTaken",
+                //    new PreloadConfigLine {Text = "Essence of Loathing", FastColor = () => Settings.EssenceOfLoathing}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterCrit",
+                //    new PreloadConfigLine {Text = "Essence of Scorn (Suggest: Corruption)", FastColor = () => Settings.EssenceOfScorn}
+                //}, //Suggest Corruption
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectVortex",
+                //    new PreloadConfigLine {Text = "Essence of Sorrow", FastColor = () => Settings.EssenceOfSorrow}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonKaruiSpirit",
+                //    new PreloadConfigLine {Text = "Essence of Contempt", FastColor = () => Settings.EssenceOfContempt}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonFireRuneTrap",
+                //    new PreloadConfigLine {Text = "Essence of Rage", FastColor = () => Settings.EssenceOfRage}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonChaosGolem",
+                //    new PreloadConfigLine {Text = "Essence of Dread (Suggest: Corruption)", FastColor = () => Settings.EssenceOfDread}
+                //}, //Suggest Corruption
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonBloodProjectileDaemon",
+                //    new PreloadConfigLine {Text = "Essence of Greed", FastColor = () => Settings.EssenceOfGreed}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonLivingCrystals",
+                //    new PreloadConfigLine {Text = "Essence of Woe", FastColor = () => Settings.EssenceOfWoe}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonSpiders",
+                //    new PreloadConfigLine {Text = "Essence of Doubt", FastColor = () => Settings.EssenceOfDoubt}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectShocked",
+                //    new PreloadConfigLine {Text = "Essence of Spite", FastColor = () => Settings.EssenceOfSpite}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonMadness1",
+                //    new PreloadConfigLine {Text = "Essence of Hysteria", FastColor = () => Settings.EssenceOfHysteria}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonInsanity1",
+                //    new PreloadConfigLine {Text = "Essence of Insanity", FastColor = () => Settings.EssenceOfInsanity}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonHorror1",
+                //    new PreloadConfigLine {Text = "Essence of Horror", FastColor = () => Settings.EssenceOfHorror}
+                //},
+                //{
+                //    "Metadata/Monsters/Daemon/EssenceDaemonTerror1_",
+                //    new PreloadConfigLine {Text = "Essence of Delirium", FastColor = () => Settings.EssenceOfDelirium}
+                //}
             };
 
             //PerandusLeague = new Dictionary<string, PreloadConfigLine>
@@ -787,25 +795,25 @@ namespace PreloadAlert
                 return;
             }
 
-            if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
-            {
-                if (Settings.CorruptedTitle)
-                {
-                    // using corrupted titles so set the color here, XpRatePlugin will grab the color to use when drawing the title.
-                    AreaNameColor = Settings.CorruptedAreaColor;
-                    GameController.Area.CurrentArea.AreaColorName = AreaNameColor;
-                }
-                else
-                {
-                    // not using corrupted titles, so throw it in a preload alert
-                    lock (_locker)
-                    {
-                        alerts[text] = new PreloadConfigLine {Text = "Corrupted Area", FastColor = () => Settings.CorruptedAreaColor};
-                    }
-                }
+            //if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
+            //{
+            //    if (Settings.CorruptedTitle)
+            //    {
+            //        // using corrupted titles so set the color here, XpRatePlugin will grab the color to use when drawing the title.
+            //        AreaNameColor = Settings.CorruptedAreaColor;
+            //        GameController.Area.CurrentArea.AreaColorName = AreaNameColor;
+            //    }
+            //    else
+            //    {
+            //        // not using corrupted titles, so throw it in a preload alert
+            //        lock (_locker)
+            //        {
+            //            alerts[text] = new PreloadConfigLine {Text = "Corrupted Area", FastColor = () => Settings.CorruptedAreaColor};
+            //        }
+            //    }
 
-                return;
-            }
+            //    return;
+            //}
 
             if (Settings.Essence)
             {
@@ -834,40 +842,40 @@ namespace PreloadAlert
                     return;
                 }
 
-                if (!essencefound && text.Contains("MiniMonolith"))
-                {
-                    lock (_locker)
-                    {
-                        alerts["Remnant of Corruption"] = new PreloadConfigLine
-                        {
-                            Text = "Remnant of Corruption", FastColor = () => Settings.RemnantOfCorruption
-                        };
-                    }
-                }
+                //if (!essencefound && text.Contains("MiniMonolith"))
+                //{
+                //    lock (_locker)
+                //    {
+                //        alerts["Remnant of Corruption"] = new PreloadConfigLine
+                //        {
+                //            Text = "Remnant of Corruption", FastColor = () => Settings.RemnantOfCorruption
+                //        };
+                //    }
+                //}
             }
 
-            var perandus_alert = PerandusLeague.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
-                .Select(kv => kv.Value).FirstOrDefault();
+            //var perandus_alert = PerandusLeague.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+            //    .Select(kv => kv.Value).FirstOrDefault();
 
-            if (perandus_alert != null && Settings.PerandusBoxes)
-            {
-                foundSpecificPerandusChest = true;
+            //if (perandus_alert != null && Settings.PerandusBoxes)
+            //{
+            //    foundSpecificPerandusChest = true;
 
-                if (alerts.ContainsKey("Unknown Perandus Chest"))
-                {
-                    lock (_locker)
-                    {
-                        alerts.Remove("Unknown Perandus Chest");
-                    }
-                }
+            //    if (alerts.ContainsKey("Unknown Perandus Chest"))
+            //    {
+            //        lock (_locker)
+            //        {
+            //            alerts.Remove("Unknown Perandus Chest");
+            //        }
+            //    }
 
-                lock (_locker)
-                {
-                    alerts.Add(perandus_alert.Text, perandus_alert);
-                }
+            //    lock (_locker)
+            //    {
+            //        alerts.Add(perandus_alert.Text, perandus_alert);
+            //    }
 
-                return;
-            }
+            //    return;
+            //}
 
             //if (Settings.PerandusBoxes && !foundSpecificPerandusChest && text.StartsWith("Metadata/Chests/PerandusChests"))
             //{

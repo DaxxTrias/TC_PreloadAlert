@@ -132,31 +132,32 @@ namespace PreloadAlert
         public RangeNode<int> DrawXOffset { get; set; } = new RangeNode<int>(0, -150, 150);
         //public ColorNode CadiroTrader { get; set; }
         public ToggleNode Essence { get; set; }
-        public ColorNode RemnantOfCorruption { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfAnger { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfHatred { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfWrath { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfMisery { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
-        public ColorNode EssenceOfTorment { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfFear { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfSuffering { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfEnvy { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
-        public ColorNode EssenceOfZeal { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfLoathing { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfScorn { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfSorrow { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfContempt { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfRage { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfDread { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfGreed { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
-        public ColorNode EssenceOfWoe { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
-        public ColorNode EssenceOfDoubt { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfSpite { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfHysteria { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfInsanity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfHorror { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfDelirium { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfAnguish { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode RemnantOfCorruption { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfAnger { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfHatred { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfWrath { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfMisery { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
+        //public ColorNode EssenceOfTorment { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfFear { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfSuffering { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfEnvy { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
+        //public ColorNode EssenceOfZeal { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfLoathing { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfScorn { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfSorrow { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfContempt { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfRage { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfDread { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfGreed { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
+        //public ColorNode EssenceOfWoe { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
+        //public ColorNode EssenceOfDoubt { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfSpite { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfHysteria { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfInsanity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfHorror { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfDelirium { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfAnguish { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode PerandusChestStandard { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode PerandusChestRarity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode PerandusChestQuantity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
@@ -176,9 +177,9 @@ namespace PreloadAlert
         //public ColorNode PerandusManorJewelryChest { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode PerandusManorDivinationCardsChest { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode PerandusManorLostTreasureChest { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ToggleNode PerandusBoxes { get; set; }
-        public ToggleNode CorruptedArea { get; set; }
-        public ToggleNode CorruptedTitle { get; set; }
+        //public ToggleNode PerandusBoxes { get; set; }
+        //public ToggleNode CorruptedArea { get; set; }
+        //public ToggleNode CorruptedTitle { get; set; }
         //public ToggleNode Masters { get; set; }
         //public ToggleNode Exiles { get; set; }
         public ToggleNode Strongboxes { get; set; }
@@ -186,7 +187,7 @@ namespace PreloadAlert
         public ColorNode BackgroundColor { get; set; } = System.Drawing.Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = System.Drawing.Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = System.Drawing.Color.FromArgb(150, 200, 250);
-        public ColorNode CorruptedAreaColor { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
+        //public ColorNode CorruptedAreaColor { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
         //public ColorNode MasterZana { get; set; }
         //public ColorNode MasterCatarina { get; set; }
         //public ColorNode MasterTora { get; set; }
