@@ -134,6 +134,7 @@ namespace PreloadAlert
         public ToggleNode Essence { get; set; }
         public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         public ColorNode EssenceOfFlames { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        public ColorNode EssenceGeneric { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode RemnantOfCorruption { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfAnger { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfHatred { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
