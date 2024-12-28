@@ -13,7 +13,7 @@ namespace PreloadAlert
             Enable = new ToggleNode(true);
             ShowInHideout = new ToggleNode(false);
             Essence = new ToggleNode(true);
-            //Strongboxes = new ToggleNode(true);
+            Strongboxes = new ToggleNode(true);
             //Masters = new ToggleNode(true);
             //Exiles = new ToggleNode(true);
             //PerandusBoxes = new ToggleNode(true);
@@ -133,12 +133,27 @@ namespace PreloadAlert
         public ToggleNode Essence { get; set; }
         [Menu("Essence Generic", "Not currently able to differentiate what kind(s) of essences. So generic alert for now.")]
         public ColorNode EssenceGeneric { get; set; } = Color.FromArgb(255, 255, 0);
-        //public ToggleNode Strongboxes { get; set; }
+        public ToggleNode Strongboxes { get; set; }
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
-        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 3), Vector2.Zero, Vector2.One * 4000);
+        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
+        public ColorNode ArcanistStrongbox { get; set; } = Color.FromArgb(255, 0, 255);
+        public ColorNode ArtisanStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode CartographerStrongbox { get; set; } = Color.FromArgb(255, 255, 0);
+        public ColorNode DivinerStrongbox { get; set; } = Color.FromArgb(255, 0, 255);
+        public ColorNode GemcutterStrongbox { get; set; } = Color.FromArgb(155, 162, 27);
+        public ColorNode JewellerStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode BlacksmithStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode ArmourerStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode OrnateStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode LargeStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode PerandusStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        public ColorNode KaomStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        public ColorNode MalachaiStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        public ColorNode EpicStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        public ColorNode SimpleStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
         //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
@@ -203,21 +218,6 @@ namespace PreloadAlert
         //public ColorNode MasterElreon { get; set; }
         //public ColorNode MasterVagan { get; set; }
         //public ColorNode MasterKrillson { get; set; }
-        //public ColorNode ArcanistStrongbox { get; set; }
-        //public ColorNode ArtisanStrongbox { get; set; }
-        //public ColorNode CartographerStrongbox { get; set; }
-        //public ColorNode DivinerStrongbox { get; set; }
-        //public ColorNode GemcutterStrongbox { get; set; }
-        //public ColorNode JewellerStrongbox { get; set; }
-        //public ColorNode BlacksmithStrongbox { get; set; }
-        //public ColorNode ArmourerStrongbox { get; set; }
-        //public ColorNode OrnateStrongbox { get; set; }
-        //public ColorNode LargeStrongbox { get; set; }
-        //public ColorNode PerandusStrongbox { get; set; }
-        //public ColorNode KaomStrongbox { get; set; }
-        //public ColorNode MalachaiStrongbox { get; set; }
-        //public ColorNode EpicStrongbox { get; set; }
-        //public ColorNode SimpleStrongbox { get; set; }
         //public ColorNode OrraGreengate { get; set; }
         //public ColorNode ThenaMoga { get; set; }
         //public ColorNode AntalieNapora { get; set; }
