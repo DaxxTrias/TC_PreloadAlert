@@ -1,6 +1,7 @@
 using ExileCore2.Shared.Attributes;
 using ExileCore2.Shared.Interfaces;
 using ExileCore2.Shared.Nodes;
+using System.Drawing;
 using System.Numerics;
 
 namespace PreloadAlert
@@ -128,15 +129,17 @@ namespace PreloadAlert
 
         public ToggleNode Enable { get; set; }
         public ToggleNode ShowInHideout { get; set; }
+        [Menu("Show Essence", "Enable or Disable the showing of Essence(s)")]
         public ToggleNode Essence { get; set; }
-        public ColorNode EssenceGeneric { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        [Menu("Essence Generic", "Not currently able to differentiate what kind(s) of essences. So generic alert for now.")]
+        public ColorNode EssenceGeneric { get; set; } = Color.FromArgb(255, 255, 0);
         //public ToggleNode Strongboxes { get; set; }
-        public RangeNode<int> TextSize { get; set; }
-        public ColorNode BackgroundColor { get; set; } = System.Drawing.Color.FromArgb(0, 0, 0);
-        public ColorNode DefaultTextColor { get; set; } = System.Drawing.Color.FromArgb(210, 210, 210);
-        public ColorNode AreaTextColor { get; set; } = System.Drawing.Color.FromArgb(150, 200, 250);
+        public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
+        public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 3), Vector2.Zero, Vector2.One * 4000);
+        //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
         //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
         //public ColorNode CadiroTrader { get; set; }
