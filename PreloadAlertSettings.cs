@@ -1,6 +1,7 @@
 using ExileCore2.Shared.Attributes;
 using ExileCore2.Shared.Interfaces;
 using ExileCore2.Shared.Nodes;
+using System.Numerics;
 
 namespace PreloadAlert
 {
@@ -127,9 +128,11 @@ namespace PreloadAlert
 
         public ToggleNode Enable { get; set; }
         public ToggleNode ShowInHideout { get; set; }
-        public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
-        public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
-        public RangeNode<int> DrawXOffset { get; set; } = new RangeNode<int>(0, -150, 150);
+        //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
+        //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
+        public RangeNode<int> DrawXOffset { get; set; } = new RangeNode<int>(0, -150, 2000);
+        [Menu("Display Position", "X and Y coordinates to draw on screen")]
+        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(400, 160), Vector2.Zero, Vector2.One * 4000);
         //public ColorNode CadiroTrader { get; set; }
         public ToggleNode Essence { get; set; }
         public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);

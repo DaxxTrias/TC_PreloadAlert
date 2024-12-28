@@ -57,45 +57,45 @@ namespace PreloadAlert
         private Action<string, Color> AddPreload => ExternalPreloads;
 
         //Need more test because different result with old method. Most of diff its Art/ and others but sometimes see Metadata/parti...Probably async loads
-        private void ParseByFiles(Dictionary<string, FileInformation> dictionary)
-        {
-            if (working) return;
-            working = true;
+        //private void ParseByFiles(Dictionary<string, FileInformation> dictionary)
+        //{
+        //    if (working) return;
+        //    working = true;
 
-            Task.Run(() =>
-            {
-                debugInformation.TickAction(() =>
-                {
-                    if (Settings.ParallelParsing)
-                    {
-                        Parallel.ForEach(dictionary, pair =>
-                        {
-                            var text = pair.Key;
-                            if (Settings.LoadOnlyMetadata && text[0] != 'M') return;
-                            if (text.Contains("@")) text = text.Split('@')[0];
-                            CheckForPreload(text);
-                        });
-                    }
-                    else
-                    {
-                        foreach (var pair in dictionary)
-                        {
-                            var text = pair.Key;
-                            if (Settings.LoadOnlyMetadata && text[0] != 'M') continue;
-                            if (text.Contains("@")) text = text.Split('@')[0];
-                            CheckForPreload(text);
-                        }
-                    }
+        //    Task.Run(() =>
+        //    {
+        //        debugInformation.TickAction(() =>
+        //        {
+        //            if (Settings.ParallelParsing)
+        //            {
+        //                Parallel.ForEach(dictionary, pair =>
+        //                {
+        //                    var text = pair.Key;
+        //                    if (Settings.LoadOnlyMetadata && text[0] != 'M') return;
+        //                    if (text.Contains("@")) text = text.Split('@')[0];
+        //                    CheckForPreload(text);
+        //                });
+        //            }
+        //            else
+        //            {
+        //                foreach (var pair in dictionary)
+        //                {
+        //                    var text = pair.Key;
+        //                    if (Settings.LoadOnlyMetadata && text[0] != 'M') continue;
+        //                    if (text.Contains("@")) text = text.Split('@')[0];
+        //                    CheckForPreload(text);
+        //                }
+        //            }
 
-                    lock (_locker)
-                    {
-                        DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
-                    }
-                });
+        //            lock (_locker)
+        //            {
+        //                DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+        //            }
+        //        });
 
-                working = false;
-            });
-        }
+        //        working = false;
+        //    });
+        //}
 
         public override void DrawSettings()
         {
@@ -278,7 +278,7 @@ namespace PreloadAlert
             isLoading = false;
         }
 
-        private IEnumerator Parse()
+        private void Parse()
         {
             if (!working)
             {
@@ -325,8 +325,6 @@ namespace PreloadAlert
                     working = false;
                 });
             }
-
-            yield return null;
         }
 
         public override void Tick()
@@ -426,11 +424,11 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Essence of Electricity", FastColor = () => Settings.EssenceOfElectricity}
                 },
                 {
-                    "Metadata/Monsters/BloodMonsters/BloodCretin",
+                    "Metadata/Monsters/BloodMonsters/BloodCretin1",
                     new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfFlames}
                 },
                 {
-                    "Metadata/Miscellaneous/Monolith",
+                    "Metadata/MiscellaneousObjects/Monolith",
                     new PreloadConfigLine {Text = "Essence", FastColor = () => Settings.EssenceGeneric}
                 },
                 //{
@@ -784,7 +782,7 @@ namespace PreloadAlert
             //};
 
             //Old stuff from bestiary league
-            Bestiary = new Dictionary<string, PreloadConfigLine>();
+            //Bestiary = new Dictionary<string, PreloadConfigLine>();
         }
 
         private void CheckForPreload(string text)
@@ -852,7 +850,8 @@ namespace PreloadAlert
                 //    {
                 //        alerts["Remnant of Corruption"] = new PreloadConfigLine
                 //        {
-                //            Text = "Remnant of Corruption", FastColor = () => Settings.RemnantOfCorruption
+                //            Text = "Remnant of Corruption",
+                //            FastColor = () => Settings.RemnantOfCorruption
                 //        };
                 //    }
                 //}
@@ -892,21 +891,21 @@ namespace PreloadAlert
             //    }
             //}
 
-            var _alert = Strongboxes.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
-                .FirstOrDefault();
+            //var _alert = Strongboxes.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
+            //    .FirstOrDefault();
 
-            if (_alert != null && Settings.Strongboxes)
-            {
-                lock (_locker)
-                {
-                    alerts[_alert.Text] = _alert;
-                }
+            //if (_alert != null && Settings.Strongboxes)
+            //{
+            //    lock (_locker)
+            //    {
+            //        alerts[_alert.Text] = _alert;
+            //    }
 
-                return;
-            }
+            //    return;
+            //}
 
-            var alert = Preload.Where(kv => text.EndsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
-                .FirstOrDefault();
+            //var alert = Preload.Where(kv => text.EndsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
+            //    .FirstOrDefault();
 
             //if (alert != null && Settings.Exiles)
             //{
