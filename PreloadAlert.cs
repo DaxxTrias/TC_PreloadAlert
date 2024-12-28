@@ -368,16 +368,17 @@ namespace PreloadAlert
         {
             const string loadingText = "Loading...";
             PreloadDebugAction?.Invoke();
-            if (!canRender) return;
-            var textTopRight = GameController.LeftPanel.StartDrawPoint.Translate(
-                Settings.DrawXOffset.Value - GameController.IngameState.IngameUi.MapSideUI.Width);
-            var drawPoint = textTopRight;
+            if (!canRender) 
+                return;
+
+            var drawPoint = Settings.DisplayPosition.Value;
+
             var textSize = isLoading
                 ? Graphics.MeasureText(loadingText)
                 : DrawAlerts.Select(x => Graphics.MeasureText(x.Text)).ToList()
                     switch { var s => new Vector2(s.DefaultIfEmpty(Vector2.Zero).Max(x => x.X), s.Sum(x => x.Y)) };
-            var bounds = new RectangleF(textTopRight.X - textSize.X - 55,
-                textTopRight.Y, textSize.X + 60, textSize.Y);
+            var bounds = new RectangleF(drawPoint.X - textSize.X - 55,
+                drawPoint.Y, textSize.X + 60, textSize.Y);
 
             Graphics.DrawImage("preload-new.png", bounds, Settings.BackgroundColor);
 
@@ -420,17 +421,17 @@ namespace PreloadAlert
             Essences = new Dictionary<string, PreloadConfigLine>
             {
                 {
-                    "Metadata/Monsters/Mercenary/Infected/InfectedMercenary",
-                    new PreloadConfigLine {Text = "Essence of Electricity", FastColor = () => Settings.EssenceOfElectricity}
-                },
-                {
-                    "Metadata/Monsters/BloodMonsters/BloodCretin1",
-                    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfFlames}
-                },
-                {
                     "Metadata/MiscellaneousObjects/Monolith",
-                    new PreloadConfigLine {Text = "Essence", FastColor = () => Settings.EssenceGeneric}
+                    new PreloadConfigLine {Text = "Essence Detected", FastColor = () => Settings.EssenceGeneric}
                 },
+                //{
+                //    "Metadata/Monsters/Mercenary/Infected/InfectedMercenary",
+                //    new PreloadConfigLine {Text = "Essence of Electricity", FastColor = () => Settings.EssenceOfElectricity}
+                //},
+                //{
+                //    "Metadata/Monsters/BloodMonsters/BloodCretin1",
+                //    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfFlames}
+                //},
                 //{
                 //    "Metadata/Monsters/Daemon/EssenceDaemonMeteorFirestorm",
                 //    new PreloadConfigLine {Text = "Essence of Anguish", FastColor = () => Settings.EssenceOfAnguish}
@@ -609,73 +610,73 @@ namespace PreloadAlert
             //    }
             //};
 
-            Strongboxes = new Dictionary<string, PreloadConfigLine>
-            {
-                {
-                    "Metadata/Chests/StrongBoxes/Arcanist",
-                    new PreloadConfigLine {Text = "Arcanist's Strongbox", FastColor = () => Settings.ArcanistStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Artisan",
-                    new PreloadConfigLine {Text = "Artisan's Strongbox", FastColor = () => Settings.ArtisanStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Cartographer",
-                    new PreloadConfigLine {Text = "Cartographer's Strongbox", FastColor = () => Settings.CartographerStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Diviner",
-                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.DivinerStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/StrongboxDivination",
-                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.DivinerStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Gemcutter",
-                    new PreloadConfigLine {Text = "Gemcutter's Strongbox", FastColor = () => Settings.GemcutterStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Jeweller",
-                    new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.JewellerStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Arsenal",
-                    new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.BlacksmithStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Armory",
-                    new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.ArmourerStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Ornate",
-                    new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.OrnateStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Large",
-                    new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.LargeStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/Strongbox",
-                    new PreloadConfigLine {Text = "Simple Strongbox", FastColor = () => Settings.SimpleStrongbox}
-                },
-                {
-                    "Metadata/Chests/CopperChests/CopperChestEpic3",
-                    new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/PerandusBox",
-                    new PreloadConfigLine {Text = "Perandus Strongbox", FastColor = () => Settings.PerandusStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/KaomBox",
-                    new PreloadConfigLine {Text = "Kaom Strongbox", FastColor = () => Settings.KaomStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/MalachaisBox",
-                    new PreloadConfigLine {Text = "Malachai Strongbox", FastColor = () => Settings.MalachaiStrongbox}
-                }
-            };
+            //Strongboxes = new Dictionary<string, PreloadConfigLine>
+            //{
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Arcanist",
+            //        new PreloadConfigLine {Text = "Arcanist's Strongbox", FastColor = () => Settings.ArcanistStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Artisan",
+            //        new PreloadConfigLine {Text = "Artisan's Strongbox", FastColor = () => Settings.ArtisanStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Cartographer",
+            //        new PreloadConfigLine {Text = "Cartographer's Strongbox", FastColor = () => Settings.CartographerStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Diviner",
+            //        new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.DivinerStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/StrongboxDivination",
+            //        new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.DivinerStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Gemcutter",
+            //        new PreloadConfigLine {Text = "Gemcutter's Strongbox", FastColor = () => Settings.GemcutterStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Jeweller",
+            //        new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.JewellerStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Arsenal",
+            //        new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.BlacksmithStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Armory",
+            //        new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.ArmourerStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Ornate",
+            //        new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.OrnateStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Large",
+            //        new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.LargeStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/Strongbox",
+            //        new PreloadConfigLine {Text = "Simple Strongbox", FastColor = () => Settings.SimpleStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/CopperChests/CopperChestEpic3",
+            //        new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/PerandusBox",
+            //        new PreloadConfigLine {Text = "Perandus Strongbox", FastColor = () => Settings.PerandusStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/KaomBox",
+            //        new PreloadConfigLine {Text = "Kaom Strongbox", FastColor = () => Settings.KaomStrongbox}
+            //    },
+            //    {
+            //        "Metadata/Chests/StrongBoxes/MalachaisBox",
+            //        new PreloadConfigLine {Text = "Malachai Strongbox", FastColor = () => Settings.MalachaiStrongbox}
+            //    }
+            //};
 
             //Preload = new Dictionary<string, PreloadConfigLine>
             //{

@@ -11,15 +11,15 @@ namespace PreloadAlert
         {
             Enable = new ToggleNode(true);
             ShowInHideout = new ToggleNode(false);
+            Essence = new ToggleNode(true);
+            //Strongboxes = new ToggleNode(true);
             //Masters = new ToggleNode(true);
             //Exiles = new ToggleNode(true);
-            Strongboxes = new ToggleNode(true);
             //PerandusBoxes = new ToggleNode(true);
-            Essence = new ToggleNode(true);
             //CorruptedArea = new ToggleNode(true);
             //CorruptedTitle = new ToggleNode(true);
             //Bestiary = new ToggleNode(true);
-            TextSize = new RangeNode<int>(16, 10, 50);
+            //TextSize = new RangeNode<int>(16, 10, 50);
             //BackgroundColor = new ColorBGRA(0, 0, 0, 255);
             //DefaultTextColor = new ColorBGRA(210, 210, 210, 255);
             //AreaTextColor = new ColorBGRA(150, 200, 250, 255);
@@ -128,16 +128,20 @@ namespace PreloadAlert
 
         public ToggleNode Enable { get; set; }
         public ToggleNode ShowInHideout { get; set; }
+        public ToggleNode Essence { get; set; }
+        public ColorNode EssenceGeneric { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ToggleNode Strongboxes { get; set; }
+        public RangeNode<int> TextSize { get; set; }
+        public ColorNode BackgroundColor { get; set; } = System.Drawing.Color.FromArgb(0, 0, 0);
+        public ColorNode DefaultTextColor { get; set; } = System.Drawing.Color.FromArgb(210, 210, 210);
+        public ColorNode AreaTextColor { get; set; } = System.Drawing.Color.FromArgb(150, 200, 250);
+        [Menu("Display Position", "X and Y coordinates to draw on screen")]
+        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 3), Vector2.Zero, Vector2.One * 4000);
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
         //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
-        public RangeNode<int> DrawXOffset { get; set; } = new RangeNode<int>(0, -150, 2000);
-        [Menu("Display Position", "X and Y coordinates to draw on screen")]
-        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(400, 160), Vector2.Zero, Vector2.One * 4000);
         //public ColorNode CadiroTrader { get; set; }
-        public ToggleNode Essence { get; set; }
-        public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceOfFlames { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
-        public ColorNode EssenceGeneric { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfElectricity { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
+        //public ColorNode EssenceOfFlames { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode RemnantOfCorruption { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfAnger { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
         //public ColorNode EssenceOfHatred { get; set; } = System.Drawing.Color.FromArgb(255, 255, 0);
@@ -187,11 +191,6 @@ namespace PreloadAlert
         //public ToggleNode CorruptedTitle { get; set; }
         //public ToggleNode Masters { get; set; }
         //public ToggleNode Exiles { get; set; }
-        public ToggleNode Strongboxes { get; set; }
-        public RangeNode<int> TextSize { get; set; }
-        public ColorNode BackgroundColor { get; set; } = System.Drawing.Color.FromArgb(0, 0, 0);
-        public ColorNode DefaultTextColor { get; set; } = System.Drawing.Color.FromArgb(210, 210, 210);
-        public ColorNode AreaTextColor { get; set; } = System.Drawing.Color.FromArgb(150, 200, 250);
         //public ColorNode CorruptedAreaColor { get; set; } = System.Drawing.Color.FromArgb(208, 31, 144);
         //public ColorNode MasterZana { get; set; }
         //public ColorNode MasterCatarina { get; set; }
@@ -201,21 +200,21 @@ namespace PreloadAlert
         //public ColorNode MasterElreon { get; set; }
         //public ColorNode MasterVagan { get; set; }
         //public ColorNode MasterKrillson { get; set; }
-        public ColorNode ArcanistStrongbox { get; set; }
-        public ColorNode ArtisanStrongbox { get; set; }
-        public ColorNode CartographerStrongbox { get; set; }
-        public ColorNode DivinerStrongbox { get; set; }
-        public ColorNode GemcutterStrongbox { get; set; }
-        public ColorNode JewellerStrongbox { get; set; }
-        public ColorNode BlacksmithStrongbox { get; set; }
-        public ColorNode ArmourerStrongbox { get; set; }
-        public ColorNode OrnateStrongbox { get; set; }
-        public ColorNode LargeStrongbox { get; set; }
-        public ColorNode PerandusStrongbox { get; set; }
-        public ColorNode KaomStrongbox { get; set; }
-        public ColorNode MalachaiStrongbox { get; set; }
-        public ColorNode EpicStrongbox { get; set; }
-        public ColorNode SimpleStrongbox { get; set; }
+        //public ColorNode ArcanistStrongbox { get; set; }
+        //public ColorNode ArtisanStrongbox { get; set; }
+        //public ColorNode CartographerStrongbox { get; set; }
+        //public ColorNode DivinerStrongbox { get; set; }
+        //public ColorNode GemcutterStrongbox { get; set; }
+        //public ColorNode JewellerStrongbox { get; set; }
+        //public ColorNode BlacksmithStrongbox { get; set; }
+        //public ColorNode ArmourerStrongbox { get; set; }
+        //public ColorNode OrnateStrongbox { get; set; }
+        //public ColorNode LargeStrongbox { get; set; }
+        //public ColorNode PerandusStrongbox { get; set; }
+        //public ColorNode KaomStrongbox { get; set; }
+        //public ColorNode MalachaiStrongbox { get; set; }
+        //public ColorNode EpicStrongbox { get; set; }
+        //public ColorNode SimpleStrongbox { get; set; }
         //public ColorNode OrraGreengate { get; set; }
         //public ColorNode ThenaMoga { get; set; }
         //public ColorNode AntalieNapora { get; set; }
