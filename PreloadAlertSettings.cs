@@ -153,7 +153,9 @@ namespace PreloadAlert
         public ColorNode KaomStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         public ColorNode MalachaiStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         public ColorNode EpicStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
-        public ColorNode SimpleStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode ResearchStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        //public ColorNode SimpleStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+
         //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
         //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);

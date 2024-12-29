@@ -613,7 +613,7 @@ namespace PreloadAlert
             Strongboxes = new Dictionary<string, PreloadConfigLine>
             {
                 {
-                    "Metadata/Chests/StrongBoxes/Arcanist",
+                    "Metadata/Chests/StrongBoxes/Arcanist", // this might have been replaced by researcher's strongbox
                     new PreloadConfigLine {Text = "Arcanist's Strongbox", FastColor = () => Settings.ArcanistStrongbox}
                 },
                 {
@@ -621,7 +621,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Artisan's Strongbox", FastColor = () => Settings.ArtisanStrongbox}
                 },
                 {
-                    "Metadata/Chests/StrongBoxes/Cartographer",
+                    "Metadata/Chests/StrongBoxes/Cartographer", // probably doesnt exist now since theyre waystones?
                     new PreloadConfigLine {Text = "Cartographer's Strongbox", FastColor = () => Settings.CartographerStrongbox}
                 },
                 {
@@ -644,6 +644,10 @@ namespace PreloadAlert
                     //"Metadata/Chests/StrongBoxes/Arsenal", poe1
                     "Metadata/Chests/StrongBoxes/MartialStrongbox",
                     new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.BlacksmithStrongbox}
+                },
+                {
+                    "Metadata/Chests/StrongBoxes/ResearchStrongbox", // maybe replaced arcanist?
+                    new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.ResearchStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Armory",
