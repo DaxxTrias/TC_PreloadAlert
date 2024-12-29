@@ -661,10 +661,10 @@ namespace PreloadAlert
                     "Metadata/Chests/StrongBoxes/Large",
                     new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.LargeStrongbox}
                 },
-                //{
-                //    "Metadata/Chests/StrongBoxes/Strongbox", // every strongbox is also a simple? (count 2)
-                //    new PreloadConfigLine {Text = "Simple Strongbox", FastColor = () => Settings.SimpleStrongbox}
-                //},
+                {
+                    "Metadata/Chests/StrongBoxes/BasicStrongbox", // simple from poe1 replaced by basic in poe2
+                    new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.BasicStrongbox}
+                },
                 {
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
