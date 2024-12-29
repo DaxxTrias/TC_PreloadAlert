@@ -657,10 +657,10 @@ namespace PreloadAlert
                     "Metadata/Chests/StrongBoxes/Large",
                     new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.LargeStrongbox}
                 },
-                {
-                    "Metadata/Chests/StrongBoxes/Strongbox",
-                    new PreloadConfigLine {Text = "Simple Strongbox", FastColor = () => Settings.SimpleStrongbox}
-                },
+                //{
+                //    "Metadata/Chests/StrongBoxes/Strongbox", // every strongbox is also a simple? (count 2)
+                //    new PreloadConfigLine {Text = "Simple Strongbox", FastColor = () => Settings.SimpleStrongbox}
+                //},
                 {
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
