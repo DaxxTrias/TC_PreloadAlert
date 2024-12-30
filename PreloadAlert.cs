@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExileCore2;
@@ -48,6 +49,7 @@ namespace PreloadAlert
         private readonly List<string> PreloadDebug = new List<string>();
         private Action PreloadDebugAction;
         private bool working;
+        private CancellationTokenSource cancellationTokenSource;
 
         public PreloadAlert()
         {
@@ -275,6 +277,7 @@ namespace PreloadAlert
                 return;
             }
             Parse();
+            StartPeriodicCheck();
 
             isLoading = false;
         }
@@ -326,6 +329,25 @@ namespace PreloadAlert
                     working = false;
                 });
             }
+        }
+
+        private void StartPeriodicCheck()
+        {
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    await Task.Delay(TimeSpan.FromMinutes(2), token);
+                    if (!token.IsCancellationRequested)
+                    {
+                        Parse();
+                    }
+                }
+            }, token);
         }
 
         public override void Tick()
