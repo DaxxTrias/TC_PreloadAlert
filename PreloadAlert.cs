@@ -15,6 +15,7 @@ using ImGuiNET;
 using Newtonsoft.Json;
 using Vector2 = System.Numerics.Vector2;
 using RectangleF = ExileCore2.Shared.RectangleF;
+using System.Runtime.CompilerServices;
 
 namespace PreloadAlert
 {
@@ -644,6 +645,10 @@ namespace PreloadAlert
                     //"Metadata/Chests/StrongBoxes/Arsenal", poe1
                     "Metadata/Chests/StrongBoxes/MartialStrongbox",
                     new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.BlacksmithStrongbox}
+                },
+                {
+                    "Metadata/Chests/StrongBoxes/CasterStrongbox",
+                    new PreloadConfigLine {Text = "Arcane Strongbox", FastColor = () => Settings.ArcaneStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/ResearchStrongbox", // maybe replaced arcanist?

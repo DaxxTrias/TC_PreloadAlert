@@ -156,6 +156,8 @@ namespace PreloadAlert
         public ColorNode ResearchStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode BasicStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
 
+        public ColorNode ArcaneStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+
         //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
         //public ToggleNode LoadOnlyMetadata { get; set; } = new ToggleNode(true);
