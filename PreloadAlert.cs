@@ -660,7 +660,8 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.ArmourerStrongbox}
                 },
                 {
-                    "Metadata/Chests/StrongBoxes/Ornate",
+                    //"Metadata/Chests/StrongBoxes/Ornate", poe1
+                    "Metadata/Chests/StrongBoxes/OrnateStrongbox",
                     new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.OrnateStrongbox}
                 },
                 {
