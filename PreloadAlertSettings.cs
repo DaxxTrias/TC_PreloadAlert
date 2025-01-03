@@ -133,12 +133,12 @@ namespace PreloadAlert
         public ToggleNode Essence { get; set; }
         [Menu("Essence Generic", "Not currently able to differentiate what kind(s) of essences. So generic alert for now.")]
         public ColorNode EssenceGeneric { get; set; } = Color.FromArgb(255, 255, 0);
-        public ToggleNode Strongboxes { get; set; }
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
+        public ToggleNode Strongboxes { get; set; }
         public ColorNode ArcanistStrongbox { get; set; } = Color.FromArgb(255, 0, 255);
         public ColorNode ArtisanStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode CartographerStrongbox { get; set; } = Color.FromArgb(255, 255, 0);
@@ -149,9 +149,9 @@ namespace PreloadAlert
         public ColorNode ArmourerStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode OrnateStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode LargeStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
-        public ColorNode PerandusStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
-        public ColorNode KaomStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
-        public ColorNode MalachaiStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        //public ColorNode PerandusStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        //public ColorNode KaomStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        //public ColorNode MalachaiStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         public ColorNode EpicStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         public ColorNode ResearchStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode BasicStrongbox { get; set; } = Color.FromArgb(210, 210, 210);

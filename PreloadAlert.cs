@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -16,7 +15,6 @@ using ImGuiNET;
 using Newtonsoft.Json;
 using Vector2 = System.Numerics.Vector2;
 using RectangleF = ExileCore2.Shared.RectangleF;
-using System.Runtime.CompilerServices;
 
 namespace PreloadAlert
 {
@@ -341,7 +339,7 @@ namespace PreloadAlert
             {
                 while (!token.IsCancellationRequested)
                 {
-                    await Task.Delay(TimeSpan.FromMinutes(2), token);
+                    await Task.Delay(TimeSpan.FromMinutes(1), token);
                     if (!token.IsCancellationRequested)
                     {
                         Parse();
@@ -698,18 +696,18 @@ namespace PreloadAlert
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
                 },
-                {
-                    "Metadata/Chests/StrongBoxes/PerandusBox",
-                    new PreloadConfigLine {Text = "Perandus Strongbox", FastColor = () => Settings.PerandusStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/KaomBox",
-                    new PreloadConfigLine {Text = "Kaom Strongbox", FastColor = () => Settings.KaomStrongbox}
-                },
-                {
-                    "Metadata/Chests/StrongBoxes/MalachaisBox",
-                    new PreloadConfigLine {Text = "Malachai Strongbox", FastColor = () => Settings.MalachaiStrongbox}
-                }
+                //{
+                //    "Metadata/Chests/StrongBoxes/PerandusBox",
+                //    new PreloadConfigLine {Text = "Perandus Strongbox", FastColor = () => Settings.PerandusStrongbox}
+                //},
+                //{
+                //    "Metadata/Chests/StrongBoxes/KaomBox",
+                //    new PreloadConfigLine {Text = "Kaom Strongbox", FastColor = () => Settings.KaomStrongbox}
+                //},
+                //{
+                //    "Metadata/Chests/StrongBoxes/MalachaisBox",
+                //    new PreloadConfigLine {Text = "Malachai Strongbox", FastColor = () => Settings.MalachaiStrongbox}
+                //}
             };
 
             //Preload = new Dictionary<string, PreloadConfigLine>
