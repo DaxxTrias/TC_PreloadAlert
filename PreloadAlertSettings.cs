@@ -128,7 +128,10 @@ namespace PreloadAlert
         }
 
         public ToggleNode Enable { get; set; }
+        [Menu("Show in Hideout", "Show the alert window inside hideout")]
         public ToggleNode ShowInHideout { get; set; }
+        [Menu("Reparse Delay", "How many milliseconds between reparsing events")]
+        public RangeNode<int> ReparseDelay { get; set; } = new(60000, 100, 180000);
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);

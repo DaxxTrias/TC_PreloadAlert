@@ -339,7 +339,7 @@ namespace PreloadAlert
             {
                 while (!token.IsCancellationRequested)
                 {
-                    await Task.Delay(TimeSpan.FromMinutes(1), token);
+                    await Task.Delay(Settings.ReparseDelay.Value, token);
                     if (!token.IsCancellationRequested)
                     {
                         Parse();
