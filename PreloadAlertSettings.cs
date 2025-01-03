@@ -129,33 +129,47 @@ namespace PreloadAlert
 
         public ToggleNode Enable { get; set; }
         public ToggleNode ShowInHideout { get; set; }
-        [Menu("Show Essence", "Enable or Disable the showing of Essence(s)")]
-        public ToggleNode Essence { get; set; }
-        [Menu("Essence Generic", "Not currently able to differentiate what kind(s) of essences. So generic alert for now.")]
-        public ColorNode EssenceGeneric { get; set; } = Color.FromArgb(255, 255, 0);
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
+        [Menu("Show Essence", "Enable or Disable the showing of Essence(s)")]
+        public ToggleNode Essence { get; set; }
+        [Menu("Essence Generic", "Not currently able to differentiate what kind(s) of essences. So generic alert for now.")]
+        [ConditionalDisplay(nameof(Essence), true)]
+        public ColorNode EssenceGeneric { get; set; } = Color.FromArgb(255, 255, 0);
         public ToggleNode Strongboxes { get; set; }
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode ArcanistStrongbox { get; set; } = Color.FromArgb(255, 0, 255);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode ArtisanStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode CartographerStrongbox { get; set; } = Color.FromArgb(255, 255, 0);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode DivinerStrongbox { get; set; } = Color.FromArgb(255, 0, 255);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode GemcutterStrongbox { get; set; } = Color.FromArgb(155, 162, 27);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode JewellerStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode BlacksmithStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode ArmourerStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode OrnateStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode LargeStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
         //public ColorNode PerandusStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         //public ColorNode KaomStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
         //public ColorNode MalachaiStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode EpicStrongbox { get; set; } = Color.FromArgb(37, 96, 175);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode ResearchStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode BasicStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
-
+        [ConditionalDisplay(nameof(Strongboxes), true)]
         public ColorNode ArcaneStrongbox { get; set; } = Color.FromArgb(210, 210, 210);
 
         //public RangeNode<int> TextSize { get; set; }
