@@ -275,7 +275,7 @@ namespace PreloadAlert
                 return;
             }
             Parse();
-            StartPeriodicCheck();
+            //StartPeriodicCheck();
 
             isLoading = false;
         }
@@ -345,12 +345,12 @@ namespace PreloadAlert
             {
                 while (!token.IsCancellationRequested)
                 {
+                    if (GameController.Area.CurrentArea.IsTown || GameController.Area.CurrentArea.IsHideout)
+                        continue;
+
                     await Task.Delay(Settings.ReparseDelay.Value, token);
                     if (!token.IsCancellationRequested)
                     {
-                        if (GameController.Area.CurrentArea.IsTown || GameController.Area.CurrentArea.IsHideout)
-                            continue;
-
                         Parse();
                     }
                 }
