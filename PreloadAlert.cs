@@ -321,7 +321,7 @@ namespace PreloadAlert
                         }
                         catch (Exception e)
                         {
-                            DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
+                            //DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
                         }
 
                         lock (_locker)
