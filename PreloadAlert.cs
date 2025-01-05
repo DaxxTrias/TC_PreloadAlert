@@ -451,113 +451,101 @@ namespace PreloadAlert
             Essences = new Dictionary<string, PreloadConfigLine>
             {
                 {
-                    "Metadata/MiscellaneousObjects/Monolith",
-                    new PreloadConfigLine {Text = "Essence", FastColor = () => Settings.EssenceGeneric}
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLightning1",
+                    new PreloadConfigLine {Text = "Essence of Lightning", FastColor = () => Settings.EssenceOfLightning}
                 },
-                //{
-                //    "Metadata/Monsters/Mercenary/Infected/InfectedMercenary",
-                //    new PreloadConfigLine {Text = "Essence of Electricity", FastColor = () => Settings.EssenceOfElectricity}
-                //},
-                //{
-                //    "Metadata/Monsters/BloodMonsters/BloodCretin1",
-                //    new PreloadConfigLine {Text = "Essence of Flames", FastColor = () => Settings.EssenceOfFlames}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonMeteorFirestorm",
-                //    new PreloadConfigLine {Text = "Essence of Anguish", FastColor = () => Settings.EssenceOfAnguish}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonFirePulse",
-                //    new PreloadConfigLine {Text = "Essence of Anger", FastColor = () => Settings.EssenceOfAnger}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonColdPulse",
-                //    new PreloadConfigLine {Text = "Essence of Hatred", FastColor = () => Settings.EssenceOfHatred}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonLightningPulse",
-                //    new PreloadConfigLine {Text = "Essence of Wrath", FastColor = () => Settings.EssenceOfWrath}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonChaosDegenPulse",
-                //    new PreloadConfigLine {Text = "Essence of Misery (Suggest: Corruption)", FastColor = () => Settings.EssenceOfMisery}
-                //}, //Suggest Corruption
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonOrbOfStormsDaemon",
-                //    new PreloadConfigLine {Text = "Essence of Torment", FastColor = () => Settings.EssenceOfTorment}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonGhost",
-                //    new PreloadConfigLine {Text = "Essence of Fear", FastColor = () => Settings.EssenceOfFear}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonFrostBomb",
-                //    new PreloadConfigLine {Text = "Essence of Suffering", FastColor = () => Settings.EssenceOfSuffering}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonGrab",
-                //    new PreloadConfigLine {Text = "Essence of Envy (Suggest: Corruption)", FastColor = () => Settings.EssenceOfEnvy}
-                //}, //Suggest Corruption
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDodge",
-                //    new PreloadConfigLine {Text = "Essence of Zeal", FastColor = () => Settings.EssenceOfZeal}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterDamageTaken",
-                //    new PreloadConfigLine {Text = "Essence of Loathing", FastColor = () => Settings.EssenceOfLoathing}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonBuffToParentCasterCrit",
-                //    new PreloadConfigLine {Text = "Essence of Scorn (Suggest: Corruption)", FastColor = () => Settings.EssenceOfScorn}
-                //}, //Suggest Corruption
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectVortex",
-                //    new PreloadConfigLine {Text = "Essence of Sorrow", FastColor = () => Settings.EssenceOfSorrow}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonKaruiSpirit",
-                //    new PreloadConfigLine {Text = "Essence of Contempt", FastColor = () => Settings.EssenceOfContempt}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonFireRuneTrap",
-                //    new PreloadConfigLine {Text = "Essence of Rage", FastColor = () => Settings.EssenceOfRage}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonChaosGolem",
-                //    new PreloadConfigLine {Text = "Essence of Dread (Suggest: Corruption)", FastColor = () => Settings.EssenceOfDread}
-                //}, //Suggest Corruption
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonBloodProjectileDaemon",
-                //    new PreloadConfigLine {Text = "Essence of Greed", FastColor = () => Settings.EssenceOfGreed}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonLivingCrystals",
-                //    new PreloadConfigLine {Text = "Essence of Woe", FastColor = () => Settings.EssenceOfWoe}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonSummonSpiders",
-                //    new PreloadConfigLine {Text = "Essence of Doubt", FastColor = () => Settings.EssenceOfDoubt}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonTotemGroundEffectShocked",
-                //    new PreloadConfigLine {Text = "Essence of Spite", FastColor = () => Settings.EssenceOfSpite}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonMadness1",
-                //    new PreloadConfigLine {Text = "Essence of Hysteria", FastColor = () => Settings.EssenceOfHysteria}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonInsanity1",
-                //    new PreloadConfigLine {Text = "Essence of Insanity", FastColor = () => Settings.EssenceOfInsanity}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonHorror1",
-                //    new PreloadConfigLine {Text = "Essence of Horror", FastColor = () => Settings.EssenceOfHorror}
-                //},
-                //{
-                //    "Metadata/Monsters/Daemon/EssenceDaemonTerror1_",
-                //    new PreloadConfigLine {Text = "Essence of Delirium", FastColor = () => Settings.EssenceOfDelirium}
-                //}
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLightning2",
+                    new PreloadConfigLine {Text = "Greater Essence of Lightning", FastColor = () => Settings.GreaterEssenceOfLightning}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModSpeed1",
+                    new PreloadConfigLine {Text = "Essence of Speed", FastColor = () => Settings.EssenceOfSpeed}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModSpeed2e",
+                    new PreloadConfigLine {Text = "Greater Essence of Speed", FastColor = () => Settings.GreaterEssenceOfSpeed}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModPhysical1",
+                    new PreloadConfigLine {Text = "Essence of Physical", FastColor = () => Settings.EssenceOfPhysical}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModPhysical2",
+                    new PreloadConfigLine {Text = "Greater Essence of Physical", FastColor = () => Settings.GreaterEssenceOfPhysical}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack1",
+                    new PreloadConfigLine {Text = "Essence of Attack", FastColor = () => Settings.EssenceOfAttack}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack2",
+                    new PreloadConfigLine {Text = "Greater Essence of Attack", FastColor = () => Settings.GreaterEssenceOfAttack}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLife1",
+                    new PreloadConfigLine {Text = "Essence of Life", FastColor = () => Settings.EssenceOfLife}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLife2",
+                    new PreloadConfigLine {Text = "Greater Essence of Life", FastColor = () => Settings.GreaterEssenceOfLife}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModChaos1",
+                    new PreloadConfigLine {Text = "Essence of Chaos", FastColor = () => Settings.EssenceOfChaos}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModChaos2",
+                    new PreloadConfigLine {Text = "Greater Essence of Chaos", FastColor = () => Settings.GreaterEssenceOfChaos}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster1",
+                    new PreloadConfigLine {Text = "Essence of Casting", FastColor = () => Settings.EssenceOfCasting}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster2",
+                    new PreloadConfigLine {Text = "Greater Essence of Casting", FastColor = () => Settings.GreaterEssenceOfCasting}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCold1",
+                    new PreloadConfigLine {Text = "Essence of Cold", FastColor = () => Settings.EssenceOfCold}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCold2",
+                    new PreloadConfigLine {Text = "Greater Essence of Cold", FastColor = () => Settings.GreaterEssenceOfCold}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModMana1",
+                    new PreloadConfigLine {Text = "Essence of Mana", FastColor = () => Settings.EssenceOfMana}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModMana2",
+                    new PreloadConfigLine {Text = "Greater Essence of Mana", FastColor = () => Settings.GreaterEssenceOfMana}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModDefences1",
+                    new PreloadConfigLine {Text = "Essence of Defence", FastColor = () => Settings.EssenceOfDefence}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModDefences2",
+                    new PreloadConfigLine {Text = "Greater Essence of Defence", FastColor = () => Settings.GreaterEssenceOfDefence}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttribute1",
+                    new PreloadConfigLine {Text = "Essence of Attributes", FastColor = () => Settings.EssenceOfAttributes}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttribute2",
+                    new PreloadConfigLine {Text = "Greater Essence of Attributes", FastColor = () => Settings.GreaterEssenceOfAttributes}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModFire1",
+                    new PreloadConfigLine {Text = "Essence of Fire", FastColor = () => Settings.EssenceOfFire}
+                },
+                {
+                    "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModFire2",
+                    new PreloadConfigLine {Text = "Greater Essence of Fire", FastColor = () => Settings.GreaterEssenceOfFire}
+                },
             };
 
             //PerandusLeague = new Dictionary<string, PreloadConfigLine>
