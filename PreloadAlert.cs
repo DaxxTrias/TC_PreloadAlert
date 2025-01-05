@@ -275,7 +275,7 @@ namespace PreloadAlert
                 return;
             }
             Parse();
-            //StartPeriodicCheck();
+            StartPeriodicCheck();
 
             isLoading = false;
         }
