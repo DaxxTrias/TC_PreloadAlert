@@ -11,7 +11,6 @@ namespace PreloadAlert
         public PreloadAlertSettings()
         {
             Enable = new ToggleNode(true);
-            ShowInHideout = new ToggleNode(false);
             Essence = new ToggleNode(true);
             Strongboxes = new ToggleNode(true);
             //Masters = new ToggleNode(true);
@@ -128,8 +127,6 @@ namespace PreloadAlert
         }
 
         public ToggleNode Enable { get; set; }
-        [Menu("Show in Hideout", "Show the alert window inside hideout")]
-        public ToggleNode ShowInHideout { get; set; }
         [Menu("Reparse Delay", "How many milliseconds between reparsing events")]
         public RangeNode<int> ReparseDelay { get; set; } = new(60000, 100, 180000);
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);

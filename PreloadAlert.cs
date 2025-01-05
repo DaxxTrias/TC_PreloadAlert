@@ -269,7 +269,7 @@ namespace PreloadAlert
                 DrawAlerts.Clear();
             }
             PreloadDebugAction = null;
-            if (GameController.Area.CurrentArea.IsHideout && !Settings.ShowInHideout)
+            if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
             {
                 isLoading = false;
                 return;
@@ -282,7 +282,7 @@ namespace PreloadAlert
 
         private void Parse()
         {
-            if (!Settings.ShowInHideout && (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown))
+            if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
                 return;
 
             if (!working)
@@ -321,7 +321,7 @@ namespace PreloadAlert
                         }
                         catch (Exception e)
                         {
-                            //DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
+                            DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
                         }
 
                         lock (_locker)
