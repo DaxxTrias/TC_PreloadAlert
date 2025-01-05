@@ -826,6 +826,9 @@ namespace PreloadAlert
 
         private void CheckForPreload(string text)
         {
+            if (alertStrings == null || alerts == null || _locker == null)
+                return;
+
             if (alertStrings.ContainsKey(text))
             {
                 lock (_locker)
