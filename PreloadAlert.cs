@@ -348,6 +348,9 @@ namespace PreloadAlert
                     await Task.Delay(Settings.ReparseDelay.Value, token);
                     if (!token.IsCancellationRequested)
                     {
+                        if (GameController.Area.CurrentArea.IsTown || GameController.Area.CurrentArea.IsHideout)
+                            continue;
+
                         Parse();
                     }
                 }
