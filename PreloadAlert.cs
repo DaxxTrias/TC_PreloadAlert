@@ -282,7 +282,7 @@ namespace PreloadAlert
 
         private void Parse()
         {
-            if (!Settings.ShowInHideout && GameController.Area.CurrentArea.IsHideout)
+            if (!Settings.ShowInHideout && (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown))
                 return;
 
             if (!working)
