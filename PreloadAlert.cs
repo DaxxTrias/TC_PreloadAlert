@@ -282,6 +282,9 @@ namespace PreloadAlert
 
         private void Parse()
         {
+            if (!Settings.ShowInHideout && GameController.Area.CurrentArea.IsHideout)
+                return;
+
             if (!working)
             {
                 working = true;
@@ -296,6 +299,9 @@ namespace PreloadAlert
                             var memory = GameController.Memory;
                             FilesFromMemory filesFromMemory = new FilesFromMemory(memory);
                             var AllFiles = filesFromMemory.GetAllFiles();
+                            if (AllFiles == null)
+                                return;
+
                             int areaChangeCount = GameController.Game.AreaChangeCount;
                             foreach (var file in AllFiles)
                             {
