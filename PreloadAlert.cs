@@ -587,14 +587,25 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Tainted Shrine", FastColor = () => Settings.ShrineOfCorruption}
                 },
                 {
-                    // Metadata/Monsters/Daemon/Shrines/ShrineFireDaemon_ alternate data, possibly better since might preload immediately
-                    "Metadata/Effects/Environment/shrine/fire/fire.epk", // meteoric shrine shrine
+                    //"Metadata/Effects/Environment/shrine/fire/fire.epk", // alternate data. not a preload; is a confirmation
+                    "Metadata/Monsters/Daemon/Shrines/ShrineFireDaemon_", // meteoric shrine shrine
                     new PreloadConfigLine {Text = "Meteoric Shrine", FastColor = () => Settings.ShrineOfFire}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/massive/massive.epk", // meteoric shrine shrine
                     new PreloadConfigLine {Text = "Enduring Shrine", FastColor = () => Settings.ShrineOfEnduring}
                 },
+                {
+                    //"Metadata/Effects/Environment/shrine/lightning/lightning.epk", // alternate data. not a preload; is a confirmation
+                    "Metadata/Monsters/Daemon/Shrines/ShrineLightningDaemon", // lightning  tempest shrine
+                    new PreloadConfigLine {Text = "Lightning Shrine", FastColor = () => Settings.ShrineOfLightning}
+                },
+                {
+                    //"Metadata/Effects/Environment/shrine/ice/ice.epk", // alternate data. not a preload; is a confirmation
+                    "Metadata/Monsters/Daemon/Shrines/ShrineColdDaemon", // cold shrine
+                    new PreloadConfigLine {Text = "Cold Shrine", FastColor = () => Settings.ShrineOfCold}
+                },
+
             };
 
             #region perandus
