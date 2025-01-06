@@ -128,6 +128,8 @@ namespace PreloadAlert
         public ColorNode ShrineOfCorruption { get; set; } = Color.FromArgb(255, 255, 255);
         [ConditionalDisplay(nameof(Shrines), true)]
         public ColorNode ShrineOfFire { get; set; } = Color.FromArgb(255, 255, 255);
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfEnduring { get; set; } = Color.FromArgb(255, 255, 255);
 
         public ToggleNode Essence { get; set; }
         //public RangeNode<int> TextSize { get; set; }
