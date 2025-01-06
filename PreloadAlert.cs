@@ -558,6 +558,9 @@ namespace PreloadAlert
 
             Shrines = new Dictionary<string, PreloadConfigLine>
             {
+                // Jan-6-2025: shrine assets loaded with .epk are confirmed loaded in, but are not always in the preload.
+                // Certain shrines (fire/cold/light) spawn monsters and these can be detected in the preload.
+                // in the absence of the above two scenarios, a generic shrine asset is always preloaded (Metadata/Shrines/Shrine)
                 {
                     "Metadata/Effects/Environment/shrine/plus/plus.epk",
                     new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineOfRegeneration}
