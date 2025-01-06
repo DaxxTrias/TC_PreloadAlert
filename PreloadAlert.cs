@@ -568,7 +568,7 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Effects/Environment/shrine/smoke/smoke.epk", // avarice
-                    new PreloadConfigLine {Text = "Smoke Shrine", FastColor = () => Settings.ShrineOfSmoke}
+                    new PreloadConfigLine {Text = "Greed Shrine", FastColor = () => Settings.ShrineOfGreed}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/run_fast/runfast.epk", // acceleration

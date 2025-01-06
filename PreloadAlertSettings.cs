@@ -113,7 +113,7 @@ namespace PreloadAlert
 
         public ToggleNode Shrines { get; set; }
         [ConditionalDisplay(nameof(Shrines), true)]
-        public ColorNode ShrineOfSmoke { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode ShrineOfGreed { get; set; } = Color.FromArgb(255, 255, 255);
         [ConditionalDisplay(nameof(Shrines), true)]
         public ColorNode ShrineOfRegeneration { get; set; } = Color.FromArgb(255, 255, 255);
         [ConditionalDisplay(nameof(Shrines), true)]
