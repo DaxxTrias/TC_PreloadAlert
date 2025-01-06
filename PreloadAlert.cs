@@ -26,10 +26,11 @@ namespace PreloadAlert
         private const string PreloadEnd = "preload-end.png";
         private const string PreloadNew = "preload-new.png";
         public static Dictionary<string, PreloadConfigLine> Essences;
-        public static Dictionary<string, PreloadConfigLine> PerandusLeague;
+        public static Dictionary<string, PreloadConfigLine> Shrines;
         public static Dictionary<string, PreloadConfigLine> Strongboxes;
         public static Dictionary<string, PreloadConfigLine> Preload;
-        public static Dictionary<string, PreloadConfigLine> Bestiary;
+        //public static Dictionary<string, PreloadConfigLine> PerandusLeague;
+        //public static Dictionary<string, PreloadConfigLine> Bestiary;
         public static Color AreaNameColor;
         private readonly object _locker = new object();
         private Dictionary<string, PreloadConfigLine> alertStrings;
@@ -37,6 +38,7 @@ namespace PreloadAlert
         private DebugInformation debugInformation;
         private List<PreloadConfigLine> DrawAlerts = new List<PreloadConfigLine>();
         private bool essencefound;
+        private bool shrinefound;
         private readonly List<long> filesPtr = new List<long>();
         private bool foundSpecificPerandusChest;
         private bool holdKey = false;
@@ -120,6 +122,10 @@ namespace PreloadAlert
                 var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
                 var path = Path.Combine(DirectoryFullName, "Dumps",
                     $"{areaName} ({DateTime.Now:yyyy-MM-dd_HH-mm-ss}).txt");
+
+                DebugWindow.LogMsg($"Dumped Preloads to: {path}");
+                //DebugWindow.LogMsg($"GroupBy Count: {groupBy.Count()}");
+                //DebugWindow.LogMsg($"Serialized Object: {serializeObject}");
 
                 File.WriteAllText(path, serializeObject);
             }
@@ -550,6 +556,27 @@ namespace PreloadAlert
                 },
             };
 
+            Shrines = new Dictionary<string, PreloadConfigLine>
+            {
+                {
+                    "Metadata/Effects/Environment/shrine/plus/plus.epk",
+                    new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineOfRegeneration}
+                },
+                {
+                    "Metadata/Effects/Environment/shrine/resistance/resist.epk",
+                    new PreloadConfigLine {Text = "Resistance Shrine", FastColor = () => Settings.ShrineOfResistance}
+                },
+                {
+                    "Metadata/Effects/Environment/shrine/smoke/smoke.epk", // avarice
+                    new PreloadConfigLine {Text = "Smoke Shrine", FastColor = () => Settings.ShrineOfSmoke}
+                },
+                {
+                    "Metadata/Effects/Environment/shrine/run_fast/runfast.epk", // acceleration
+                    new PreloadConfigLine {Text = "Acceleration Shrine", FastColor = () => Settings.ShrineOfAcceleration}
+                },
+            };
+
+            #region perandus
             //PerandusLeague = new Dictionary<string, PreloadConfigLine>
             //{
             //    {
@@ -629,6 +656,7 @@ namespace PreloadAlert
             //        new PreloadConfigLine {Text = "Grand Perandus Vault", FastColor = () => Settings.PerandusManorLostTreasureChest}
             //    }
             //};
+            #endregion
 
             Strongboxes = new Dictionary<string, PreloadConfigLine>
             {
@@ -709,6 +737,7 @@ namespace PreloadAlert
                 //}
             };
 
+            #region masters
             //Preload = new Dictionary<string, PreloadConfigLine>
             //{
             //    {"Wild/StrDexInt", new PreloadConfigLine {Text = "Zana, Master Cartographer", FastColor = () => Settings.MasterZana}},
@@ -816,6 +845,7 @@ namespace PreloadAlert
             //Old stuff from bestiary league
             //Bestiary = new Dictionary<string, PreloadConfigLine>();
         }
+        #endregion
 
         private void CheckForPreload(string text)
         {
@@ -832,6 +862,7 @@ namespace PreloadAlert
                 return;
             }
 
+            #region corrupted area
             //if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
             //{
             //    if (Settings.CorruptedTitle)
@@ -851,6 +882,7 @@ namespace PreloadAlert
 
             //    return;
             //}
+            #endregion
 
             if (Settings.Essence)
             {
@@ -879,6 +911,7 @@ namespace PreloadAlert
                     return;
                 }
 
+                #region remnant of corruption
                 //if (!essencefound && text.Contains("MiniMonolith"))
                 //{
                 //    lock (_locker)
@@ -890,8 +923,41 @@ namespace PreloadAlert
                 //        };
                 //    }
                 //}
+                #endregion
             }
 
+            if (Settings.Shrines)
+            {
+                var shrine_alert = Shrines.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
+                    .FirstOrDefault();
+
+                if (shrine_alert != null)
+                {
+                    shrinefound = true;
+
+                    lock (_locker)
+                    {
+                        alerts[shrine_alert.Text] = shrine_alert;
+                    }
+
+                    return;
+                }
+                #region remnant of corruption
+                //if (!essencefound && text.Contains("MiniMonolith"))
+                //{
+                //    lock (_locker)
+                //    {
+                //        alerts["Remnant of Corruption"] = new PreloadConfigLine
+                //        {
+                //            Text = "Remnant of Corruption",
+                //            FastColor = () => Settings.RemnantOfCorruption
+                //        };
+                //    }
+                //}
+                #endregion
+            }
+
+            #region perandus
             //var perandus_alert = PerandusLeague.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
             //    .Select(kv => kv.Value).FirstOrDefault();
 
@@ -925,6 +991,7 @@ namespace PreloadAlert
             //        };
             //    }
             //}
+            #endregion perandus
 
             var _alert = Strongboxes.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
                 .FirstOrDefault();
@@ -939,6 +1006,7 @@ namespace PreloadAlert
                 return;
             }
 
+            #region exile
             //var alert = Preload.Where(kv => text.EndsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
             //    .FirstOrDefault();
 
@@ -949,6 +1017,7 @@ namespace PreloadAlert
             //        alerts[alert.Text] = alert;
             //    }
             //}
+            #endregion
         }
     }
     public static class DictionaryExtensions

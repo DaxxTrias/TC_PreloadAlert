@@ -13,6 +13,7 @@ namespace PreloadAlert
             Enable = new ToggleNode(true);
             Essence = new ToggleNode(true);
             Strongboxes = new ToggleNode(true);
+            Shrines = new ToggleNode(true);
             //Masters = new ToggleNode(true);
             //Exiles = new ToggleNode(true);
             //PerandusBoxes = new ToggleNode(true);
@@ -109,6 +110,17 @@ namespace PreloadAlert
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
         [Menu("Show Essences", "Enable or Disable the showing of Essence(s)")]
+
+        public ToggleNode Shrines { get; set; }
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfSmoke { get; set; } = Color.FromArgb(255, 255, 255);
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfRegeneration { get; set; } = Color.FromArgb(255, 255, 255);
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfResistance { get; set; } = Color.FromArgb(255, 255, 255);
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfAcceleration { get; set; } = Color.FromArgb(255, 255, 255);
+
         public ToggleNode Essence { get; set; }
         //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
