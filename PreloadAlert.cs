@@ -116,8 +116,10 @@ namespace PreloadAlert
                 var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
                 var serializeObject = JsonConvert.SerializeObject(groupBy, Formatting.Indented);
 
+                // Replace invalid characters in the file name
+                var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
                 var path = Path.Combine(DirectoryFullName, "Dumps",
-                    $"{GameController.Area.CurrentArea.Name} ({DateTime.Now}).txt");
+                    $"{areaName} ({DateTime.Now:yyyy-MM-dd_HH-mm-ss}).txt");
 
                 File.WriteAllText(path, serializeObject);
             }
