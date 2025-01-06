@@ -574,6 +574,24 @@ namespace PreloadAlert
                     "Metadata/Effects/Environment/shrine/run_fast/runfast.epk", // acceleration
                     new PreloadConfigLine {Text = "Acceleration Shrine", FastColor = () => Settings.ShrineOfAcceleration}
                 },
+                {
+                    "Metadata/Effects/Environment/shrine/summon/summon.epk", // chaos damage
+                    new PreloadConfigLine {Text = "Gloom Shrine", FastColor = () => Settings.ShrineOfGloom}
+                },
+                {
+                    "Metadata/Effects/Environment/shrine/sword/sword.epk", // critical
+                    new PreloadConfigLine {Text = "Diamond Shrine", FastColor = () => Settings.ShrineOfCrit}
+                },
+                {
+                    "Metadata/Effects/Environment/shrine/curse/rig.epk", // corrupted shrine
+                    new PreloadConfigLine {Text = "Tainted Shrine", FastColor = () => Settings.ShrineOfCorruption}
+                },
+                {
+                    // Metadata/Monsters/Daemon/Shrines/ShrineFireDaemon_ alternate data, possibly better since might preload immediately
+                    "Metadata/Effects/Environment/shrine/fire/fire.epk", // meteoric shrine shrine
+                    new PreloadConfigLine {Text = "Meteoric Shrine", FastColor = () => Settings.ShrineOfFire}
+                },
+                
             };
 
             #region perandus
