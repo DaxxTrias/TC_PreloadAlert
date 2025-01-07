@@ -109,7 +109,7 @@ namespace PreloadAlert
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
-        [Menu("Show Essences", "Enable or Disable the showing of Essence(s)")]
+        [Menu("Show Shrines", "Enable or Disable the showing of Shrines")]
 
         public ToggleNode Shrines { get; set; }
         [ConditionalDisplay(nameof(Shrines), true)]
@@ -135,6 +135,7 @@ namespace PreloadAlert
         [ConditionalDisplay(nameof(Shrines), true)]
         public ColorNode ShrineOfCold { get; set; } = Color.FromArgb(255, 255, 255);
 
+        [Menu("Show Essences", "Enable or Disable the showing of Essence(s)")]
         public ToggleNode Essence { get; set; }
         //public RangeNode<int> TextSize { get; set; }
         //public ToggleNode ParallelParsing { get; set; } = new ToggleNode(true);
