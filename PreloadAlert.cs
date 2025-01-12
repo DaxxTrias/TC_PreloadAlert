@@ -245,7 +245,14 @@ namespace PreloadAlert
             SetupPredefinedConfigs();
             Graphics.InitImage(PreloadStart, Path.Combine(DirectoryFullName, PreloadStart));
             Graphics.InitImage(PreloadEnd, Path.Combine(DirectoryFullName, PreloadEnd));
-            Graphics.InitImage(PreloadNew, Path.Combine(DirectoryFullName, PreloadNew));
+            try
+            {
+                Graphics.InitImage(PreloadNew, Path.Combine(DirectoryFullName, PreloadNew));
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Error initializing image {PreloadNew}: {ex.Message}");
+            }
             if (File.Exists(PRELOAD_ALERTS_PERSONAL))
                 alertStrings = alertStrings.MergeLeft(LoadConfig(PRELOAD_ALERTS_PERSONAL));
             else
@@ -418,7 +425,14 @@ namespace PreloadAlert
             var bounds = new RectangleF(drawPoint.X - textSize.X - 55,
                 drawPoint.Y, textSize.X + 60, textSize.Y);
 
-            Graphics.DrawImage("preload-new.png", bounds, Settings.BackgroundColor);
+            try
+            {
+                Graphics.DrawImage("preload-new.png", bounds, Settings.BackgroundColor);
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Error drawing image {PreloadNew}: {ex.Message}");
+            }
 
             if (isLoading)
             {
