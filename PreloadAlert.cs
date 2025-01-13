@@ -363,6 +363,9 @@ namespace PreloadAlert
             cancellationTokenSource = new CancellationTokenSource();
             var token = cancellationTokenSource.Token;
 
+            if (!Settings.ReparsePreloads)
+                return;
+
             Task.Run(async () =>
             {
                 while (!token.IsCancellationRequested)
@@ -370,7 +373,7 @@ namespace PreloadAlert
                     if (GameController.Area.CurrentArea.IsTown || GameController.Area.CurrentArea.IsHideout)
                         continue;
 
-                    await Task.Delay(Settings.ReparseDelay.Value, token);
+                    await Task.Delay(Settings.ReparseDelay.Value * 1000, token);
                     if (!token.IsCancellationRequested)
                     {
                         Parse();

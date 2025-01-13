@@ -102,8 +102,11 @@ namespace PreloadAlert
         }
 
         public ToggleNode Enable { get; set; }
-        [Menu("Reparse Delay", "How many milliseconds between reparsing events")]
-        public RangeNode<int> ReparseDelay { get; set; } = new(60000, 100, 180000);
+        [Menu("Reparse Preloads", "Run the parser multiple times in a zone instead of only on once on load")]
+        public ToggleNode ReparsePreloads { get; set; } = new ToggleNode(true);
+        [Menu("Reparse Delay", "How many seconds between reparsing events")]
+        [ConditionalDisplay(nameof(ReparsePreloads), true)]
+        public RangeNode<int> ReparseDelay { get; set; } = new(60, 15, 300);
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
