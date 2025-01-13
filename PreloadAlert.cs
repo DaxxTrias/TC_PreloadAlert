@@ -243,16 +243,23 @@ namespace PreloadAlert
         {
             alertStrings = LoadConfig("config/preload_alerts.txt");
             SetupPredefinedConfigs();
-            Graphics.InitImage(PreloadStart, Path.Combine(DirectoryFullName, PreloadStart));
-            Graphics.InitImage(PreloadEnd, Path.Combine(DirectoryFullName, PreloadEnd));
             try
             {
-                Graphics.InitImage(PreloadNew, Path.Combine(DirectoryFullName, PreloadNew));
+                string preloadStartPath = Path.Combine(DirectoryFullName, PreloadStart);
+                string preloadEndPath = Path.Combine(DirectoryFullName, PreloadEnd);
+                string preloadNewPath = Path.Combine(DirectoryFullName, PreloadNew);
+
+                Graphics.InitImage(PreloadStart, preloadStartPath);
+                Graphics.InitImage(PreloadEnd, preloadEndPath);
+                Graphics.InitImage(PreloadNew, preloadNewPath);
+
+                DebugWindow.LogMsg($"Loaded images: {preloadStartPath}, {preloadEndPath}, {preloadNewPath}");
             }
             catch (Exception ex)
             {
-                DebugWindow.LogError($"Error initializing image {PreloadNew}: {ex.Message}");
+                DebugWindow.LogError($"Error initializing images: {ex.Message}");
             }
+
             if (File.Exists(PRELOAD_ALERTS_PERSONAL))
                 alertStrings = alertStrings.MergeLeft(LoadConfig(PRELOAD_ALERTS_PERSONAL));
             else
