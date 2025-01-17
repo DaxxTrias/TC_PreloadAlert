@@ -632,6 +632,10 @@ namespace PreloadAlert
                     "Metadata/Monsters/Daemon/Shrines/ShrineColdDaemon", // cold shrine
                     new PreloadConfigLine {Text = "Cold Shrine", FastColor = () => Settings.ShrineOfCold}
                 },
+                {
+                    "Metadata/Effects/Environment/shrine/god_mode/godmode.epk",
+                    new PreloadConfigLine {Text = "Divine Shrine", FastColor = () => Settings.ShrineOfDivine}
+                },
 
             };
 

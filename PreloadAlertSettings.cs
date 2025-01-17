@@ -137,6 +137,8 @@ namespace PreloadAlert
         public ColorNode ShrineOfLightning { get; set; } = Color.FromArgb(255, 255, 255);
         [ConditionalDisplay(nameof(Shrines), true)]
         public ColorNode ShrineOfCold { get; set; } = Color.FromArgb(255, 255, 255);
+        [ConditionalDisplay(nameof(Shrines), true)]
+        public ColorNode ShrineOfDivine { get; set; } = Color.FromArgb(255, 255, 255);
 
         [Menu("Show Essences", "Enable or Disable the showing of Essence(s)")]
         public ToggleNode Essence { get; set; }
