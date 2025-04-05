@@ -507,6 +507,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Greater Physical Essence", FastColor = () => Settings.GreaterEssenceOfPhysical}
                 },
                 {
+                    // Essence of battle?
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack1",
                     new PreloadConfigLine {Text = "Attack Essence", FastColor = () => Settings.EssenceOfAttack}
                 },
@@ -531,6 +532,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Greater Chaos Essence", FastColor = () => Settings.GreaterEssenceOfChaos}
                 },
                 {
+                    // Essence of battle?
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster1",
                     new PreloadConfigLine {Text = "Caster Essence", FastColor = () => Settings.EssenceOfCasting}
                 },
