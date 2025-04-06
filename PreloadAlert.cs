@@ -241,7 +241,13 @@ namespace PreloadAlert
 
         public override void OnLoad()
         {
-            alertStrings = LoadConfig("config/preload_alerts.txt");
+            alertStrings = LoadConfig(PRELOAD_ALERTS);
+            if (alertStrings == null || !alertStrings.Any())
+            {
+                DebugWindow.LogError($"Failed to load alert strings from {PRELOAD_ALERTS}. The file may be missing or empty.");
+                alertStrings = new Dictionary<string, PreloadConfigLine>();
+            }   
+
             SetupPredefinedConfigs();
             try
             {
@@ -330,7 +336,14 @@ namespace PreloadAlert
                                 if (file.Value.ChangeCount == areaChangeCount)
                                 {
                                     var text = file.Key;
-                                    if (text.Contains('@')) text = text.Split('@')[0];
+                                    if (text.Contains('@'))
+                                    {
+                                        var splitText = text.Split('@');
+                                        if (splitText.Length > 0)
+                                        {
+                                            text = splitText[0];
+                                        }
+                                    }
 
                                     lock (_locker)
                                     {
