@@ -303,7 +303,10 @@ namespace PreloadAlert
                 return;
             }
             Parse();
-            StartPeriodicCheck();
+            if (Settings.ReparsePreloads)
+            {
+                StartPeriodicCheck();
+            }
 
             isLoading = false;
         }
@@ -325,13 +328,22 @@ namespace PreloadAlert
                         try
                         {
                             var memory = GameController.Memory;
-                            FilesFromMemory filesFromMemory = new FilesFromMemory(memory);
-                            var AllFiles = filesFromMemory.GetAllFiles();
-                            if (AllFiles == null)
+                            if (memory == null)
+                            {
+                                working = false;
                                 return;
+                            }
+
+                            FilesFromMemory filesFromMemory = new FilesFromMemory(memory);
+                            var allFiles = filesFromMemory.GetAllFiles();
+                            if (allFiles == null)
+                            {
+                                working = false;
+                                return;
+                            }
 
                             int areaChangeCount = GameController.Game.AreaChangeCount;
-                            foreach (var file in AllFiles)
+                            foreach (var file in allFiles)
                             {
                                 if (file.Value.ChangeCount == areaChangeCount)
                                 {
@@ -388,6 +400,9 @@ namespace PreloadAlert
                 while (!token.IsCancellationRequested)
                 {
                     if (GameController.Area.CurrentArea.IsTown || GameController.Area.CurrentArea.IsHideout)
+                        continue;
+
+                    if (!Settings.ReparsePreloads || working)
                         continue;
 
                     await Task.Delay(Settings.ReparseDelay.Value * 1000, token);
