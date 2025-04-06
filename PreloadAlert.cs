@@ -341,6 +341,10 @@ namespace PreloadAlert
                                 }
                             }
                         }
+                        catch (ArgumentOutOfRangeException ex)
+                        {
+                            DebugWindow.LogError($"{nameof(PreloadAlert)} -> ArgumentOutOfRangeException: {ex.Message}");
+                        }
                         catch (Exception e)
                         {
                             DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");

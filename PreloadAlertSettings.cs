@@ -102,7 +102,7 @@ namespace PreloadAlert
         }
 
         public ToggleNode Enable { get; set; }
-        [Menu("Reparse Preloads", "Run the parser multiple times in a zone instead of only on once on load")]
+        [Menu("Reparse Preloads", "Run the parser multiple times in a zone instead of only once on load")]
         public ToggleNode ReparsePreloads { get; set; } = new ToggleNode(true);
         [Menu("Reparse Delay", "How many seconds between reparsing events")]
         [ConditionalDisplay(nameof(ReparsePreloads), true)]
