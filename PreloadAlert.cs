@@ -105,8 +105,11 @@ namespace PreloadAlert
             if (ImGui.Button("Dump preloads"))
             {
                 Directory.CreateDirectory(Path.Combine(DirectoryFullName, "Dumps"));
+
+                var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
                 var path = Path.Combine(DirectoryFullName, "Dumps",
-                    $"{GameController.Area.CurrentArea.Name}.txt");
+                    $"{areaName}_{timestamp}.txt");
 
 				DebugWindow.LogMsg(path);
 
@@ -118,10 +121,11 @@ namespace PreloadAlert
                 var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
                 var serializeObject = JsonConvert.SerializeObject(groupBy, Formatting.Indented);
 
-                // Replace invalid characters in the file name
+                // Replace invalid characters in the file name and append current time to avoid overwriting  
                 var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
                 var path = Path.Combine(DirectoryFullName, "Dumps",
-                    $"{areaName} ({DateTime.Now:yyyy-MM-dd_HH-mm-ss}).txt");
+                    $"{areaName}_{timestamp}.txt");
 
                 DebugWindow.LogMsg($"Dumped Preloads to: {path}");
                 //DebugWindow.LogMsg($"GroupBy Count: {groupBy.Count()}");
