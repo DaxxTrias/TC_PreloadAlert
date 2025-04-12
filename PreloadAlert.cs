@@ -29,8 +29,6 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> Shrines;
         public static Dictionary<string, PreloadConfigLine> Strongboxes;
         public static Dictionary<string, PreloadConfigLine> Preload;
-        //public static Dictionary<string, PreloadConfigLine> PerandusLeague;
-        //public static Dictionary<string, PreloadConfigLine> Bestiary;
         public static Color AreaNameColor;
         private readonly object _locker = new object();
         private Dictionary<string, PreloadConfigLine> alertStrings;
@@ -39,13 +37,8 @@ namespace PreloadAlert
         private List<PreloadConfigLine> DrawAlerts = new List<PreloadConfigLine>();
         private bool essencefound;
         private bool shrinefound;
-        private readonly List<long> filesPtr = new List<long>();
-        private bool foundSpecificPerandusChest;
-        private bool holdKey = false;
-        private bool isAreaChanged = false;
         private bool isLoading;
         private Vector2 lastLine;
-        private Dictionary<string, PreloadConfigLine> personalAlertStrings;
         private readonly List<string> PreloadDebug = new List<string>();
         private Action PreloadDebugAction;
         private bool working;
@@ -543,7 +536,6 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Greater Physical Essence", FastColor = () => Settings.GreaterEssenceOfPhysical}
                 },
                 {
-                    // Essence of battle?
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack1",
                     new PreloadConfigLine {Text = "Attack Essence", FastColor = () => Settings.EssenceOfAttack}
                 },
@@ -568,7 +560,6 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Greater Chaos Essence", FastColor = () => Settings.GreaterEssenceOfChaos}
                 },
                 {
-                    // Essence of battle?
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster1",
                     new PreloadConfigLine {Text = "Caster Essence", FastColor = () => Settings.EssenceOfCasting}
                 },
@@ -623,7 +614,6 @@ namespace PreloadAlert
                 // Jan-6-2025: shrine assets loaded with .epk are confirmed loaded in, but are not always in the preload.
                 // Certain shrines (fire/cold/light) spawn monsters and these can be detected in the preload.
                 // in the absence of the above two scenarios, a generic shrine asset is always preloaded (Metadata/Shrines/Shrine)
-                // apr-2025: this might be inaccurate now, at least during campaign
                 {
                     "Metadata/Effects/Environment/shrine/plus/plus.epk",
                     new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineOfRegeneration}
@@ -633,7 +623,8 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Resistance Shrine", FastColor = () => Settings.ShrineOfResistance}
                 },
                 {
-                    "Metadata/Effects/Environment/shrine/smoke/smoke.epk", // avarice
+                    //"Metadata/Effects/Environment/shrine/smoke/smoke.epk", // avarice 0.1.x
+                    "Metadata/Effects/Environment/shrine/greed/greed.epk", // formerly avarice, changed in 0.2 to always be greed?
                     new PreloadConfigLine {Text = "Greed Shrine", FastColor = () => Settings.ShrineOfGreed}
                 },
                 {
