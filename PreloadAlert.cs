@@ -623,6 +623,7 @@ namespace PreloadAlert
                 // Jan-6-2025: shrine assets loaded with .epk are confirmed loaded in, but are not always in the preload.
                 // Certain shrines (fire/cold/light) spawn monsters and these can be detected in the preload.
                 // in the absence of the above two scenarios, a generic shrine asset is always preloaded (Metadata/Shrines/Shrine)
+                // apr-2025: this might be inaccurate now, at least during campaign
                 {
                     "Metadata/Effects/Environment/shrine/plus/plus.epk",
                     new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineOfRegeneration}
@@ -790,7 +791,6 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.JewellerStrongbox}
                 },
                 {
-                    //"Metadata/Chests/StrongBoxes/Arsenal", poe1
                     "Metadata/Chests/StrongBoxes/MartialStrongbox",
                     new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.BlacksmithStrongbox}
                 },
@@ -799,16 +799,14 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Arcane Strongbox", FastColor = () => Settings.ArcaneStrongbox}
                 },
                 {
-                    "Metadata/Chests/StrongBoxes/ResearchStrongbox", // maybe replaced arcanist?
+                    "Metadata/Chests/StrongBoxes/ResearchStrongboxHigh",
                     new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.ResearchStrongbox}
                 },
                 {
-                    //"Metadata/Chests/StrongBoxes/Armory", poe1
                     "Metadata/Chests/StrongBoxes/ArmourerStrongbox",
                     new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.ArmourerStrongbox}
                 },
                 {
-                    //"Metadata/Chests/StrongBoxes/Ornate", poe1
                     "Metadata/Chests/StrongBoxes/OrnateStrongbox",
                     new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.OrnateStrongbox}
                 },
@@ -817,25 +815,13 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.LargeStrongbox}
                 },
                 {
-                    "Metadata/Chests/StrongBoxes/BasicStrongbox", // simple from poe1 replaced by basic in poe2
+                    "Metadata/Chests/StrongBoxes/BasicStrongbox",
                     new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.BasicStrongbox}
                 },
                 {
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.EpicStrongbox}
                 },
-                //{
-                //    "Metadata/Chests/StrongBoxes/PerandusBox",
-                //    new PreloadConfigLine {Text = "Perandus Strongbox", FastColor = () => Settings.PerandusStrongbox}
-                //},
-                //{
-                //    "Metadata/Chests/StrongBoxes/KaomBox",
-                //    new PreloadConfigLine {Text = "Kaom Strongbox", FastColor = () => Settings.KaomStrongbox}
-                //},
-                //{
-                //    "Metadata/Chests/StrongBoxes/MalachaisBox",
-                //    new PreloadConfigLine {Text = "Malachai Strongbox", FastColor = () => Settings.MalachaiStrongbox}
-                //}
             };
 
             #region masters
