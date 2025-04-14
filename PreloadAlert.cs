@@ -756,7 +756,39 @@ namespace PreloadAlert
             {
                 {
                     "Metadata/Monsters/NPC/Torment/TormentNPC",
-                    new PreloadConfigLine {Text = "Delwyn [Hunter]", FastColor = () => Settings.DefaultTextColor}
+                    new PreloadConfigLine {Text = "Delwyn [Hunter]", FastColor = () => Settings.AzmeriColors.Delwyn}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheOxWild",
+                    new PreloadConfigLine {Text = "Spirit of Ox (Wild)", FastColor = () => Settings.AzmeriColors.OxWild}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheBearWild",
+                    new PreloadConfigLine {Text = "Spirit of Bear (Wild)", FastColor = () => Settings.AzmeriColors.BearWild}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheBoarWild",
+                    new PreloadConfigLine {Text = "Spirit of Boar (Wild)", FastColor = () => Settings.AzmeriColors.BoarWild}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheStagVivid",
+                    new PreloadConfigLine {Text = "Spirit of Stag (Vivid)", FastColor = () => Settings.AzmeriColors.StagVivid}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheWolfVivid",
+                    new PreloadConfigLine {Text = "Spirit of Stag (Wild)", FastColor = () => Settings.AzmeriColors.StagWild}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheCatVivid",
+                    new PreloadConfigLine {Text = "Spirit of Cat (Vivid)", FastColor = () => Settings.AzmeriColors.CatVivid}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheSerpentPrimal",
+                    new PreloadConfigLine {Text = "Spirit of Serpent (Primal)", FastColor = () => Settings.AzmeriColors.SerpentPrimal}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheOwlPrimal",
+                    new PreloadConfigLine {Text = "Spirit of Owl (Primal)", FastColor = () => Settings.AzmeriColors.OwlPrimal}
                 }
             };
 
@@ -914,28 +946,6 @@ namespace PreloadAlert
                 return;
             }
 
-            #region corrupted area
-            //if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
-            //{
-            //    if (Settings.CorruptedTitle)
-            //    {
-            //        // using corrupted titles so set the color here, XpRatePlugin will grab the color to use when drawing the title.
-            //        AreaNameColor = Settings.CorruptedAreaColor;
-            //        GameController.Area.CurrentArea.AreaColorName = AreaNameColor;
-            //    }
-            //    else
-            //    {
-            //        // not using corrupted titles, so throw it in a preload alert
-            //        lock (_locker)
-            //        {
-            //            alerts[text] = new PreloadConfigLine {Text = "Corrupted Area", FastColor = () => Settings.CorruptedAreaColor};
-            //        }
-            //    }
-
-            //    return;
-            //}
-            #endregion
-
             if (Settings.Essence)
             {
                 var essence_alert = Essences.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
@@ -1009,6 +1019,69 @@ namespace PreloadAlert
                 #endregion
             }
 
+            if (Settings.Strongboxes)
+            {
+                var _alert = Strongboxes.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value).FirstOrDefault();
+                if (_alert != null && Settings.Strongboxes)
+                {
+                    lock (_locker)
+                    {
+                        alerts[_alert.Text] = _alert;
+                    }
+
+                    return;
+                }
+            }
+
+            if (Settings.Exiles)
+            {
+                var alert = Exiles.Where(kv => text.EndsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value).FirstOrDefault();
+                if (alert != null)
+                {
+                    lock (_locker)
+                    {
+                        alerts[alert.Text] = alert;
+                    }
+                }
+            }
+
+            if (Settings.Azmeri)
+            {
+                var azmeri_alert = AzmeriLeague.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value).FirstOrDefault();
+                if (azmeri_alert != null)
+                {
+                    lock (_locker)
+                    {
+                        alerts[azmeri_alert.Text] = azmeri_alert;
+                    }
+                }
+            }
+
+            #region corrupted area
+            //if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
+            //{
+            //    if (Settings.CorruptedTitle)
+            //    {
+            //        // using corrupted titles so set the color here, XpRatePlugin will grab the color to use when drawing the title.
+            //        AreaNameColor = Settings.CorruptedAreaColor;
+            //        GameController.Area.CurrentArea.AreaColorName = AreaNameColor;
+            //    }
+            //    else
+            //    {
+            //        // not using corrupted titles, so throw it in a preload alert
+            //        lock (_locker)
+            //        {
+            //            alerts[text] = new PreloadConfigLine {Text = "Corrupted Area", FastColor = () => Settings.CorruptedAreaColor};
+            //        }
+            //    }
+
+            //    return;
+            //}
+            #endregion
+
             #region perandus
             //var perandus_alert = PerandusLeague.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
             //    .Select(kv => kv.Value).FirstOrDefault();
@@ -1044,30 +1117,6 @@ namespace PreloadAlert
             //    }
             //}
             #endregion perandus
-
-            var _alert = Strongboxes.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
-                .FirstOrDefault();
-
-            if (_alert != null && Settings.Strongboxes)
-            {
-                lock (_locker)
-                {
-                    alerts[_alert.Text] = _alert;
-                }
-
-                return;
-            }
-
-            var alert = Exiles.Where(kv => text.EndsWith(kv.Key, StringComparison.OrdinalIgnoreCase)).Select(kv => kv.Value)
-                .FirstOrDefault();
-
-            if (alert != null && Settings.Exiles)
-            {
-                lock (_locker)
-                {
-                    alerts[alert.Text] = alert;
-                }
-            }
         }
     }
     public static class DictionaryExtensions

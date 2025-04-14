@@ -16,6 +16,7 @@ namespace PreloadAlert
             Strongboxes = new ToggleNode(true);
             Shrines = new ToggleNode(true);
             Exiles = new ToggleNode(true);
+            Azmeri = new ToggleNode(true);
         }
 
         public ToggleNode Enable { get; set; }
@@ -49,6 +50,11 @@ namespace PreloadAlert
         public ToggleNode Exiles { get; set; }
         [ConditionalDisplay(nameof(Exiles), true)]
         public ExileSettings ExileColors { get; set; } = new ExileSettings();
+
+        [Menu("Show Azmeri", "Enable or Disable the showing of Azmeri")]
+        public ToggleNode Azmeri { get; set; }
+        [ConditionalDisplay(nameof(Azmeri), true)]
+        public AzmeriSettings AzmeriColors { get; set; } = new AzmeriSettings();
     }
     [Submenu]
     public class ExileSettings
@@ -136,5 +142,20 @@ namespace PreloadAlert
         public ColorNode GreaterEssenceOfAttributes { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode EssenceOfFire { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode GreaterEssenceOfFire { get; set; } = Color.FromArgb(255, 255, 255);
+    }
+
+    [Submenu]
+    public class AzmeriSettings
+    {
+        public ColorNode Delwyn { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode OxWild { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode BearWild { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode BoarWild { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode StagWild { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode StagVivid { get; set; } = Color.FromArgb(255, 255, 255);
+
+        public ColorNode CatVivid { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode SerpentPrimal { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode OwlPrimal { get; set; } = Color.FromArgb(255, 255, 255);
     }
 }
