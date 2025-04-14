@@ -858,6 +858,11 @@ namespace PreloadAlert
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.StrongboxColors.EpicStrongbox}
                 },
+                {
+                    // base-type can be blacksmith or armourer's
+                    "Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon",
+                    new PreloadConfigLine {Text = "Ixchel's Torment Strongbox", FastColor = () => Settings.StrongboxColors.IxchelsTormentStrongbox}
+                },
             };
 
             Exiles = new Dictionary<string, PreloadConfigLine>
