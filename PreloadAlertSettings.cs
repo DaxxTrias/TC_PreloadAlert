@@ -17,6 +17,7 @@ namespace PreloadAlert
             Shrines = new ToggleNode(true);
             Exiles = new ToggleNode(true);
             Azmeri = new ToggleNode(true);
+            Misc = new ToggleNode(true);
         }
 
         public ToggleNode Enable { get; set; }
@@ -55,6 +56,11 @@ namespace PreloadAlert
         public ToggleNode Azmeri { get; set; }
         [ConditionalDisplay(nameof(Azmeri), true)]
         public AzmeriSettings AzmeriColors { get; set; } = new AzmeriSettings();
+
+        [Menu("Show Misc", "Enable or Disable the showing of Miscellaneous items")]
+        public ToggleNode Misc { get; set; }
+        [ConditionalDisplay(nameof(Misc), true)]
+        public MiscSettings MiscColors { get; set; } = new MiscSettings();
     }
     [Submenu]
     public class ExileSettings
@@ -96,7 +102,7 @@ namespace PreloadAlert
         public ColorNode ResearchStrongbox { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode BasicStrongbox { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode ArcaneStrongbox { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode IxchelsTormentStrongbox { get; set; } = Color.FromArgb(228, 110, 0);
+        public ColorNode IxchelsTormentStrongbox { get; set; } = Color.FromArgb(255, 120, 0);
     }
 
     [Submenu]
@@ -157,5 +163,11 @@ namespace PreloadAlert
         public ColorNode CatVivid { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode SerpentPrimal { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode OwlPrimal { get; set; } = Color.FromArgb(90, 210, 0);
+    }
+
+    [Submenu]
+    public class MiscSettings
+    {
+        public ColorNode TimeLostCache { get; set; } = Color.FromArgb(255, 120, 0);
     }
 }

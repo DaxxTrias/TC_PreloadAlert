@@ -30,6 +30,7 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> Strongboxes;
         public static Dictionary<string, PreloadConfigLine> Exiles;
         public static Dictionary<string, PreloadConfigLine> AzmeriLeague;
+        public static Dictionary<string, PreloadConfigLine> Misc;
         public static Color AreaNameColor;
         private readonly object _locker = new object();
         private Dictionary<string, PreloadConfigLine> alertStrings;
@@ -858,6 +859,7 @@ namespace PreloadAlert
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
                     new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.StrongboxColors.EpicStrongbox}
                 },
+                // Special Strongboxes
                 {
                     // base-type can be blacksmith or armourer's
                     "Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon",
@@ -932,8 +934,13 @@ namespace PreloadAlert
                 }
             };
 
-            //Old stuff from bestiary league
-            //Bestiary = new Dictionary<string, PreloadConfigLine>();
+            Misc = new Dictionary<string, PreloadConfigLine>
+            {
+                {
+                    "Metadata/Chests/MarakethSanctum/GoldChestRadiusJewels1",
+                    new PreloadConfigLine { Text = "Gold Time-Lost Cache", FastColor = () => Settings.MiscColors.TimeLostCache }
+                },
+            };
         }
 
         private void CheckForPreload(string text)
@@ -1061,6 +1068,19 @@ namespace PreloadAlert
                     lock (_locker)
                     {
                         alerts[azmeri_alert.Text] = azmeri_alert;
+                    }
+                }
+            }
+
+            if (Settings.Misc)
+            {
+                var misc_alert = Misc.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value).FirstOrDefault();
+                if (misc_alert != null)
+                {
+                    lock (_locker)
+                    {
+                        alerts[misc_alert.Text] = misc_alert;
                     }
                 }
             }
