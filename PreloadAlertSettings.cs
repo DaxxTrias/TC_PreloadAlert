@@ -51,7 +51,7 @@ namespace PreloadAlert
         [ConditionalDisplay(nameof(Exiles), true)]
         public ExileSettings ExileColors { get; set; } = new ExileSettings();
 
-        [Menu("Show Azmeri", "Enable or Disable the showing of Azmeri")]
+        [Menu("Show Azmeri", "Enable or Disable the showing of Azmeri wisps")]
         public ToggleNode Azmeri { get; set; }
         [ConditionalDisplay(nameof(Azmeri), true)]
         public AzmeriSettings AzmeriColors { get; set; } = new AzmeriSettings();
@@ -147,15 +147,14 @@ namespace PreloadAlert
     [Submenu]
     public class AzmeriSettings
     {
-        public ColorNode Delwyn { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode OxWild { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode BearWild { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode BoarWild { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode StagWild { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode StagVivid { get; set; } = Color.FromArgb(255, 255, 255);
-
-        public ColorNode CatVivid { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode SerpentPrimal { get; set; } = Color.FromArgb(255, 255, 255);
-        public ColorNode OwlPrimal { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode Delwyn { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode OxWild { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode BearWild { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode BoarWild { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode StagWild { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode StagVivid { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode CatVivid { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode SerpentPrimal { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode OwlPrimal { get; set; } = Color.FromArgb(90, 210, 0);
     }
 }
