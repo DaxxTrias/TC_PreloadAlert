@@ -514,99 +514,99 @@ namespace PreloadAlert
             {
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLightning1",
-                    new PreloadConfigLine {Text = "Lightning Essence", FastColor = () => Settings.EssenceMenu.EssenceOfLightning}
+                    new PreloadConfigLine {Text = "Lightning Essence", FastColor = () => Settings.EssenceColors.EssenceOfLightning}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLightning2",
-                    new PreloadConfigLine {Text = "Greater Lightning Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfLightning}
+                    new PreloadConfigLine {Text = "Greater Lightning Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfLightning}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModSpeed1",
-                    new PreloadConfigLine {Text = "Speed Essence", FastColor = () => Settings.EssenceMenu.EssenceOfSpeed}
+                    new PreloadConfigLine {Text = "Speed Essence", FastColor = () => Settings.EssenceColors.EssenceOfSpeed}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModSpeed2e",
-                    new PreloadConfigLine {Text = "Greater Speed Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfSpeed}
+                    new PreloadConfigLine {Text = "Greater Speed Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfSpeed}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModPhysical1",
-                    new PreloadConfigLine {Text = "Physical Essence", FastColor = () => Settings.EssenceMenu.EssenceOfPhysical}
+                    new PreloadConfigLine {Text = "Physical Essence", FastColor = () => Settings.EssenceColors.EssenceOfPhysical}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModPhysical2",
-                    new PreloadConfigLine {Text = "Greater Physical Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfPhysical}
+                    new PreloadConfigLine {Text = "Greater Physical Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfPhysical}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack1",
-                    new PreloadConfigLine {Text = "Attack Essence", FastColor = () => Settings.EssenceMenu.EssenceOfAttack}
+                    new PreloadConfigLine {Text = "Attack Essence", FastColor = () => Settings.EssenceColors.EssenceOfAttack}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttack2",
-                    new PreloadConfigLine {Text = "Greater Attack Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfAttack}
+                    new PreloadConfigLine {Text = "Greater Attack Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfAttack}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLife1",
-                    new PreloadConfigLine {Text = "Life Essence", FastColor = () => Settings.EssenceMenu.EssenceOfLife}
+                    new PreloadConfigLine {Text = "Life Essence", FastColor = () => Settings.EssenceColors.EssenceOfLife}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModLife2",
-                    new PreloadConfigLine {Text = "Greater Life Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfLife}
+                    new PreloadConfigLine {Text = "Greater Life Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfLife}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModChaos1",
-                    new PreloadConfigLine {Text = "Chaos Essence", FastColor = () => Settings.EssenceMenu.EssenceOfChaos}
+                    new PreloadConfigLine {Text = "Chaos Essence", FastColor = () => Settings.EssenceColors.EssenceOfChaos}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModChaos2",
-                    new PreloadConfigLine {Text = "Greater Chaos Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfChaos}
+                    new PreloadConfigLine {Text = "Greater Chaos Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfChaos}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster1",
-                    new PreloadConfigLine {Text = "Caster Essence", FastColor = () => Settings.EssenceMenu.EssenceOfCasting}
+                    new PreloadConfigLine {Text = "Caster Essence", FastColor = () => Settings.EssenceColors.EssenceOfCasting}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCaster2",
-                    new PreloadConfigLine {Text = "Greater Caster Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfCasting}
+                    new PreloadConfigLine {Text = "Greater Caster Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfCasting}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCold1",
-                    new PreloadConfigLine {Text = "Cold Essence", FastColor = () => Settings.EssenceMenu.EssenceOfCold}
+                    new PreloadConfigLine {Text = "Cold Essence", FastColor = () => Settings.EssenceColors.EssenceOfCold}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModCold2",
-                    new PreloadConfigLine {Text = "Greater Cold Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfCold}
+                    new PreloadConfigLine {Text = "Greater Cold Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfCold}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModMana1",
-                    new PreloadConfigLine {Text = "Mana Essence", FastColor = () => Settings.EssenceMenu.EssenceOfMana}
+                    new PreloadConfigLine {Text = "Mana Essence", FastColor = () => Settings.EssenceColors.EssenceOfMana}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModMana2",
-                    new PreloadConfigLine {Text = "Greater Mana Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfMana}
+                    new PreloadConfigLine {Text = "Greater Mana Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfMana}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModDefences1",
-                    new PreloadConfigLine {Text = "Defence Essence", FastColor = () => Settings.EssenceMenu.EssenceOfDefence}
+                    new PreloadConfigLine {Text = "Defence Essence", FastColor = () => Settings.EssenceColors.EssenceOfDefence}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModDefences2",
-                    new PreloadConfigLine {Text = "Greater Defence Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfDefence}
+                    new PreloadConfigLine {Text = "Greater Defence Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfDefence}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttribute1",
-                    new PreloadConfigLine {Text = "Attributes Essence", FastColor = () => Settings.EssenceMenu.EssenceOfAttributes}
+                    new PreloadConfigLine {Text = "Attributes Essence", FastColor = () => Settings.EssenceColors.EssenceOfAttributes}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModAttribute2",
-                    new PreloadConfigLine {Text = "Greater Attributes Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfAttributes}
+                    new PreloadConfigLine {Text = "Greater Attributes Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfAttributes}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModFire1",
-                    new PreloadConfigLine {Text = "Fire Essence", FastColor = () => Settings.EssenceMenu.EssenceOfFire}
+                    new PreloadConfigLine {Text = "Fire Essence", FastColor = () => Settings.EssenceColors.EssenceOfFire}
                 },
                 {
                     "Metadata/Monsters/EssenceModDaemons/MonsterEssenceModFire2",
-                    new PreloadConfigLine {Text = "Greater Fire Essence", FastColor = () => Settings.EssenceMenu.GreaterEssenceOfFire}
+                    new PreloadConfigLine {Text = "Greater Fire Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfFire}
                 },
             };
 
@@ -618,55 +618,55 @@ namespace PreloadAlert
                 // enlightenment shrine is a good example. it only uses a generic shrine metadata tag
                 {
                     "Metadata/Effects/Environment/shrine/plus/plus.epk",
-                    new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfRegeneration}
+                    new PreloadConfigLine {Text = "Regeneration Shrine", FastColor = () => Settings.ShrineColors.ShrineOfRegeneration}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/resistance/resist.epk",
-                    new PreloadConfigLine {Text = "Resistance Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfResistance}
+                    new PreloadConfigLine {Text = "Resistance Shrine", FastColor = () => Settings.ShrineColors.ShrineOfResistance}
                 },
                 {
                     //"Metadata/Effects/Environment/shrine/smoke/smoke.epk", // avarice 0.1.x
                     "Metadata/Effects/Environment/shrine/greed/greed.epk", // formerly avarice, changed in 0.2 to always be greed?
-                    new PreloadConfigLine {Text = "Greed Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfGreed}
+                    new PreloadConfigLine {Text = "Greed Shrine", FastColor = () => Settings.ShrineColors.ShrineOfGreed}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/run_fast/runfast.epk", // acceleration
-                    new PreloadConfigLine {Text = "Acceleration Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfAcceleration}
+                    new PreloadConfigLine {Text = "Acceleration Shrine", FastColor = () => Settings.ShrineColors.ShrineOfAcceleration}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/summon/summon.epk", // chaos damage
-                    new PreloadConfigLine {Text = "Gloom Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfGloom}
+                    new PreloadConfigLine {Text = "Gloom Shrine", FastColor = () => Settings.ShrineColors.ShrineOfGloom}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/sword/sword.epk", // critical
-                    new PreloadConfigLine {Text = "Diamond Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfCrit}
+                    new PreloadConfigLine {Text = "Diamond Shrine", FastColor = () => Settings.ShrineColors.ShrineOfCrit}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/curse/rig.epk", // corrupted shrine
-                    new PreloadConfigLine {Text = "Tainted Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfCorruption}
+                    new PreloadConfigLine {Text = "Tainted Shrine", FastColor = () => Settings.ShrineColors.ShrineOfCorruption}
                 },
                 {
                     //"Metadata/Effects/Environment/shrine/fire/fire.epk", // alternate data. not a preload; is a confirmation
                     "Metadata/Monsters/Daemon/Shrines/ShrineFireDaemon_", // meteoric shrine shrine
-                    new PreloadConfigLine {Text = "Meteoric Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfFire}
+                    new PreloadConfigLine {Text = "Meteoric Shrine", FastColor = () => Settings.ShrineColors.ShrineOfFire}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/massive/massive.epk", // meteoric shrine shrine
-                    new PreloadConfigLine {Text = "Enduring Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfEnduring}
+                    new PreloadConfigLine {Text = "Enduring Shrine", FastColor = () => Settings.ShrineColors.ShrineOfEnduring}
                 },
                 {
                     //"Metadata/Effects/Environment/shrine/lightning/lightning.epk", // alternate data. not a preload; is a confirmation
                     "Metadata/Monsters/Daemon/Shrines/ShrineLightningDaemon", // lightning  tempest shrine
-                    new PreloadConfigLine {Text = "Lightning Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfLightning}
+                    new PreloadConfigLine {Text = "Lightning Shrine", FastColor = () => Settings.ShrineColors.ShrineOfLightning}
                 },
                 {
                     //"Metadata/Effects/Environment/shrine/ice/ice.epk", // alternate data. not a preload; is a confirmation
                     "Metadata/Monsters/Daemon/Shrines/ShrineColdDaemon", // cold shrine
-                    new PreloadConfigLine {Text = "Cold Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfCold}
+                    new PreloadConfigLine {Text = "Cold Shrine", FastColor = () => Settings.ShrineColors.ShrineOfCold}
                 },
                 {
                     "Metadata/Effects/Environment/shrine/god_mode/godmode.epk",
-                    new PreloadConfigLine {Text = "Divine Shrine", FastColor = () => Settings.ShrineMenu.ShrineOfDivine}
+                    new PreloadConfigLine {Text = "Divine Shrine", FastColor = () => Settings.ShrineColors.ShrineOfDivine}
                 },
             };
 
@@ -764,67 +764,67 @@ namespace PreloadAlert
             {
                 {
                     "Metadata/Chests/StrongBoxes/Arcanist", // this might have been replaced by researcher's strongbox
-                    new PreloadConfigLine {Text = "Arcanist's Strongbox", FastColor = () => Settings.StrongboxMenu.ArcanistStrongbox}
+                    new PreloadConfigLine {Text = "Arcanist's Strongbox", FastColor = () => Settings.StrongboxColors.ArcanistStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Artisan",
-                    new PreloadConfigLine {Text = "Artisan's Strongbox", FastColor = () => Settings.StrongboxMenu.ArtisanStrongbox}
+                    new PreloadConfigLine {Text = "Artisan's Strongbox", FastColor = () => Settings.StrongboxColors.ArtisanStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Cartographer", // probably doesnt exist now since theyre waystones?
-                    new PreloadConfigLine {Text = "Cartographer's Strongbox", FastColor = () => Settings.StrongboxMenu.CartographerStrongbox}
+                    new PreloadConfigLine {Text = "Cartographer's Strongbox", FastColor = () => Settings.StrongboxColors.CartographerStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Diviner",
-                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.StrongboxMenu.DivinerStrongbox}
+                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.StrongboxColors.DivinerStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/StrongboxDivination",
-                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.StrongboxMenu.DivinerStrongbox}
+                    new PreloadConfigLine {Text = "Diviner's Strongbox", FastColor = () => Settings.StrongboxColors.DivinerStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Gemcutter",
-                    new PreloadConfigLine {Text = "Gemcutter's Strongbox", FastColor = () => Settings.StrongboxMenu.GemcutterStrongbox}
+                    new PreloadConfigLine {Text = "Gemcutter's Strongbox", FastColor = () => Settings.StrongboxColors.GemcutterStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Jeweller",
-                    new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.StrongboxMenu.JewellerStrongbox}
+                    new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.StrongboxColors.JewellerStrongbox}
                 },
                 {
                     //Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon // might be spawner for ixchel torment unique box
                     //Metadata/Chests/StrongBoxes/Unique/UniqueVaalStrongboxInteractionObject // ixchel torment unique box
                     "Metadata/Chests/StrongBoxes/MartialStrongbox",
-                    new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.StrongboxMenu.BlacksmithStrongbox}
+                    new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.StrongboxColors.BlacksmithStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/CasterStrongbox",
-                    new PreloadConfigLine {Text = "Arcane Strongbox", FastColor = () => Settings.StrongboxMenu.ArcaneStrongbox}
+                    new PreloadConfigLine {Text = "Arcane Strongbox", FastColor = () => Settings.StrongboxColors.ArcaneStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/ResearchStrongboxHigh",
-                    new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxMenu.ResearchStrongbox}
+                    new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
                 },
                 {
                     //Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon // might be spawner for ixchel torment unique box
                     //Metadata/Chests/StrongBoxes/Unique/UniqueVaalStrongboxInteractionObject // ixchel torment unique box
                     "Metadata/Chests/StrongBoxes/ArmourerStrongbox",
-                    new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.StrongboxMenu.ArmourerStrongbox}
+                    new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.StrongboxColors.ArmourerStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/OrnateStrongbox",
-                    new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.StrongboxMenu.OrnateStrongbox}
+                    new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.StrongboxColors.OrnateStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/Large",
-                    new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.StrongboxMenu.LargeStrongbox}
+                    new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.StrongboxColors.LargeStrongbox}
                 },
                 {
                     "Metadata/Chests/StrongBoxes/BasicStrongbox",
-                    new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.StrongboxMenu.BasicStrongbox}
+                    new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.StrongboxColors.BasicStrongbox}
                 },
                 {
                     "Metadata/Chests/CopperChests/CopperChestEpic3",
-                    new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.StrongboxMenu.EpicStrongbox}
+                    new PreloadConfigLine {Text = "Epic Chest", FastColor = () => Settings.StrongboxColors.EpicStrongbox}
                 },
             };
 
@@ -832,66 +832,66 @@ namespace PreloadAlert
             {
                 {
                     "ExileMonk1", 
-                    new PreloadConfigLine {Text = "Sondar the Stormbinder (Monk Exile)", FastColor = () => Settings.ExilesMenu.Sondar}
+                    new PreloadConfigLine {Text = "Sondar the Stormbinder (Monk Exile)", FastColor = () => Settings.ExileColors.Sondar}
                 },
                 {
                     "ExileMonk2", 
-                    new PreloadConfigLine {Text = "Doran, the Deft (Monk Exile)", FastColor = () => Settings.ExilesMenu.Doran}
+                    new PreloadConfigLine {Text = "Doran, the Deft (Monk Exile)", FastColor = () => Settings.ExileColors.Doran}
                 },
                 {
                     "ExileMercenary1", 
-                    new PreloadConfigLine {Text = "Ulfred, the Afflicted (Merc Exile)", FastColor = () => Settings.ExilesMenu.Ulfred}
+                    new PreloadConfigLine {Text = "Ulfred, the Afflicted (Merc Exile)", FastColor = () => Settings.ExileColors.Ulfred}
                 },
                 {
                     "ExileSorceress2", 
-                    new PreloadConfigLine {Text = "Hesperia, Arcane Tempest (Sorc Exile)", FastColor = () => Settings.ExilesMenu.Hesperia}
+                    new PreloadConfigLine {Text = "Hesperia, Arcane Tempest (Sorc Exile)", FastColor = () => Settings.ExileColors.Hesperia}
                 },
                 {
                     "ExileSorceress1", 
-                    new PreloadConfigLine {Text = "Nyassa, Flaming Hand (Sorc Exile)", FastColor = () => Settings.ExilesMenu.Nyassa}
+                    new PreloadConfigLine {Text = "Nyassa, Flaming Hand (Sorc Exile)", FastColor = () => Settings.ExileColors.Nyassa}
                 },
                 {
                     "ExileWitch2", 
-                    new PreloadConfigLine {Text = "Clara the Curse Weaver (Witch Exile)", FastColor = () => Settings.ExilesMenu.Clara}
+                    new PreloadConfigLine {Text = "Clara the Curse Weaver (Witch Exile)", FastColor = () => Settings.ExileColors.Clara}
                 },
                 {
                     "ExileWitch1", 
-                    new PreloadConfigLine {Text = "Vasa, Death Akhara (Witch Exile)", FastColor = () => Settings.ExilesMenu.Vasa}
+                    new PreloadConfigLine {Text = "Vasa, Death Akhara (Witch Exile)", FastColor = () => Settings.ExileColors.Vasa}
                 },
                 {
                     "ExileRanger2", 
-                    new PreloadConfigLine {Text = "Adrienne, the Malignant Rose (Ranger Exile)", FastColor = () => Settings.ExilesMenu.Adrienne}
+                    new PreloadConfigLine {Text = "Adrienne, the Malignant Rose (Ranger Exile)", FastColor = () => Settings.ExileColors.Adrienne}
                 },
                 {
                     "ExileRanger1", 
-                    new PreloadConfigLine {Text = "Bronnach the Manhunter (Ranger Exile)", FastColor = () => Settings.ExilesMenu.Bronnach}
+                    new PreloadConfigLine {Text = "Bronnach the Manhunter (Ranger Exile)", FastColor = () => Settings.ExileColors.Bronnach}
                 },
                 {
-                    "ExileWarrior2", new PreloadConfigLine {Text = "Raok, the Bloodthirsty (Warrior Exile)", FastColor = () => Settings.ExilesMenu.Raok}
+                    "ExileWarrior2", new PreloadConfigLine {Text = "Raok, the Bloodthirsty (Warrior Exile)", FastColor = () => Settings.ExileColors.Raok}
                 },
                 {
-                    "ExileWarrior1", new PreloadConfigLine {Text = "Taua, the Ruthless (Warrior Exile)", FastColor = () => Settings.ExilesMenu.Taua}
+                    "ExileWarrior1", new PreloadConfigLine {Text = "Taua, the Ruthless (Warrior Exile)", FastColor = () => Settings.ExileColors.Taua}
                 },
                 {
-                    "ExileMarauder1", new PreloadConfigLine {Text = "Marauder Exile", FastColor = () => Settings.ExilesMenu.Marauder1}
+                    "ExileMarauder1", new PreloadConfigLine {Text = "Marauder Exile", FastColor = () => Settings.ExileColors.Marauder1}
                 },
                 {
-                    "ExileHuntress1", new PreloadConfigLine {Text = "Huntress Exile #1", FastColor = () => Settings.ExilesMenu.Huntress1}
+                    "ExileHuntress1", new PreloadConfigLine {Text = "Huntress Exile #1", FastColor = () => Settings.ExileColors.Huntress1}
                 },
                 {
-                    "ExileHuntress2", new PreloadConfigLine {Text = "Huntress Exile #2", FastColor = () => Settings.ExilesMenu.Huntress2}
+                    "ExileHuntress2", new PreloadConfigLine {Text = "Huntress Exile #2", FastColor = () => Settings.ExileColors.Huntress2}
                 },
                 {
-                    "ExileDuelist1", new PreloadConfigLine {Text = "Duelist Exile", FastColor = () => Settings.ExilesMenu.Duelist}
+                    "ExileDuelist1", new PreloadConfigLine {Text = "Duelist Exile", FastColor = () => Settings.ExileColors.Duelist}
                 },
                 {
-                    "ExileMercenary2", new PreloadConfigLine {Text = "Mercenary Exile", FastColor = () => Settings.ExilesMenu.Mercenary2}
+                    "ExileMercenary2", new PreloadConfigLine {Text = "Mercenary Exile", FastColor = () => Settings.ExileColors.Mercenary2}
                 },
                 {
-                    "ExileTemplar1", new PreloadConfigLine {Text = "Templar Exile", FastColor = () => Settings.ExilesMenu.Templar}
+                    "ExileTemplar1", new PreloadConfigLine {Text = "Templar Exile", FastColor = () => Settings.ExileColors.Templar}
                 },
                 {
-                    "ExileDruid1", new PreloadConfigLine {Text = "Druid Exile", FastColor = () => Settings.ExilesMenu.Druid}
+                    "ExileDruid1", new PreloadConfigLine {Text = "Druid Exile", FastColor = () => Settings.ExileColors.Druid}
                 }
             };
 

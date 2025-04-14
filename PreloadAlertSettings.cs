@@ -33,22 +33,22 @@ namespace PreloadAlert
 
         public ToggleNode Shrines { get; set; }
         [ConditionalDisplay(nameof(Shrines), true)]
-        public ShrineSettings ShrineMenu { get; set; } = new ShrineSettings();
+        public ShrineSettings ShrineColors { get; set; } = new ShrineSettings();
 
         [Menu("Show Essences", "Enable or Disable the showing of Essence(s)")]
         public ToggleNode Essence { get; set; }
         [ConditionalDisplay(nameof(Essence), true)]
-        public EssenceSettings EssenceMenu { get; set; } = new EssenceSettings();
+        public EssenceSettings EssenceColors { get; set; } = new EssenceSettings();
 
         [Menu("Show Strongboxes", "Enable or Disable the showing of Strongboxes")]
         public ToggleNode Strongboxes { get; set; }
         [ConditionalDisplay(nameof(Strongboxes), true)]
-        public StrongboxSettings StrongboxMenu { get; set; } = new StrongboxSettings();
+        public StrongboxSettings StrongboxColors { get; set; } = new StrongboxSettings();
 
         [Menu("Show Exiles", "Enable or Disable the showing of Rogue Exiles")]
         public ToggleNode Exiles { get; set; }
         [ConditionalDisplay(nameof(Exiles), true)]
-        public ExileSettings ExilesMenu { get; set; } = new ExileSettings();
+        public ExileSettings ExileColors { get; set; } = new ExileSettings();
     }
     [Submenu]
     public class ExileSettings
