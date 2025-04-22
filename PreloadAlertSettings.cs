@@ -163,6 +163,8 @@ namespace PreloadAlert
         public ColorNode CatVivid { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode SerpentPrimal { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode OwlPrimal { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode RabbitSacred { get; set; } = Color.FromArgb(90, 210, 0);
+        public ColorNode CunningFox { get; set; } = Color.FromArgb(90, 210, 0);
     }
 
     [Submenu]

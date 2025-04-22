@@ -790,6 +790,14 @@ namespace PreloadAlert
                 {
                     "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheOwlPrimal",
                     new PreloadConfigLine {Text = "Spirit of Owl (Primal)", FastColor = () => Settings.AzmeriColors.OwlPrimal}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheRabbitSacred_",
+                    new PreloadConfigLine {Text = "Spirit of Rabbit (Sacred)", FastColor = () => Settings.AzmeriColors.RabbitSacred}
+                },
+                {
+                    "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheCunningFox",
+                    new PreloadConfigLine {Text = "Spirit of Cunning Fox", FastColor = () => Settings.AzmeriColors.CunningFox}
                 }
             };
 
