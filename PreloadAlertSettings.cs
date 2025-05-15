@@ -17,6 +17,7 @@ namespace PreloadAlert
             Shrines = new ToggleNode(true);
             Exiles = new ToggleNode(true);
             Azmeri = new ToggleNode(true);
+            Expedition = new ToggleNode(true);
             Misc = new ToggleNode(true);
         }
 
@@ -56,6 +57,11 @@ namespace PreloadAlert
         public ToggleNode Azmeri { get; set; }
         [ConditionalDisplay(nameof(Azmeri), true)]
         public AzmeriSettings AzmeriColors { get; set; } = new AzmeriSettings();
+
+        [Menu("Show Expedition", "Enable or Disable the showing of Expedition NPCs")]
+        public ToggleNode Expedition { get; set; }
+        [ConditionalDisplay(nameof(Expedition), true)]
+        public ExpeditionSettings ExpeditionColors { get; set; } = new ExpeditionSettings();
 
         [Menu("Show Misc", "Enable or Disable the showing of Miscellaneous items")]
         public ToggleNode Misc { get; set; }
@@ -165,6 +171,15 @@ namespace PreloadAlert
         public ColorNode OwlPrimal { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode RabbitSacred { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode CunningFox { get; set; } = Color.FromArgb(90, 210, 0);
+    }
+
+    [Submenu]
+    public class ExpeditionSettings
+    {
+        public ColorNode Rog { get; set; } = Color.FromArgb(176, 199, 166);
+        public ColorNode Tujen { get; set; } = Color.FromArgb(176, 199, 166);
+        public ColorNode Gwennen { get; set; } = Color.FromArgb(176, 199, 166);
+        public ColorNode Dannig { get; set; } = Color.FromArgb(176, 199, 166);
     }
 
     [Submenu]

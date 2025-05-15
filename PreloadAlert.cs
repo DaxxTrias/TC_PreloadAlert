@@ -30,6 +30,7 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> Strongboxes;
         public static Dictionary<string, PreloadConfigLine> Exiles;
         public static Dictionary<string, PreloadConfigLine> AzmeriLeague;
+        public static Dictionary<string, PreloadConfigLine> ExpeditionLeague;
         public static Dictionary<string, PreloadConfigLine> Misc;
         public static Color AreaNameColor;
         private readonly object _locker = new object();
@@ -752,6 +753,26 @@ namespace PreloadAlert
             //    }
             //};
             #endregion
+
+            ExpeditionLeague = new Dictionary<string, PreloadConfigLine>
+            {
+                {
+                    "Metadata/Monsters/LeagueExpedition/NPC/ExpeditionRog",
+                    new PreloadConfigLine {Text = "Rog [Items crafter]", FastColor = () => Settings.ExpeditionColors.Rog}
+                },
+                {
+                    "Metadata/Monsters/LeagueExpedition/NPC/ExpeditionTujen",
+                    new PreloadConfigLine {Text = "Tujen [Currency gambler]", FastColor = () => Settings.ExpeditionColors.Tujen}
+                },
+                {
+                    "Metadata/Monsters/LeagueExpedition/NPC/ExpeditionGwennen",
+                    new PreloadConfigLine {Text = "Gwennen [Items gambler]", FastColor = () => Settings.ExpeditionColors.Gwennen}
+                },
+                {
+                    "Metadata/Monsters/LeagueExpedition/NPC/ExpeditionDannig",
+                    new PreloadConfigLine {Text = "Dannig [Exchange items]", FastColor = () => Settings.ExpeditionColors.Dannig}
+                },
+            };
 
             AzmeriLeague = new Dictionary<string, PreloadConfigLine>
             {
