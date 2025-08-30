@@ -25,7 +25,7 @@ namespace PreloadAlert
         private const string PreloadStart = "preload-start.png";
         private const string PreloadEnd = "preload-end.png";
         private const string PreloadNew = "preload-new.png";
-        private const string PreloadNewBase64 = "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";
+        private const string PreloadNewBase64 = "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";
         public static Dictionary<string, PreloadConfigLine> Essences;
         public static Dictionary<string, PreloadConfigLine> Shrines;
         public static Dictionary<string, PreloadConfigLine> Strongboxes;
@@ -47,6 +47,7 @@ namespace PreloadAlert
         private Action PreloadDebugAction;
         private bool working;
         private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource debugDummyCts;
 
         public PreloadAlert()
         {
@@ -199,6 +200,35 @@ namespace PreloadAlert
 
                     if (ImGui.Button("Close")) PreloadDebugAction = null;
                 };
+            }
+
+            if (ImGui.Button("Test draw dummy alert"))
+            {
+                // Create a temporary blank alert to confirm rendering
+                debugDummyCts?.Cancel();
+                debugDummyCts = new CancellationTokenSource();
+                var token = debugDummyCts.Token;
+
+                lock (_locker)
+                {
+                    alerts[" "] = new PreloadConfigLine { Text = " ", Color = Settings.DefaultTextColor };
+                    DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+                }
+
+                Task.Run(async () =>
+                {
+                    try { await Task.Delay(3000, token); }
+                    catch { /* cancelled */ }
+
+                    if (!token.IsCancellationRequested)
+                    {
+                        lock (_locker)
+                        {
+                            alerts.Remove(" ");
+                            DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+                        }
+                    }
+                }, token);
             }
 
             base.DrawSettings();
