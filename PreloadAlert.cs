@@ -272,12 +272,42 @@ namespace PreloadAlert
 
         public override void OnLoad()
         {
-            alertStrings = LoadConfig(PRELOAD_ALERTS);
-            if (alertStrings == null || !alertStrings.Any())
+            var configDir = Path.Combine(DirectoryFullName, "config");
+            var preloadAlertsPath = Path.Combine(configDir, Path.GetFileName(PRELOAD_ALERTS));
+            var preloadAlertsPersonalPath = Path.Combine(configDir, Path.GetFileName(PRELOAD_ALERTS_PERSONAL));
+
+            try
             {
-                DebugWindow.LogError($"Failed to load alert strings from {PRELOAD_ALERTS}. The file may be missing or empty.");
+                Directory.CreateDirectory(configDir);
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to ensure config directory: {configDir}. {ex.Message}");
+            }
+
+            try
+            {
+                if (File.Exists(preloadAlertsPath))
+                {
+                    alertStrings = LoadConfig(preloadAlertsPath);
+                }
+                else
+                {
+                    DebugWindow.LogMsg($"No preload config found at {preloadAlertsPath}. Using built-in alerts only.");
+                    alertStrings = new Dictionary<string, PreloadConfigLine>();
+                }
+
+                if (alertStrings == null || !alertStrings.Any())
+                {
+                    DebugWindow.LogMsg($"No entries loaded from {preloadAlertsPath}. Using built-in alerts only.");
+                    alertStrings = new Dictionary<string, PreloadConfigLine>();
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to load alert strings from {preloadAlertsPath}: {ex.Message}");
                 alertStrings = new Dictionary<string, PreloadConfigLine>();
-            }   
+            }
 
             SetupPredefinedConfigs();
             try
@@ -313,10 +343,22 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Error initializing images: {ex.Message}");
             }
 
-            if (File.Exists(PRELOAD_ALERTS_PERSONAL))
-                alertStrings = alertStrings.MergeLeft(LoadConfig(PRELOAD_ALERTS_PERSONAL));
-            else
-                File.Create(PRELOAD_ALERTS_PERSONAL);
+            try
+            {
+                if (File.Exists(preloadAlertsPersonalPath))
+                {
+                    var personal = LoadConfig(preloadAlertsPersonalPath);
+                    alertStrings = alertStrings.MergeLeft(personal);
+                }
+                else
+                {
+                    File.WriteAllText(preloadAlertsPersonalPath, string.Empty);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to load or create personal preload config at {preloadAlertsPersonalPath}: {ex.Message}");
+            }
         }
 
         public override bool Initialise()
@@ -553,6 +595,9 @@ namespace PreloadAlert
 
         protected static IEnumerable<string[]> LoadConfigBase(string path, int columnsCount = 2)
         {
+            if (!File.Exists(path))
+                return Enumerable.Empty<string[]>();
+
             return File.ReadAllLines(path).Where(line => !string.IsNullOrWhiteSpace(line) && line.IndexOf(';') >= 0 && !line.StartsWith("#"))
                 .Select(line => line.Split(new[] {';'}, columnsCount).Select(parts => parts.Trim()).ToArray());
         }
