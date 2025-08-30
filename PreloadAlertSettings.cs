@@ -31,7 +31,7 @@ namespace PreloadAlert
         public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
-        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), Vector2.Zero, Vector2.One * 4000);
+        public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), new Vector2(-4000, -4000), Vector2.One * 4000);
         [Menu("Show Shrines", "Enable or Disable the showing of Shrines")]
 
         public ToggleNode Shrines { get; set; }
