@@ -211,20 +211,20 @@ namespace PreloadAlert
 
                 lock (_locker)
                 {
-                    alerts[" "] = new PreloadConfigLine { Text = " ", Color = Settings.DefaultTextColor };
+                    alerts["This is a Test"] = new PreloadConfigLine { Text = "This is a Test", Color = Settings.DefaultTextColor };
                     DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
                 }
 
                 Task.Run(async () =>
                 {
-                    try { await Task.Delay(3000, token); }
+                    try { await Task.Delay(15000, token); }
                     catch { /* cancelled */ }
 
                     if (!token.IsCancellationRequested)
                     {
                         lock (_locker)
                         {
-                            alerts.Remove(" ");
+                            alerts.Remove("This is a Test");
                             DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
                         }
                     }
