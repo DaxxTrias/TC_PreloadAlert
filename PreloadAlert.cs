@@ -274,53 +274,86 @@ namespace PreloadAlert
 
         public override void OnLoad()
         {
-            var configDir = Path.Combine(DirectoryFullName, "config");
-            var preloadAlertsPath = Path.Combine(configDir, Path.GetFileName(PRELOAD_ALERTS));
-            var preloadAlertsPersonalPath = Path.Combine(configDir, Path.GetFileName(PRELOAD_ALERTS_PERSONAL));
+            // Determine legacy (plugin-local) and global config locations
+            var legacyConfigDir = Path.Combine(DirectoryFullName, "config");
+            var legacyMainPath = Path.Combine(legacyConfigDir, Path.GetFileName(PRELOAD_ALERTS));
+            var legacyPersonalPath = Path.Combine(legacyConfigDir, Path.GetFileName(PRELOAD_ALERTS_PERSONAL));
+
+            var globalConfigDir = ConfigDirectory;
+            var globalMainPath = Path.Combine(globalConfigDir, Path.GetFileName(PRELOAD_ALERTS));
+            var globalPersonalPath = Path.Combine(globalConfigDir, Path.GetFileName(PRELOAD_ALERTS_PERSONAL));
 
             try
             {
-                Directory.CreateDirectory(configDir);
+                Directory.CreateDirectory(globalConfigDir);
             }
             catch (Exception ex)
             {
-                DebugWindow.LogError($"Failed to ensure config directory: {configDir}. {ex.Message}");
+                DebugWindow.LogError($"Failed to ensure global config directory: {globalConfigDir}. {ex.Message}");
+            }
+
+            // Migrate legacy configs to global if global is missing
+            try
+            {
+                if (!File.Exists(globalMainPath) && File.Exists(legacyMainPath))
+                {
+                    File.Copy(legacyMainPath, globalMainPath, false);
+                    DebugWindow.LogMsg($"Migrated PreloadAlert main config to global: {globalMainPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to migrate main config to global: {ex.Message}");
             }
 
             try
             {
-                if (File.Exists(preloadAlertsPath))
+                if (!File.Exists(globalPersonalPath) && File.Exists(legacyPersonalPath))
                 {
-                    alertStrings = LoadConfig(preloadAlertsPath);
+                    File.Copy(legacyPersonalPath, globalPersonalPath, false);
+                    DebugWindow.LogMsg($"Migrated PreloadAlert personal config to global: {globalPersonalPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to migrate personal config to global: {ex.Message}");
+            }
+
+            // Load main config (global)
+            try
+            {
+                if (File.Exists(globalMainPath))
+                {
+                    alertStrings = LoadConfig(globalMainPath);
                 }
                 else
                 {
-                    DebugWindow.LogMsg($"No preload config found at {preloadAlertsPath}. Using built-in alerts only.");
+                    DebugWindow.LogMsg($"No preload config found at {globalMainPath}. Using built-in alerts only.");
                     alertStrings = new Dictionary<string, PreloadConfigLine>();
                 }
 
                 if (alertStrings == null || !alertStrings.Any())
                 {
-                    DebugWindow.LogMsg($"No entries loaded from {preloadAlertsPath}. Using built-in alerts only.");
+                    DebugWindow.LogMsg($"No entries loaded from {globalMainPath}. Using built-in alerts only.");
                     alertStrings = new Dictionary<string, PreloadConfigLine>();
                 }
             }
             catch (Exception ex)
             {
-                DebugWindow.LogError($"Failed to load alert strings from {preloadAlertsPath}: {ex.Message}");
+                DebugWindow.LogError($"Failed to load alert strings from {globalMainPath}: {ex.Message}");
                 alertStrings = new Dictionary<string, PreloadConfigLine>();
             }
 
             SetupPredefinedConfigs();
 
-            // If main config is missing or empty, generate from built-in dictionaries (prefix-capable)
+            // If main config is missing or empty, generate from built-ins into global path
             try
             {
-                if (!File.Exists(preloadAlertsPath) || alertStrings.Count == 0)
+                if (!File.Exists(globalMainPath) || alertStrings.Count == 0)
                 {
-                    GenerateDefaultMainConfig(preloadAlertsPath);
-                    alertStrings = LoadConfig(preloadAlertsPath);
-                    DebugWindow.LogMsg($"Generated default preload config with {alertStrings.Count} entries at {preloadAlertsPath}");
+                    GenerateDefaultMainConfig(globalMainPath);
+                    alertStrings = LoadConfig(globalMainPath);
+                    DebugWindow.LogMsg($"Generated default preload config with {alertStrings.Count} entries at {globalMainPath}");
                 }
             }
             catch (Exception ex)
@@ -328,6 +361,7 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Failed to generate default preload config: {ex.Message}");
             }
 
+            // Initialize images (kept in plugin directory)
             try
             {
                 string preloadStartPath = Path.Combine(DirectoryFullName, PreloadStart);
@@ -361,27 +395,28 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Error initializing images: {ex.Message}");
             }
 
+            // Load/ensure personal config (global), merge over main
             try
             {
-                if (File.Exists(preloadAlertsPersonalPath))
+                if (File.Exists(globalPersonalPath))
                 {
-                    var personal = LoadConfig(preloadAlertsPersonalPath);
+                    var personal = LoadConfig(globalPersonalPath);
                     alertStrings = alertStrings.MergeLeft(personal);
                 }
                 else
                 {
-                    WritePersonalConfigHeader(preloadAlertsPersonalPath);
+                    WritePersonalConfigHeader(globalPersonalPath);
                 }
 
                 // Regenerate header if personal exists but is empty
-                if (new FileInfo(preloadAlertsPersonalPath).Length == 0)
+                if (new FileInfo(globalPersonalPath).Length == 0)
                 {
-                    WritePersonalConfigHeader(preloadAlertsPersonalPath);
+                    WritePersonalConfigHeader(globalPersonalPath);
                 }
             }
             catch (Exception ex)
             {
-                DebugWindow.LogError($"Failed to load or create personal preload config at {preloadAlertsPersonalPath}: {ex.Message}");
+                DebugWindow.LogError($"Failed to load or create personal preload config at {globalPersonalPath}: {ex.Message}");
             }
         }
 
@@ -1111,7 +1146,7 @@ namespace PreloadAlert
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
                 {
-                    "Metadata/Chests/Abyss/AbyssChestSmallMagic",
+                    "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove
                     new PreloadConfigLine { Text = "Abyss (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
                 },
             };
