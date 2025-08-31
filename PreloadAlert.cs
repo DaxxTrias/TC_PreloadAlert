@@ -233,6 +233,19 @@ namespace PreloadAlert
                 }, token);
             }
 
+            if (ImGui.Button("Open config folder"))
+            {
+                try
+                {
+                    Directory.CreateDirectory(ConfigDirectory);
+                    Process.Start(new ProcessStartInfo { FileName = ConfigDirectory, UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    DebugWindow.LogError($"Failed to open config directory: {ex.Message}");
+                }
+            }
+
             base.DrawSettings();
         }
 
@@ -318,6 +331,8 @@ namespace PreloadAlert
             {
                 DebugWindow.LogError($"Failed to migrate personal config to global: {ex.Message}");
             }
+
+            DebugWindow.LogMsg($"PreloadAlert config directory: {globalConfigDir}\n  Main: {globalMainPath} {(File.Exists(globalMainPath) ? "(exists)" : "(missing)")}\n  Personal: {globalPersonalPath} {(File.Exists(globalPersonalPath) ? "(exists)" : "(missing)")}");
 
             // Load main config (global)
             try
