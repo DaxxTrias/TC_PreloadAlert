@@ -17,6 +17,7 @@ namespace PreloadAlert
             Shrines = new ToggleNode(true);
             Exiles = new ToggleNode(true);
             Azmeri = new ToggleNode(true);
+            Abyss = new ToggleNode(true);
             Expedition = new ToggleNode(true);
             Misc = new ToggleNode(true);
         }
@@ -57,6 +58,11 @@ namespace PreloadAlert
         public ToggleNode Azmeri { get; set; }
         [ConditionalDisplay(nameof(Azmeri), true)]
         public AzmeriSettings AzmeriColors { get; set; } = new AzmeriSettings();
+
+        [Menu("Show Abyss", "Enable or Disable the showing of Abyss content")]
+        public ToggleNode Abyss { get; set; }
+        [ConditionalDisplay(nameof(Abyss), true)]
+        public AbyssSettings AbyssColors { get; set; } = new AbyssSettings();
 
         [Menu("Show Expedition", "Enable or Disable the showing of Expedition NPCs")]
         public ToggleNode Expedition { get; set; }
@@ -171,6 +177,12 @@ namespace PreloadAlert
         public ColorNode OwlPrimal { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode RabbitSacred { get; set; } = Color.FromArgb(90, 210, 0);
         public ColorNode CunningFox { get; set; } = Color.FromArgb(90, 210, 0);
+    }
+
+    [Submenu]
+    public class AbyssSettings
+    {
+        public ColorNode AbyssSmall { get; set; } = Color.FromArgb(0, 128, 0);
     }
 
     [Submenu]

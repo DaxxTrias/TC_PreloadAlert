@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
 using ExileCore2;
 using ExileCore2.PoEMemory;
@@ -33,6 +34,7 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> AzmeriLeague;
         public static Dictionary<string, PreloadConfigLine> ExpeditionLeague;
         public static Dictionary<string, PreloadConfigLine> Misc;
+        public static Dictionary<string, PreloadConfigLine> Abyss;
         public static Color AreaNameColor;
         private readonly object _locker = new object();
         private Dictionary<string, PreloadConfigLine> alertStrings;
@@ -1105,6 +1107,14 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Gold Time-Lost Cache", FastColor = () => Settings.MiscColors.TimeLostCache }
                 },
             };
+
+            Abyss = new Dictionary<string, PreloadConfigLine>
+            {
+                {
+                    "Metadata/Chests/Abyss/AbyssChestSmallMagic",
+                    new PreloadConfigLine { Text = "Abyss (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                },
+            };
         }
 
         private void CheckForPreload(string text)
@@ -1112,14 +1122,20 @@ namespace PreloadAlert
             if (alertStrings == null || alerts == null || _locker == null)
                 return;
 
-            if (alertStrings.ContainsKey(text))
+            // Prefix-based match for configured entries to support wildcard-like keys
+            if (alertStrings.Count > 0)
             {
-                lock (_locker)
+                foreach (var kv in alertStrings)
                 {
-                    alerts[alertStrings[text].Text] = alertStrings[text];
+                    if (text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        lock (_locker)
+                        {
+                            alerts[kv.Value.Text] = kv.Value;
+                        }
+                        return;
+                    }
                 }
-
-                return;
             }
 
             if (Settings.Essence)
@@ -1245,6 +1261,19 @@ namespace PreloadAlert
                     lock (_locker)
                     {
                         alerts[misc_alert.Text] = misc_alert;
+                    }
+                }
+            }
+
+            if (Settings.Abyss)
+            {
+                var abyss_alert = Abyss.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value).FirstOrDefault();
+                if (abyss_alert != null)
+                {
+                    lock (_locker)
+                    {
+                        alerts[abyss_alert.Text] = abyss_alert;
                     }
                 }
             }
