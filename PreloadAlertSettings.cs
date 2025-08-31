@@ -183,6 +183,9 @@ namespace PreloadAlert
     public class AbyssSettings
     {
         public ColorNode AbyssSmall { get; set; } = Color.FromArgb(0, 128, 0);
+        public ColorNode AbyssArmour { get; set; } = Color.FromArgb(0, 128, 0);
+        public ColorNode AbyssLargeArmour { get; set; } = Color.FromArgb(0, 128, 0);
+        public ColorNode AbyssCurrency { get; set; } = Color.FromArgb(0, 128, 0);
     }
 
     [Submenu]

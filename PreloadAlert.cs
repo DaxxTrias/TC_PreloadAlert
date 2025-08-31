@@ -50,6 +50,7 @@ namespace PreloadAlert
         private bool working;
         private CancellationTokenSource cancellationTokenSource;
         private CancellationTokenSource debugDummyCts;
+        private HashSet<string> _personalExplicitColorKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         public PreloadAlert()
         {
@@ -376,6 +377,29 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Failed to generate default preload config: {ex.Message}");
             }
 
+            // Append any newly added built-ins to an existing main config
+            try
+            {
+                if (File.Exists(globalMainPath) && SyncMainConfigWithBuiltIns(globalMainPath))
+                {
+                    alertStrings = LoadConfig(globalMainPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to sync built-in entries to main config: {ex.Message}");
+            }
+
+            // After built-ins are established and main config is present, bind config lines without explicit colors
+            try
+            {
+                BindConfigColorsToBuiltIns();
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to bind config colors to built-ins: {ex.Message}");
+            }
+
             // Initialize images (kept in plugin directory)
             try
             {
@@ -416,18 +440,24 @@ namespace PreloadAlert
                 if (File.Exists(globalPersonalPath))
                 {
                     var personal = LoadConfig(globalPersonalPath);
+                    _personalExplicitColorKeys = new HashSet<string>(personal.Where(p => p.Value.Color.HasValue && p.Value.Color.Value.ToArgb() != 0).Select(p => p.Key), StringComparer.OrdinalIgnoreCase);
                     alertStrings = alertStrings.MergeLeft(personal);
                 }
                 else
                 {
                     WritePersonalConfigHeader(globalPersonalPath);
+                    _personalExplicitColorKeys.Clear();
                 }
 
                 // Regenerate header if personal exists but is empty
                 if (new FileInfo(globalPersonalPath).Length == 0)
                 {
                     WritePersonalConfigHeader(globalPersonalPath);
+                    _personalExplicitColorKeys.Clear();
                 }
+
+                // Re-bind after personal overrides are applied
+                BindConfigColorsToBuiltIns();
             }
             catch (Exception ex)
             {
@@ -683,9 +713,29 @@ namespace PreloadAlert
         {
             return LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
             {
-                var preloadAlerConfigLine = new PreloadConfigLine {Text = line[1], Color = line.ConfigColorValueExtractor(2)};
+                var color = ParseRgba(line.Length > 2 ? line[2] : null);
+                var preloadAlerConfigLine = new PreloadConfigLine {Text = line[1], Color = color};
                 return preloadAlerConfigLine;
             });
+        }
+
+        private static Color ParseRgba(string? rgba)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(rgba)) return Color.Empty;
+                var parts = rgba.Split(',');
+                if (parts.Length < 3) return Color.Empty;
+                int r = int.Parse(parts[0]);
+                int g = int.Parse(parts[1]);
+                int b = int.Parse(parts[2]);
+                int a = parts.Length >= 4 ? int.Parse(parts[3]) : 255;
+                return Color.FromArgb(a, r, g, b);
+            }
+            catch
+            {
+                return Color.Empty;
+            }
         }
 
         protected static IEnumerable<string[]> LoadConfigBase(string path, int columnsCount = 2)
@@ -1162,7 +1212,19 @@ namespace PreloadAlert
             {
                 {
                     "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove
-                    new PreloadConfigLine { Text = "Abyss (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    new PreloadConfigLine { Text = "Abyssal Trove (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestFinalArmour", // Large Abyssal Armoury
+                    new PreloadConfigLine { Text = "Abyssal Armoury", FastColor = () => Settings.AbyssColors.AbyssArmour }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssLargeChestFinalArmour", // Large Abyssal Armoury
+                    new PreloadConfigLine { Text = "Abyssal Armoury (large)", FastColor = () => Settings.AbyssColors.AbyssLargeArmour }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
+                    new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
             };
         }
@@ -1389,6 +1451,46 @@ namespace PreloadAlert
 
         private static string FormatColor(Color c) => $"{c.R},{c.G},{c.B},{c.A}";
 
+        private IEnumerable<KeyValuePair<string, PreloadConfigLine>> EnumerateBuiltIns()
+        {
+            foreach (var kv in Essences) yield return kv;
+            foreach (var kv in Shrines) yield return kv;
+            foreach (var kv in Strongboxes) yield return kv;
+            foreach (var kv in Exiles) yield return kv;
+            foreach (var kv in AzmeriLeague) yield return kv;
+            foreach (var kv in ExpeditionLeague) yield return kv;
+            foreach (var kv in Abyss) yield return kv;
+            foreach (var kv in Misc) yield return kv;
+        }
+
+        private bool SyncMainConfigWithBuiltIns(string path)
+        {
+            try
+            {
+                if (!File.Exists(path)) return false;
+                var existing = LoadConfig(path);
+                var existingKeys = new HashSet<string>(existing.Keys, StringComparer.OrdinalIgnoreCase);
+                var newLines = new List<string>();
+                foreach (var kv in EnumerateBuiltIns())
+                {
+                    if (!existingKeys.Contains(kv.Key))
+                    {
+                        // Write without color so it stays bound to live settings via built-ins
+                        newLines.Add($"{kv.Key};{kv.Value.Text}");
+                    }
+                }
+                if (newLines.Count == 0) return false;
+                File.AppendAllLines(path, newLines);
+                DebugWindow.LogMsg($"PreloadAlert: Added {newLines.Count} new built-in entries to {path}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"PreloadAlert: Failed to sync built-in entries to {path}: {ex.Message}");
+                return false;
+            }
+        }
+
         private void GenerateDefaultMainConfig(string path)
         {
             var lines = new List<string>
@@ -1396,24 +1498,13 @@ namespace PreloadAlert
                 "# PreloadAlert main config",
                 "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
                 "# Lines here are matched as prefix (case-insensitive). Personal overrides win.",
+                "# Tip: omit the color to use live colors from the settings menu.",
             };
 
-            IEnumerable<KeyValuePair<string, PreloadConfigLine>> AllBuiltIns()
+            foreach (var kv in EnumerateBuiltIns())
             {
-                foreach (var kv in Essences) yield return kv;
-                foreach (var kv in Shrines) yield return kv;
-                foreach (var kv in Strongboxes) yield return kv;
-                foreach (var kv in Exiles) yield return kv;
-                foreach (var kv in AzmeriLeague) yield return kv;
-                foreach (var kv in ExpeditionLeague) yield return kv;
-                foreach (var kv in Abyss) yield return kv;
-                foreach (var kv in Misc) yield return kv;
-            }
-
-            foreach (var kv in AllBuiltIns())
-            {
-                var color = kv.Value.FastColor?.Invoke() ?? kv.Value.Color ?? Settings.DefaultTextColor;
-                lines.Add($"{kv.Key};{kv.Value.Text};{FormatColor(color)}");
+                // Write without color so built-ins provide live menu colors
+                lines.Add($"{kv.Key};{kv.Value.Text}");
             }
 
             File.WriteAllLines(path, lines);
@@ -1425,10 +1516,38 @@ namespace PreloadAlert
             {
                 "# PreloadAlert personal config (overrides)",
                 "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
+                "# If you omit the color, the plugin will use the live color from the settings menu.",
                 "# Example:",
                 "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
             };
             File.WriteAllLines(path, header);
+        }
+
+        private void BindConfigColorsToBuiltIns()
+        {
+            if (alertStrings == null || alertStrings.Count == 0) return;
+            var builtIns = EnumerateBuiltIns().ToList();
+            foreach (var kv in alertStrings.ToList())
+            {
+                var configKey = kv.Key;
+                var line = kv.Value;
+                if (line == null) continue;
+
+                var hasExplicitColor = line.Color.HasValue && line.Color.Value.ToArgb() != 0;
+                var personalOverride = _personalExplicitColorKeys.Contains(configKey);
+                // If personal has explicit color, respect it. Otherwise, always bind to menu FastColor
+                if (!personalOverride)
+                {
+                    var match = builtIns.FirstOrDefault(b => b.Key.StartsWith(configKey, StringComparison.OrdinalIgnoreCase));
+                    if (!match.Equals(default(KeyValuePair<string, PreloadConfigLine>)))
+                    {
+                        line.FastColor = match.Value.FastColor;
+                        // If built-in had a fixed color, copy it too (rare; most use FastColor)
+                        if ((!line.Color.HasValue || line.Color.Value.ToArgb() == 0) && match.Value.Color.HasValue && match.Value.Color.Value.ToArgb() != 0)
+                            line.Color = match.Value.Color;
+                    }
+                }
+            }
         }
     }
     public static class DictionaryExtensions
