@@ -215,7 +215,7 @@ namespace PreloadAlert
 
                 lock (_locker)
                 {
-                    alerts["This is a Test"] = new PreloadConfigLine { Text = "This is a Test", Color = Settings.DefaultTextColor };
+                    alerts["This is a Test"] = new PreloadConfigLine { Text = "This is a Test", Color = Settings.DefaultTextColor, Category = PreloadCategory.Custom };
                     DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
                 }
 
@@ -267,7 +267,7 @@ namespace PreloadAlert
 
                     if (!working && tries < 20)
                     {
-                        alerts.Add(text, new PreloadConfigLine {Text = text, FastColor = () => color});
+                        alerts.Add(text, new PreloadConfigLine {Text = text, FastColor = () => color, Category = PreloadCategory.Custom});
 
                         lock (_locker)
                         {
@@ -278,7 +278,7 @@ namespace PreloadAlert
             }
             else
             {
-                alerts.Add(text, new PreloadConfigLine {Text = text, FastColor = () => color});
+                alerts.Add(text, new PreloadConfigLine {Text = text, FastColor = () => color, Category = PreloadCategory.Custom});
 
                 lock (_locker)
                 {
@@ -678,9 +678,11 @@ namespace PreloadAlert
 
             var drawPoint = Settings.DisplayPosition.Value;
 
+            var visibleAlerts = DrawAlerts.Where(a => IsCategoryEnabled(a.Category)).ToList();
+
             var textSize = isLoading
                 ? Graphics.MeasureText(loadingText)
-                : DrawAlerts.Select(x => Graphics.MeasureText(x.Text)).ToList()
+                : visibleAlerts.Select(x => Graphics.MeasureText(x.Text)).ToList()
                     switch { var s => new Vector2(s.DefaultIfEmpty(Vector2.Zero).Max(x => x.X), s.Sum(x => x.Y)) };
             var bounds = new RectangleF(drawPoint.X - textSize.X - 55,
                 drawPoint.Y, textSize.X + 60, textSize.Y);
@@ -701,7 +703,7 @@ namespace PreloadAlert
             }
             else
             {
-                foreach (var line in DrawAlerts)
+                foreach (var line in visibleAlerts)
                 {
                     lastLine = Graphics.DrawText(line.Text, drawPoint,
                         line.FastColor?.Invoke() ?? line.Color ?? Settings.DefaultTextColor, FontAlign.Right);
@@ -852,6 +854,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Greater Fire Essence", FastColor = () => Settings.EssenceColors.GreaterEssenceOfFire}
                 },
             };
+            SetCategory(Essences, PreloadCategory.Essence);
 
             Shrines = new Dictionary<string, PreloadConfigLine>
             {
@@ -912,88 +915,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Divine Shrine", FastColor = () => Settings.ShrineColors.ShrineOfDivine}
                 },
             };
-
-            #region perandus
-            //PerandusLeague = new Dictionary<string, PreloadConfigLine>
-            //{
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestStandard",
-            //        new PreloadConfigLine {Text = "Perandus Chest", FastColor = () => Settings.PerandusChestStandard}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestRarity",
-            //        new PreloadConfigLine {Text = "Perandus Cache", FastColor = () => Settings.PerandusChestRarity}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestQuantity",
-            //        new PreloadConfigLine {Text = "Perandus Hoard", FastColor = () => Settings.PerandusChestQuantity}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestCoins",
-            //        new PreloadConfigLine {Text = "Perandus Coffer", FastColor = () => Settings.PerandusChestCoins}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestJewellery",
-            //        new PreloadConfigLine {Text = "Perandus Jewellery Box", FastColor = () => Settings.PerandusChestJewellery}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestGems",
-            //        new PreloadConfigLine {Text = "Perandus Safe", FastColor = () => Settings.PerandusChestGems}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestCurrency",
-            //        new PreloadConfigLine {Text = "Perandus Treasury", FastColor = () => Settings.PerandusChestCurrency}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestInventory",
-            //        new PreloadConfigLine {Text = "Perandus Wardrobe", FastColor = () => Settings.PerandusChestInventory}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestDivinationCards",
-            //        new PreloadConfigLine {Text = "Perandus Catalogue", FastColor = () => Settings.PerandusChestDivinationCards}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestKeepersOfTheTrove",
-            //        new PreloadConfigLine {Text = "Perandus Trove", FastColor = () => Settings.PerandusChestKeepersOfTheTrove}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestUniqueItem",
-            //        new PreloadConfigLine {Text = "Perandus Locker", FastColor = () => Settings.PerandusChestUniqueItem}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestMaps",
-            //        new PreloadConfigLine {Text = "Perandus Archive", FastColor = () => Settings.PerandusChestMaps}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusChestFishing",
-            //        new PreloadConfigLine {Text = "Perandus Tackle Box", FastColor = () => Settings.PerandusChestFishing}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorUniqueChest",
-            //        new PreloadConfigLine {Text = "Cadiro's Locker", FastColor = () => Settings.PerandusManorUniqueChest}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorCurrencyChest",
-            //        new PreloadConfigLine {Text = "Cadiro's Treasury", FastColor = () => Settings.PerandusManorCurrencyChest}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorMapsChest",
-            //        new PreloadConfigLine {Text = "Cadiro's Archive", FastColor = () => Settings.PerandusManorMapsChest}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorJewelryChest",
-            //        new PreloadConfigLine {Text = "Cadiro's Jewellery Box", FastColor = () => Settings.PerandusManorJewelryChest}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorDivinationCardsChest",
-            //        new PreloadConfigLine {Text = "Cadiro's Catalogue", FastColor = () => Settings.PerandusManorDivinationCardsChest}
-            //    },
-            //    {
-            //        "Metadata/Chests/PerandusChests/PerandusManorLostTreasureChest",
-            //        new PreloadConfigLine {Text = "Grand Perandus Vault", FastColor = () => Settings.PerandusManorLostTreasureChest}
-            //    }
-            //};
-            #endregion
+            SetCategory(Shrines, PreloadCategory.Shrine);
 
             ExpeditionLeague = new Dictionary<string, PreloadConfigLine>
             {
@@ -1014,6 +936,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Dannig [Exchange items]", FastColor = () => Settings.ExpeditionColors.Dannig}
                 },
             };
+            SetCategory(ExpeditionLeague, PreloadCategory.Expedition);
 
             AzmeriLeague = new Dictionary<string, PreloadConfigLine>
             {
@@ -1062,6 +985,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Spirit of Cunning Fox", FastColor = () => Settings.AzmeriColors.CunningFox}
                 }
             };
+            SetCategory(AzmeriLeague, PreloadCategory.Azmeri);
 
             Strongboxes = new Dictionary<string, PreloadConfigLine>
             {
@@ -1136,6 +1060,7 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Ixchel's Torment Strongbox", FastColor = () => Settings.StrongboxColors.IxchelsTormentStrongbox}
                 },
             };
+            SetCategory(Strongboxes, PreloadCategory.Strongbox);
 
             Exiles = new Dictionary<string, PreloadConfigLine>
             {
@@ -1203,6 +1128,7 @@ namespace PreloadAlert
                     "ExileDruid1", new PreloadConfigLine {Text = "Druid Exile", FastColor = () => Settings.ExileColors.Druid}
                 }
             };
+            SetCategory(Exiles, PreloadCategory.Exile);
 
             Misc = new Dictionary<string, PreloadConfigLine>
             {
@@ -1211,6 +1137,7 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Gold Time-Lost Cache", FastColor = () => Settings.MiscColors.TimeLostCache }
                 },
             };
+            SetCategory(Misc, PreloadCategory.Misc);
 
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
@@ -1231,6 +1158,7 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
             };
+            SetCategory(Abyss, PreloadCategory.Abyss);
         }
 
         private void CheckForPreload(string text)
@@ -1575,12 +1503,38 @@ namespace PreloadAlert
                     if (!match.Equals(default(KeyValuePair<string, PreloadConfigLine>)))
                     {
                         line.FastColor = match.Value.FastColor;
+                        if (line.Category == PreloadCategory.Unknown)
+                            line.Category = match.Value.Category;
                         // If built-in had a fixed color, copy it too (rare; most use FastColor)
                         if ((!line.Color.HasValue || line.Color.Value.ToArgb() == 0) && match.Value.Color.HasValue && match.Value.Color.Value.ToArgb() != 0)
                             line.Color = match.Value.Color;
                     }
                 }
             }
+        }
+
+        private static void SetCategory(Dictionary<string, PreloadConfigLine> map, PreloadCategory category)
+        {
+            if (map == null) return;
+            foreach (var v in map.Values)
+                v.Category = category;
+        }
+
+        private bool IsCategoryEnabled(PreloadCategory category)
+        {
+            return category switch
+            {
+                PreloadCategory.Essence => Settings.Essence.Value,
+                PreloadCategory.Shrine => Settings.Shrines.Value,
+                PreloadCategory.Strongbox => Settings.Strongboxes.Value,
+                PreloadCategory.Exile => Settings.Exiles.Value,
+                PreloadCategory.Azmeri => Settings.Azmeri.Value,
+                PreloadCategory.Expedition => Settings.Expedition.Value,
+                PreloadCategory.Abyss => Settings.Abyss.Value,
+                PreloadCategory.Misc => Settings.Misc.Value,
+                PreloadCategory.Custom => true,
+                _ => true,
+            };
         }
     }
     public static class DictionaryExtensions

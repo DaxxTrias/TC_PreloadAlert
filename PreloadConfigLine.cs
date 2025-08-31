@@ -3,9 +3,24 @@ using System.Drawing;
 
 namespace PreloadAlert
 {
+    public enum PreloadCategory
+    {
+        Unknown = 0,
+        Essence,
+        Shrine,
+        Strongbox,
+        Exile,
+        Azmeri,
+        Expedition,
+        Abyss,
+        Misc,
+        Custom,
+    }
+
     public class PreloadConfigLine : ConfigLineBase
     {
         public Func<Color> FastColor;
+        public PreloadCategory Category { get; set; } = PreloadCategory.Unknown;
     }
 
     public abstract class ConfigLineBase
