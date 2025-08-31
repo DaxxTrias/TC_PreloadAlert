@@ -35,6 +35,7 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> ExpeditionLeague;
         public static Dictionary<string, PreloadConfigLine> Misc;
         public static Dictionary<string, PreloadConfigLine> Abyss;
+        private const string AbyssSmallKey = "Metadata/Chests/Abyss/AbyssChestSmallMagic";
         public static Color AreaNameColor;
         private readonly object _locker = new object();
         private Dictionary<string, PreloadConfigLine> alertStrings;
@@ -582,6 +583,9 @@ namespace PreloadAlert
                         {
                             DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
                         }
+
+                        // Apply suppression rules (e.g., remove small Abyss if specific exists)
+                        ApplyAlertSuppressions();
 
                         lock (_locker)
                         {
@@ -1379,13 +1383,27 @@ namespace PreloadAlert
 
             if (Settings.Abyss)
             {
-                var abyss_alert = Abyss.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
-                    .Select(kv => kv.Value).FirstOrDefault();
-                if (abyss_alert != null)
+                var match = Abyss.FirstOrDefault(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase));
+                if (!match.Equals(default(KeyValuePair<string, PreloadConfigLine>)))
                 {
+                    var matchedKey = match.Key;
+                    var matched = match.Value;
                     lock (_locker)
                     {
-                        alerts[abyss_alert.Text] = abyss_alert;
+                        // If a specific Abyss chest is detected, remove the small baseline alert
+                        if (!matchedKey.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (Abyss.TryGetValue(AbyssSmallKey, out var small))
+                                alerts.Remove(small.Text);
+                            alerts[matched.Text] = matched;
+                        }
+                        else
+                        {
+                            // Only add the small baseline if no specific Abyss alert is already present
+                            var hasSpecific = Abyss.Any(kv2 => !kv2.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase) && alerts.ContainsKey(kv2.Value.Text));
+                            if (!hasSpecific)
+                                alerts[matched.Text] = matched;
+                        }
                     }
                 }
             }
@@ -1521,6 +1539,21 @@ namespace PreloadAlert
                 "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
             };
             File.WriteAllLines(path, header);
+        }
+
+        private void ApplyAlertSuppressions()
+        {
+            lock (_locker)
+            {
+                if (Abyss != null && Abyss.TryGetValue(AbyssSmallKey, out var small))
+                {
+                    var hasSpecific = Abyss.Any(kv => !kv.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase) && alerts.ContainsKey(kv.Value.Text));
+                    if (hasSpecific && alerts.ContainsKey(small.Text))
+                    {
+                        alerts.Remove(small.Text);
+                    }
+                }
+            }
         }
 
         private void BindConfigColorsToBuiltIns()
