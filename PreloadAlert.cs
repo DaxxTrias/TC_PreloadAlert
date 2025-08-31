@@ -104,135 +104,186 @@ namespace PreloadAlert
 
         public override void DrawSettings()
         {
-            if (ImGui.Button("Dump preloads"))
+            if (ImGui.CollapsingHeader("Debug"))
             {
-                Directory.CreateDirectory(Path.Combine(DirectoryFullName, "Dumps"));
-
-                var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
-                var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-                var path = Path.Combine(DirectoryFullName, "Dumps",
-                    $"{areaName}_{timestamp}.txt");
-
-                DebugWindow.LogMsg(path);
-
-                File.WriteAllLines(path, PreloadDebug);
-            }
-
-            if (ImGui.Button("Dump grouped preloads"))
-            {
-                var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
-                var serializeObject = JsonConvert.SerializeObject(groupBy, Formatting.Indented);
-
-                // Replace invalid characters in the file name and append current time to avoid overwriting  
-                var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
-                var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-                var path = Path.Combine(DirectoryFullName, "Dumps",
-                    $"{areaName}_{timestamp}.txt");
-
-                DebugWindow.LogMsg($"Dumped Preloads to: {path}");
-                //DebugWindow.LogMsg($"GroupBy Count: {groupBy.Count()}");
-                //DebugWindow.LogMsg($"Serialized Object: {serializeObject}");
-
-                File.WriteAllText(path, serializeObject);
-            }
-
-            if (ImGui.Button("Show all preloads"))
-            {
-                var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/')).ToList();
-                var result = new Dictionary<string, List<string>>(groupBy.Count);
-
-                foreach (var gr in groupBy)
+                if (ImGui.Button("Dump preloads"))
                 {
-                    var g = gr.ToList();
+                    Directory.CreateDirectory(Path.Combine(DirectoryFullName, "Dumps"));
 
-                    if (gr.Key != -1)
+                    var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
+                    var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                    var path = Path.Combine(DirectoryFullName, "Dumps",
+                        $"{areaName}_{timestamp}.txt");
+
+                    DebugWindow.LogMsg(path);
+
+                    File.WriteAllLines(path, PreloadDebug);
+                }
+
+                if (ImGui.Button("Dump grouped preloads"))
+                {
+                    var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
+                    var serializeObject = JsonConvert.SerializeObject(groupBy, Formatting.Indented);
+
+                    // Replace invalid characters in the file name and append current time to avoid overwriting  
+                    var areaName = string.Join("_", GameController.Area.CurrentArea.Name.Split(Path.GetInvalidFileNameChars()));
+                    var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                    var path = Path.Combine(DirectoryFullName, "Dumps",
+                        $"{areaName}_{timestamp}.txt");
+
+                    DebugWindow.LogMsg($"Dumped Preloads to: {path}");
+                    //DebugWindow.LogMsg($"GroupBy Count: {groupBy.Count()}");
+                    //DebugWindow.LogMsg($"Serialized Object: {serializeObject}");
+
+                    File.WriteAllText(path, serializeObject);
+                }
+
+                if (ImGui.Button("Show all preloads"))
+                {
+                    var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/')).ToList();
+                    var result = new Dictionary<string, List<string>>(groupBy.Count);
+
+                    foreach (var gr in groupBy)
                     {
-                        var list = new List<string>(g.Count);
-                        result[g.First().Substring(0, gr.Key)] = list;
+                        var g = gr.ToList();
 
-                        foreach (var str in g)
+                        if (gr.Key != -1)
                         {
-                            list.Add(str);
+                            var list = new List<string>(g.Count);
+                            result[g.First().Substring(0, gr.Key)] = list;
+
+                            foreach (var str in g)
+                            {
+                                list.Add(str);
+                            }
+                        }
+                        else
+                        {
+                            var list = new List<string>(g.Count);
+                            var key = gr.Key.ToString();
+                            result[key] = list;
+
+                            foreach (var str in g)
+                            {
+                                list.Add(str);
+                            }
                         }
                     }
-                    else
-                    {
-                        var list = new List<string>(g.Count);
-                        var key = gr.Key.ToString();
-                        result[key] = list;
 
-                        foreach (var str in g)
+                    groupBy = null;
+
+                    PreloadDebugAction = () =>
+                    {
+                        foreach (var res in result)
                         {
-                            list.Add(str);
+                            if (ImGui.TreeNode(res.Key))
+                            {
+                                foreach (var str in res.Value)
+                                {
+                                    ImGui.Text(str);
+                                }
+
+                                ImGui.TreePop();
+                            }
                         }
+
+                        ImGui.Separator();
+
+                        if (alerts.Count > 0)
+                        {
+                            if (ImGui.TreeNode("DrawAlerts"))
+                            {
+                                foreach (var alert in DrawAlerts)
+                                {
+                                    ImGui.TextColored((alert.FastColor?.Invoke() ?? alert.Color ?? Settings.DefaultTextColor).ToImguiVec4(),
+                                        $"{alert.Text}");
+                                }
+
+                                ImGui.TreePop();
+                            }
+                        }
+                        ImGui.Text($"Area Change Count: {GameController.Game.AreaChangeCount}");
+
+                        if (ImGui.Button("Close")) PreloadDebugAction = null;
+                    };
+                }
+
+                if (ImGui.Button("Test draw dummy alert"))
+                {
+                    // Create a temporary blank alert to confirm rendering
+                    debugDummyCts?.Cancel();
+                    debugDummyCts = new CancellationTokenSource();
+                    var token = debugDummyCts.Token;
+
+                    lock (_locker)
+                    {
+                        alerts["This is a Test"] = new PreloadConfigLine { Text = "This is a Test", Color = Settings.DefaultTextColor, Category = PreloadCategory.Custom };
+                        DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        try { await Task.Delay(15000, token); }
+                        catch { /* cancelled */ }
+
+                        if (!token.IsCancellationRequested)
+                        {
+                            lock (_locker)
+                            {
+                                alerts.Remove("This is a Test");
+                                DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+                            }
+                        }
+                    }, token);
+                }
+
+                if (ImGui.Button("Open dump folder"))
+                {
+                    try
+                    {
+                        var dumps = Path.Combine(DirectoryFullName, "Dumps");
+                        Directory.CreateDirectory(dumps);
+                        Process.Start(new ProcessStartInfo { FileName = dumps, UseShellExecute = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugWindow.LogError($"Failed to open dump folder: {ex.Message}");
                     }
                 }
 
-                groupBy = null;
-
-                PreloadDebugAction = () =>
+                if (ImGui.Button("Reset default preload config"))
                 {
-                    foreach (var res in result)
+                    try
                     {
-                        if (ImGui.TreeNode(res.Key))
+                        var globalConfigDir = ConfigDirectory;
+                        Directory.CreateDirectory(globalConfigDir);
+                        var globalMainPath = Path.Combine(globalConfigDir, Path.GetFileName(PRELOAD_ALERTS));
+
+                        if (File.Exists(globalMainPath))
                         {
-                            foreach (var str in res.Value)
+                            var backupPath = globalMainPath + "." + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".bak";
+                            try
                             {
-                                ImGui.Text(str);
+                                File.Copy(globalMainPath, backupPath, false);
+                                DebugWindow.LogMsg($"Backed up current default config to: {backupPath}");
                             }
-
-                            ImGui.TreePop();
+                            catch
+                            {
+                                // ignore backup failures
+                            }
                         }
+
+                        GenerateDefaultMainConfig(globalMainPath);
+                        alertStrings = LoadConfig(globalMainPath);
+                        BindConfigColorsToBuiltIns();
+                        DebugWindow.LogMsg($"Regenerated default config at: {globalMainPath} ({alertStrings.Count} entries).");
+                        Parse();
                     }
-
-                    ImGui.Separator();
-
-                    if (alerts.Count > 0)
+                    catch (Exception ex)
                     {
-                        if (ImGui.TreeNode("DrawAlerts"))
-                        {
-                            foreach (var alert in DrawAlerts)
-                            {
-                                ImGui.TextColored((alert.FastColor?.Invoke() ?? alert.Color ?? Settings.DefaultTextColor).ToImguiVec4(),
-                                    $"{alert.Text}");
-                            }
-
-                            ImGui.TreePop();
-                        }
+                        DebugWindow.LogError($"Failed to regenerate default config: {ex.Message}");
                     }
-                    ImGui.Text($"Area Change Count: {GameController.Game.AreaChangeCount}");
-
-                    if (ImGui.Button("Close")) PreloadDebugAction = null;
-                };
-            }
-
-            if (ImGui.Button("Test draw dummy alert"))
-            {
-                // Create a temporary blank alert to confirm rendering
-                debugDummyCts?.Cancel();
-                debugDummyCts = new CancellationTokenSource();
-                var token = debugDummyCts.Token;
-
-                lock (_locker)
-                {
-                    alerts["This is a Test"] = new PreloadConfigLine { Text = "This is a Test", Color = Settings.DefaultTextColor, Category = PreloadCategory.Custom };
-                    DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
                 }
-
-                Task.Run(async () =>
-                {
-                    try { await Task.Delay(15000, token); }
-                    catch { /* cancelled */ }
-
-                    if (!token.IsCancellationRequested)
-                    {
-                        lock (_locker)
-                        {
-                            alerts.Remove("This is a Test");
-                            DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
-                        }
-                    }
-                }, token);
             }
 
             if (ImGui.Button("Open config folder"))
