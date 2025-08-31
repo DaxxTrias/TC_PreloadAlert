@@ -62,7 +62,7 @@ namespace PreloadAlert
         //{
         //    if (working) return;
         //    working = true;
-
+        //
         //    Task.Run(() =>
         //    {
         //        debugInformation.TickAction(() =>
@@ -87,13 +87,13 @@ namespace PreloadAlert
         //                    CheckForPreload(text);
         //                }
         //            }
-
+        //
         //            lock (_locker)
         //            {
         //                DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
         //            }
         //        });
-
+        //
         //        working = false;
         //    });
         //}
@@ -310,6 +310,22 @@ namespace PreloadAlert
             }
 
             SetupPredefinedConfigs();
+
+            // If main config is missing or empty, generate from built-in dictionaries (prefix-capable)
+            try
+            {
+                if (!File.Exists(preloadAlertsPath) || alertStrings.Count == 0)
+                {
+                    GenerateDefaultMainConfig(preloadAlertsPath);
+                    alertStrings = LoadConfig(preloadAlertsPath);
+                    DebugWindow.LogMsg($"Generated default preload config with {alertStrings.Count} entries at {preloadAlertsPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to generate default preload config: {ex.Message}");
+            }
+
             try
             {
                 string preloadStartPath = Path.Combine(DirectoryFullName, PreloadStart);
@@ -352,7 +368,13 @@ namespace PreloadAlert
                 }
                 else
                 {
-                    File.WriteAllText(preloadAlertsPersonalPath, string.Empty);
+                    WritePersonalConfigHeader(preloadAlertsPersonalPath);
+                }
+
+                // Regenerate header if personal exists but is empty
+                if (new FileInfo(preloadAlertsPersonalPath).Length == 0)
+                {
+                    WritePersonalConfigHeader(preloadAlertsPersonalPath);
                 }
             }
             catch (Exception ex)
@@ -419,40 +441,55 @@ namespace PreloadAlert
                             var memory = GameController.Memory;
                             if (memory == null)
                             {
+                                DebugWindow.LogError($"{nameof(PreloadAlert)}: GameController.Memory is null; aborting preload parse.");
                                 working = false;
                                 return;
                             }
 
+                            // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Creating FilesFromMemory...");
+                            var sw = Stopwatch.StartNew();
                             FilesFromMemory filesFromMemory = new FilesFromMemory(memory);
+                            // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: FilesFromMemory created.");
+
                             var allFiles = filesFromMemory.GetAllFiles();
+                            sw.Stop();
                             if (allFiles == null)
                             {
+                                DebugWindow.LogError($"{nameof(PreloadAlert)}: FilesFromMemory.GetAllFiles() returned null after {sw.ElapsedMilliseconds} ms");
                                 working = false;
                                 return;
                             }
 
-                            int areaChangeCount = GameController.Game.AreaChangeCount;
+                            var totalCount = allFiles.Count;
+                            // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: GetAllFiles() returned {totalCount} entries in {sw.ElapsedMilliseconds} ms");
+                            var sample = allFiles.Keys.Take(5).ToList();
+                            if (sample.Count > 0)
+                            {
+                                DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Sample file keys: {string.Join(", ", sample)}");
+                            }
+
+                            // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Filtering files to 'Metadata/' prefix; ignoring ChangeCount.");
                             foreach (var file in allFiles)
                             {
-                                if (file.Value.ChangeCount == areaChangeCount)
+                                var text = file.Key;
+                                if (!text.StartsWith("Metadata/", StringComparison.OrdinalIgnoreCase))
+                                    continue;
+
+                                if (text.Contains('@'))
                                 {
-                                    var text = file.Key;
-                                    if (text.Contains('@'))
+                                    var splitText = text.Split('@');
+                                    if (splitText.Length > 0)
                                     {
-                                        var splitText = text.Split('@');
-                                        if (splitText.Length > 0)
-                                        {
-                                            text = splitText[0];
-                                        }
+                                        text = splitText[0];
                                     }
-
-                                    lock (_locker)
-                                    {
-                                        PreloadDebug.Add(text);
-                                    }
-
-                                    CheckForPreload(text);
                                 }
+
+                                lock (_locker)
+                                {
+                                    PreloadDebug.Add(text);
+                                }
+
+                                CheckForPreload(text);
                             }
                         }
                         catch (ArgumentOutOfRangeException ex)
@@ -1269,6 +1306,50 @@ namespace PreloadAlert
             //    }
             //}
             #endregion perandus
+        }
+
+        private static string FormatColor(Color c) => $"{c.R},{c.G},{c.B},{c.A}";
+
+        private void GenerateDefaultMainConfig(string path)
+        {
+            var lines = new List<string>
+            {
+                "# PreloadAlert main config",
+                "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
+                "# Lines here are matched as prefix (case-insensitive). Personal overrides win.",
+            };
+
+            IEnumerable<KeyValuePair<string, PreloadConfigLine>> AllBuiltIns()
+            {
+                foreach (var kv in Essences) yield return kv;
+                foreach (var kv in Shrines) yield return kv;
+                foreach (var kv in Strongboxes) yield return kv;
+                foreach (var kv in Exiles) yield return kv;
+                foreach (var kv in AzmeriLeague) yield return kv;
+                foreach (var kv in ExpeditionLeague) yield return kv;
+                foreach (var kv in Abyss) yield return kv;
+                foreach (var kv in Misc) yield return kv;
+            }
+
+            foreach (var kv in AllBuiltIns())
+            {
+                var color = kv.Value.FastColor?.Invoke() ?? kv.Value.Color ?? Settings.DefaultTextColor;
+                lines.Add($"{kv.Key};{kv.Value.Text};{FormatColor(color)}");
+            }
+
+            File.WriteAllLines(path, lines);
+        }
+
+        private void WritePersonalConfigHeader(string path)
+        {
+            var header = new[]
+            {
+                "# PreloadAlert personal config (overrides)",
+                "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
+                "# Example:",
+                "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
+            };
+            File.WriteAllLines(path, header);
         }
     }
     public static class DictionaryExtensions
