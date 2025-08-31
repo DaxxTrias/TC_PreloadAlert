@@ -467,7 +467,7 @@ namespace PreloadAlert
                             var sample = allFiles.Keys.Take(5).ToList();
                             if (sample.Count > 0)
                             {
-                                DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Sample file keys: {string.Join(", ", sample)}");
+                                // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Sample file keys: {string.Join(", ", sample)}");
                             }
 
                             // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Filtering files to 'Metadata/' prefix; ignoring ChangeCount.");
