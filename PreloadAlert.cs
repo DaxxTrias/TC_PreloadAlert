@@ -1079,6 +1079,10 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Arcane Strongbox", FastColor = () => Settings.StrongboxColors.ArcaneStrongbox}
                 },
                 {
+                    "Metadata/Chests/StrongBoxes/ResearchStrongboxLow",
+                    new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
+                },
+                {
                     "Metadata/Chests/StrongBoxes/ResearchStrongboxHigh",
                     new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
                 },
