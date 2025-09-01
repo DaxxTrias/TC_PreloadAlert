@@ -284,7 +284,7 @@ namespace PreloadAlert
                     {
                         DebugWindow.LogError($"Failed to regenerate default config: {ex.Message}");
                     }
-                    ImGui.Separator();
+                    
                 }
             }
 
@@ -1246,9 +1246,9 @@ namespace PreloadAlert
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
                 // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
-                // can also be Metadata/Chests/Abyss/AbyssChestGeneric and Metadata/Chests/Abyss/AbyssChestFinalGeneric
-                // why though? is this higher level content as opposed to small being low level?
-                    
+                // TODO: small abyssal trove can also be Metadata/Chests/Abyss/AbyssChestGeneric & Metadata/Chests/Abyss/AbyssChestFinalGeneric
+                // why though? does every chest have multiple variants?
+
                 {
                     "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove
                     new PreloadConfigLine { Text = "Abyssal Trove (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
@@ -1259,11 +1259,15 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssLargeChestFinalArmour", // Large Abyssal Armoury
-                    new PreloadConfigLine { Text = "Abyssal Armoury (large)", FastColor = () => Settings.AbyssColors.AbyssLargeArmour }
+                    new PreloadConfigLine { Text = "Abyssal Armoury (large)", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestRareFinalCurrency", // Abyssal Currency
+                    new PreloadConfigLine { Text = "Abyssal Coffer (rare)", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalWeapons", // Abyssal Arsenal
