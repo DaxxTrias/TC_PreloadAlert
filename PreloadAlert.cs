@@ -1219,6 +1219,10 @@ namespace PreloadAlert
                     "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
+                {
+                    "Metadata/MiscellaneousObjects/Abyss/AbyssSubAreaTransition", // Abyssal Depths
+                    new PreloadConfigLine { Text = "Abyssal Depths", FastColor = () => Settings.AbyssColors.AbyssDepths }
+                },
             };
             SetCategory(Abyss, PreloadCategory.Abyss);
         }
