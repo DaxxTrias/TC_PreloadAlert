@@ -14,6 +14,7 @@ using ExileCore2.Shared.Enums;
 using ExileCore2.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
+using System.Globalization;
 using Vector2 = System.Numerics.Vector2;
 using RectangleF = ExileCore2.Shared.RectangleF;
 
@@ -360,7 +361,7 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Failed to ensure global config directory: {globalConfigDir}. {ex.Message}");
             }
 
-            // Migrate legacy configs to global if global is missing
+            // Migrate legacy configs to global if global is missing (main only; personal is read-only, no writes)
             try
             {
                 if (!File.Exists(globalMainPath) && File.Exists(legacyMainPath))
@@ -372,19 +373,6 @@ namespace PreloadAlert
             catch (Exception ex)
             {
                 DebugWindow.LogError($"Failed to migrate main config to global: {ex.Message}");
-            }
-
-            try
-            {
-                if (!File.Exists(globalPersonalPath) && File.Exists(legacyPersonalPath))
-                {
-                    File.Copy(legacyPersonalPath, globalPersonalPath, false);
-                    DebugWindow.LogMsg($"Migrated PreloadAlert personal config to global: {globalPersonalPath}");
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugWindow.LogError($"Failed to migrate personal config to global: {ex.Message}");
             }
 
             DebugWindow.LogMsg($"PreloadAlert config directory: {globalConfigDir}\n  Main: {globalMainPath} {(File.Exists(globalMainPath) ? "(exists)" : "(missing)")}\n  Personal: {globalPersonalPath} {(File.Exists(globalPersonalPath) ? "(exists)" : "(missing)")}");
@@ -488,25 +476,34 @@ namespace PreloadAlert
                 DebugWindow.LogError($"Error initializing images: {ex.Message}");
             }
 
-            // Load/ensure personal config (global), merge over main
+            // Load personal config read-only (prefer global; fallback to legacy) and merge over main only if it has entries
             try
             {
-                if (File.Exists(globalPersonalPath))
+                Dictionary<string, PreloadConfigLine> personal = null;
+                string personalPathUsed = null;
+
+                if (File.Exists(globalPersonalPath) && new FileInfo(globalPersonalPath).Length > 0)
                 {
-                    var personal = LoadConfig(globalPersonalPath);
-                    _personalExplicitColorKeys = new HashSet<string>(personal.Where(p => p.Value.Color.HasValue && p.Value.Color.Value.ToArgb() != 0).Select(p => p.Key), StringComparer.OrdinalIgnoreCase);
+                    personal = LoadConfig(globalPersonalPath);
+                    personalPathUsed = globalPersonalPath;
+                }
+                else if (File.Exists(legacyPersonalPath) && new FileInfo(legacyPersonalPath).Length > 0)
+                {
+                    personal = LoadConfig(legacyPersonalPath);
+                    personalPathUsed = legacyPersonalPath;
+                }
+
+                if (personal != null && personal.Count > 0)
+                {
+                    _personalExplicitColorKeys = new HashSet<string>(
+                        personal.Where(p => p.Value.Color.HasValue && p.Value.Color.Value.ToArgb() != 0)
+                                .Select(p => p.Key),
+                        StringComparer.OrdinalIgnoreCase);
                     alertStrings = alertStrings.MergeLeft(personal);
+                    DebugWindow.LogMsg($"Loaded personal preload config from: {personalPathUsed} ({personal.Count} entries). Overrides applied.");
                 }
                 else
                 {
-                    WritePersonalConfigHeader(globalPersonalPath);
-                    _personalExplicitColorKeys.Clear();
-                }
-
-                // Regenerate header if personal exists but is empty
-                if (new FileInfo(globalPersonalPath).Length == 0)
-                {
-                    WritePersonalConfigHeader(globalPersonalPath);
                     _personalExplicitColorKeys.Clear();
                 }
 
@@ -515,7 +512,7 @@ namespace PreloadAlert
             }
             catch (Exception ex)
             {
-                DebugWindow.LogError($"Failed to load or create personal preload config at {globalPersonalPath}: {ex.Message}");
+                DebugWindow.LogError($"Failed to load personal preload config: {ex.Message}");
             }
         }
 
@@ -788,13 +785,58 @@ namespace PreloadAlert
             try
             {
                 if (string.IsNullOrWhiteSpace(rgba)) return Color.Empty;
-                var parts = rgba.Split(',');
-                if (parts.Length < 3) return Color.Empty;
-                int r = int.Parse(parts[0]);
-                int g = int.Parse(parts[1]);
-                int b = int.Parse(parts[2]);
-                int a = parts.Length >= 4 ? int.Parse(parts[3]) : 255;
-                return Color.FromArgb(a, r, g, b);
+                var s = rgba.Trim();
+
+                // CSV: r,g,b[,a]
+                if (s.Contains(','))
+                {
+                    var parts = s.Split(',');
+                    if (parts.Length < 3) return Color.Empty;
+                    int r = int.Parse(parts[0].Trim(), CultureInfo.InvariantCulture);
+                    int g = int.Parse(parts[1].Trim(), CultureInfo.InvariantCulture);
+                    int b = int.Parse(parts[2].Trim(), CultureInfo.InvariantCulture);
+                    int a = parts.Length >= 4 ? int.Parse(parts[3].Trim(), CultureInfo.InvariantCulture) : 255;
+                    return Color.FromArgb(a, r, g, b);
+                }
+
+                // HEX: AARRGGBB or RRGGBB (case-insensitive, supports # or 0x prefixes)
+                var h = s.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? s.Substring(2) : s;
+                if (h.StartsWith('#')) h = h.Substring(1);
+                h = h.Replace("_", string.Empty).Trim();
+
+                byte aHex = 0xFF, rHex, gHex, bHex;
+                if (h.Length == 8)
+                {
+                    aHex = byte.Parse(h.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    rHex = byte.Parse(h.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    gHex = byte.Parse(h.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    bHex = byte.Parse(h.Substring(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    return Color.FromArgb(aHex, rHex, gHex, bHex);
+                }
+                if (h.Length == 6)
+                {
+                    rHex = byte.Parse(h.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    gHex = byte.Parse(h.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    bHex = byte.Parse(h.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    return Color.FromArgb(aHex, rHex, gHex, bHex);
+                }
+                if (h.Length == 4) // ARGB short
+                {
+                    aHex = byte.Parse(new string(h[0], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    rHex = byte.Parse(new string(h[1], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    gHex = byte.Parse(new string(h[2], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    bHex = byte.Parse(new string(h[3], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    return Color.FromArgb(aHex, rHex, gHex, bHex);
+                }
+                if (h.Length == 3) // RGB short
+                {
+                    rHex = byte.Parse(new string(h[0], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    gHex = byte.Parse(new string(h[1], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    bHex = byte.Parse(new string(h[2], 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    return Color.FromArgb(aHex, rHex, gHex, bHex);
+                }
+
+                return Color.Empty;
             }
             catch
             {
