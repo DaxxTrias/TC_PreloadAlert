@@ -1255,15 +1255,15 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestGeneric", // Abyssal Trove
-                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalGeneric", // Abyssal Trove
-                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric", // Abyssal Trove (large)
-                    new PreloadConfigLine { Text = "Abyssal Trove Large", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    new PreloadConfigLine { Text = "Abyssal Trove Large", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestArmour", // Abyssal Armoury (small?)
@@ -1454,7 +1454,11 @@ namespace PreloadAlert
                         if (!matchedKey.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase))
                         {
                             if (Abyss.TryGetValue(AbyssSmallKey, out var small))
-                                alerts.Remove(small.Text);
+                            {
+                                // Only remove if the stored alert is the actual 'small' instance
+                                if (alerts.TryGetValue(small.Text, out var existing) && ReferenceEquals(existing, small))
+                                    alerts.Remove(small.Text);
+                            }
                             alerts[matched.Text] = matched;
                         }
                         else
@@ -1608,7 +1612,7 @@ namespace PreloadAlert
                 if (Abyss != null && Abyss.TryGetValue(AbyssSmallKey, out var small))
                 {
                     var hasSpecific = Abyss.Any(kv => !kv.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase) && alerts.ContainsKey(kv.Value.Text));
-                    if (hasSpecific && alerts.ContainsKey(small.Text))
+                    if (hasSpecific && alerts.TryGetValue(small.Text, out var existing) && ReferenceEquals(existing, small))
                     {
                         alerts.Remove(small.Text);
                     }

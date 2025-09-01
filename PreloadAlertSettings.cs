@@ -187,6 +187,7 @@ namespace PreloadAlert
         // public ColorNode AbyssLargeArmour { get; set; } = Color.FromArgb(0, 128, 0);
         public ColorNode AbyssCurrency { get; set; } = Color.FromArgb(0, 128, 0);
         public ColorNode AbyssWeapons { get; set; } = Color.FromArgb(0, 128, 0);
+        public ColorNode AbyssGeneric { get; set; } = Color.FromArgb(0, 128, 0);
     }
 
     [Submenu]
