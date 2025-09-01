@@ -284,6 +284,7 @@ namespace PreloadAlert
                     {
                         DebugWindow.LogError($"Failed to regenerate default config: {ex.Message}");
                     }
+                    ImGui.Separator();
                 }
             }
 
@@ -1244,6 +1245,10 @@ namespace PreloadAlert
 
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
+                // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
+                // can also be Metadata/Chests/Abyss/AbyssChestGeneric and Metadata/Chests/Abyss/AbyssChestFinalGeneric
+                // why though? is this higher level content as opposed to small being low level?
+                    
                 {
                     "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove
                     new PreloadConfigLine { Text = "Abyssal Trove (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
