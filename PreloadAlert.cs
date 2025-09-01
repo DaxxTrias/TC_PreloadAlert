@@ -63,46 +63,39 @@ namespace PreloadAlert
         private Dictionary<string, PreloadConfigLine> alerts { get; } = new Dictionary<string, PreloadConfigLine>();
         private Action<string, Color> AddPreload => ExternalPreloads;
 
-        //Need more test because different result with old method. Most of diff its Art/ and others but sometimes see Metadata/parti...Probably async loads
-        //private void ParseByFiles(Dictionary<string, FileInformation> dictionary)
-        //{
-        //    if (working) return;
-        //    working = true;
-        //
-        //    Task.Run(() =>
-        //    {
-        //        debugInformation.TickAction(() =>
-        //        {
-        //            if (Settings.ParallelParsing)
-        //            {
-        //                Parallel.ForEach(dictionary, pair =>
-        //                {
-        //                    var text = pair.Key;
-        //                    if (Settings.LoadOnlyMetadata && text[0] != 'M') return;
-        //                    if (text.Contains("@")) text = text.Split('@')[0];
-        //                    CheckForPreload(text);
-        //                });
-        //            }
-        //            else
-        //            {
-        //                foreach (var pair in dictionary)
-        //                {
-        //                    var text = pair.Key;
-        //                    if (Settings.LoadOnlyMetadata && text[0] != 'M') continue;
-        //                    if (text.Contains("@")) text = text.Split('@')[0];
-        //                    CheckForPreload(text);
-        //                }
-        //            }
-        //
-        //            lock (_locker)
-        //            {
-        //                DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
-        //            }
-        //        });
-        //
-        //        working = false;
-        //    });
-        //}
+        private void ResetCaches()
+        {
+            lock (_locker)
+            {
+                alerts.Clear();
+                DrawAlerts.Clear();
+                PreloadDebug.Clear();
+            }
+            PreloadDebugAction = null;
+        }
+
+        private void ScheduleInitialParseRetry()
+        {
+            var token = parseCts?.Token ?? CancellationToken.None;
+            Task.Run(async () =>
+            {
+                try { await Task.Delay(1000, token); } catch { return; }
+                if (token.IsCancellationRequested) return;
+                if (!GameController.Area.CurrentArea.IsTown && !GameController.Area.CurrentArea.IsHideout)
+                {
+                    if (!working && alerts.Count == 0)
+                        Parse(token);
+                }
+
+                try { await Task.Delay(2000, token); } catch { return; }
+                if (token.IsCancellationRequested) return;
+                if (!GameController.Area.CurrentArea.IsTown && !GameController.Area.CurrentArea.IsHideout)
+                {
+                    if (!working && alerts.Count == 0)
+                        Parse(token);
+                }
+            }, token);
+        }
 
         public override void DrawSettings()
         {
@@ -275,12 +268,17 @@ namespace PreloadAlert
                             }
                         }
 
+                        // Reset caches and cancel any in-flight parse before regenerating
+                        parseCts?.Cancel();
+                        ResetCaches();
+
                         GenerateDefaultMainConfig(globalMainPath);
                         alertStrings = LoadConfig(globalMainPath);
                         BindConfigColorsToBuiltIns();
                         DebugWindow.LogMsg($"Regenerated default config at: {globalMainPath} ({alertStrings.Count} entries).");
                         parseCts = new CancellationTokenSource();
                         Parse(parseCts.Token);
+                        ScheduleInitialParseRetry();
                     }
                     catch (Exception ex)
                     {
@@ -527,7 +525,11 @@ namespace PreloadAlert
             };*/
 
             GameController.LeftPanel.WantUse(() => Settings.Enable);
+            // Clear any stale state and perform initial parse with a retry to avoid warm-up races
+            parseCts?.Cancel();
+            ResetCaches();
             AreaChange(GameController.Area.CurrentArea);
+            ScheduleInitialParseRetry();
             return true;
         }
 
@@ -536,12 +538,7 @@ namespace PreloadAlert
             isLoading = true;
             // Cancel any in-flight parse from the previous area and clear current drawings atomically
             parseCts?.Cancel();
-            lock (_locker)
-            {
-                alerts.Clear();
-                DrawAlerts.Clear();
-            }
-            PreloadDebugAction = null;
+            ResetCaches();
             if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
             {
                 isLoading = false;
@@ -553,6 +550,8 @@ namespace PreloadAlert
             {
                 StartPeriodicCheck();
             }
+            // Also schedule a one-time quick retry after area change to improve reliability
+            ScheduleInitialParseRetry();
 
             isLoading = false;
         }
