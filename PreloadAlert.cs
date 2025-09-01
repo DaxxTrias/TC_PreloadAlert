@@ -1062,7 +1062,7 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheWolfVivid",
-                    new PreloadConfigLine {Text = "Spirit of Stag (Wild)", FastColor = () => Settings.AzmeriColors.StagWild}
+                    new PreloadConfigLine {Text = "Spirit of Wolf (Vivid)", FastColor = () => Settings.AzmeriColors.StagWild}
                 },
                 {
                     "Metadata/Monsters/TormentedSpirits/TormentedSpiritoftheCatVivid",
