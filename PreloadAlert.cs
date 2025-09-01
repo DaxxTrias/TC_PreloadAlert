@@ -51,6 +51,7 @@ namespace PreloadAlert
         private bool working;
         private CancellationTokenSource cancellationTokenSource;
         private CancellationTokenSource debugDummyCts;
+        private CancellationTokenSource parseCts;
         private HashSet<string> _personalExplicitColorKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         public PreloadAlert()
@@ -277,7 +278,8 @@ namespace PreloadAlert
                         alertStrings = LoadConfig(globalMainPath);
                         BindConfigColorsToBuiltIns();
                         DebugWindow.LogMsg($"Regenerated default config at: {globalMainPath} ({alertStrings.Count} entries).");
-                        Parse();
+                        parseCts = new CancellationTokenSource();
+                        Parse(parseCts.Token);
                     }
                     catch (Exception ex)
                     {
@@ -535,10 +537,11 @@ namespace PreloadAlert
         public override void AreaChange(AreaInstance area)
         {
             isLoading = true;
-            alerts.Clear();
-
+            // Cancel any in-flight parse from the previous area and clear current drawings atomically
+            parseCts?.Cancel();
             lock (_locker)
             {
+                alerts.Clear();
                 DrawAlerts.Clear();
             }
             PreloadDebugAction = null;
@@ -547,7 +550,8 @@ namespace PreloadAlert
                 isLoading = false;
                 return;
             }
-            Parse();
+            parseCts = new CancellationTokenSource();
+            Parse(parseCts.Token);
             if (Settings.ReparsePreloads)
             {
                 StartPeriodicCheck();
@@ -556,7 +560,7 @@ namespace PreloadAlert
             isLoading = false;
         }
 
-        private void Parse()
+        private void Parse(CancellationToken token = default)
         {
             if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
                 return;
@@ -570,6 +574,7 @@ namespace PreloadAlert
                 {
                     debugInformation.TickAction(() =>
                     {
+                        if (token.IsCancellationRequested) return;
                         try
                         {
                             var memory = GameController.Memory;
@@ -605,6 +610,7 @@ namespace PreloadAlert
                             // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Filtering files to 'Metadata/' prefix; ignoring ChangeCount.");
                             foreach (var file in allFiles)
                             {
+                                if (token.IsCancellationRequested) return;
                                 var text = file.Key;
                                 if (!text.StartsWith("Metadata/", StringComparison.OrdinalIgnoreCase))
                                     continue;
@@ -635,6 +641,7 @@ namespace PreloadAlert
                             DebugWindow.LogError($"{nameof(PreloadAlert)} -> {e}");
                         }
 
+                        if (token.IsCancellationRequested) return;
                         // Apply suppression rules (e.g., remove small Abyss if specific exists)
                         ApplyAlertSuppressions();
 
@@ -677,7 +684,7 @@ namespace PreloadAlert
                     await Task.Delay(Settings.ReparseDelay.Value * 1000, token);
                     if (!token.IsCancellationRequested)
                     {
-                        Parse();
+                        Parse(parseCts?.Token ?? CancellationToken.None);
                     }
                 }
             }, token);
