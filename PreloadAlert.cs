@@ -1149,6 +1149,7 @@ namespace PreloadAlert
                     "Metadata/Chests/StrongBoxes/Large",
                     new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.StrongboxColors.LargeStrongbox}
                 },
+                // Metadata/Chests/StrongBoxes/LargeStrongboxLow for ogham's unique strongbox (unconfirmed)
                 {
                     "Metadata/Chests/StrongBoxes/BasicStrongbox",
                     new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.StrongboxColors.BasicStrongbox}
@@ -1248,7 +1249,7 @@ namespace PreloadAlert
                 // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
                 // TODO: small magic abyssal trove can also be Metadata/Chests/Abyss/AbyssChestGeneric & Metadata/Chests/Abyss/AbyssChestFinalGeneric & Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric
                 // why though? does every chest have multiple variants?
-
+                // Metadata/Chests/Abyss/AbyssLargeChestFinalCurrency
                 {
                     "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove (low level only?)
                     new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
@@ -1279,6 +1280,10 @@ namespace PreloadAlert
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
+                    new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssLargeChestFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
                 {
