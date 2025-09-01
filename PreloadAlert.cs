@@ -1246,13 +1246,24 @@ namespace PreloadAlert
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
                 // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
-                // TODO: small abyssal trove can also be Metadata/Chests/Abyss/AbyssChestGeneric & Metadata/Chests/Abyss/AbyssChestFinalGeneric & Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric
+                // TODO: small magic abyssal trove can also be Metadata/Chests/Abyss/AbyssChestGeneric & Metadata/Chests/Abyss/AbyssChestFinalGeneric & Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric
                 // why though? does every chest have multiple variants?
-                // Metadata/Chests/Abyss/AbyssChestArmour
 
                 {
-                    "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove
-                    new PreloadConfigLine { Text = "Abyssal Trove (small)", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove (low level only?)
+                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestGeneric", // Abyssal Trove
+                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestFinalGeneric", // Abyssal Trove
+                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric", // Abyssal Trove (large)
+                    new PreloadConfigLine { Text = "Abyssal Trove Large", FastColor = () => Settings.AbyssColors.AbyssSmall }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestArmour", // Abyssal Armoury (small?)
