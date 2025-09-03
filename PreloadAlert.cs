@@ -1249,10 +1249,9 @@ namespace PreloadAlert
                 // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
                 // TODO: small magic abyssal trove can also be Metadata/Chests/Abyss/AbyssChestGeneric & Metadata/Chests/Abyss/AbyssChestFinalGeneric & Metadata/Chests/Abyss/AbyssLargeChestFinalGeneric
                 // why though? does every chest have multiple variants?
-                // Metadata/Chests/Abyss/AbyssLargeChestFinalCurrency
                 {
                     "Metadata/Chests/Abyss/AbyssChestSmallMagic", // Abyssal Trove (low level only?)
-                    new PreloadConfigLine { Text = "Abyssal Trove", FastColor = () => Settings.AbyssColors.AbyssSmall }
+                    new PreloadConfigLine { Text = "Abyss", FastColor = () => Settings.AbyssColors.AbyssSmall }
                 },
                 {
                     "Metadata/Chests/Abyss/AbyssChestGeneric", // Abyssal Trove
@@ -1267,6 +1266,10 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Abyssal Trove Large", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
                 {
+                    "Metadata/Chests/Abyss/AbyssLargeChestRareFinalGeneric", // Abyssal Trove (rare-large)
+                    new PreloadConfigLine { Text = "Abyssal Trove Large (rare)", FastColor = () => Settings.AbyssColors.AbyssGeneric }
+                },
+                {
                     "Metadata/Chests/Abyss/AbyssChestArmour", // Abyssal Armoury (small?)
                     new PreloadConfigLine { Text = "Abyssal Armoury", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
@@ -1278,7 +1281,10 @@ namespace PreloadAlert
                     "Metadata/Chests/Abyss/AbyssLargeChestFinalArmour", // Large Abyssal Armoury
                     new PreloadConfigLine { Text = "Abyssal Armoury (large)", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
-                // Metadata/Chests/Abyss/AbyssLargeChestRareFinalGeneric // rare abyssal trove
+                {
+                    "Metadata/Chests/Abyss/AbyssChestCurrency", // Abyssal Currency
+                    new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
+                },
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
@@ -1291,12 +1297,23 @@ namespace PreloadAlert
                     "Metadata/Chests/Abyss/AbyssChestRareFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer (rare)", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
-                //Metadata/Chests/Abyss/AbyssChestWeapons // Abyssal Arsenal
-                //Metadata/Chests/Abyss/AbyssChestRareFinalWeapons
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalWeapons", // Abyssal Arsenal
                     new PreloadConfigLine { Text = "Abyssal Arsenal", FastColor = () => Settings.AbyssColors.AbyssWeapons }
                 },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestRareFinalWeapons", // Abyssal Arsenal (rare)
+                    new PreloadConfigLine { Text = "Abyssal Arsenal Large (rare)", FastColor = () => Settings.AbyssColors.AbyssWeapons }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestRareWeapons", // Abyssal Arsenal (rare)
+                    new PreloadConfigLine { Text = "Abyssal Arsenal (rare)", FastColor = () => Settings.AbyssColors.AbyssWeapons }
+                },
+                {
+                    "Metadata/Chests/Abyss/AbyssChestWeapons", // Abyssal Arsenal
+                    new PreloadConfigLine { Text = "Abyssal Arsenal", FastColor = () => Settings.AbyssColors.AbyssWeapons }
+                }
+
             };
             SetCategory(Abyss, PreloadCategory.Abyss);
         }
