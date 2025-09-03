@@ -1118,8 +1118,6 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Jeweller's Strongbox", FastColor = () => Settings.StrongboxColors.JewellerStrongbox}
                 },
                 {
-                    //Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon // might be spawner for ixchel torment unique box
-                    //Metadata/Chests/StrongBoxes/Unique/UniqueVaalStrongboxInteractionObject // ixchel torment unique box
                     "Metadata/Chests/StrongBoxes/MartialStrongbox",
                     new PreloadConfigLine {Text = "Blacksmith's Strongbox", FastColor = () => Settings.StrongboxColors.BlacksmithStrongbox}
                 },
@@ -1136,8 +1134,6 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
                 },
                 {
-                    //Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon // might be spawner for ixchel torment unique box
-                    //Metadata/Chests/StrongBoxes/Unique/UniqueVaalStrongboxInteractionObject // ixchel torment unique box
                     "Metadata/Chests/StrongBoxes/ArmourerStrongbox",
                     new PreloadConfigLine {Text = "Armourer's Strongbox", FastColor = () => Settings.StrongboxColors.ArmourerStrongbox}
                 },
@@ -1161,6 +1157,7 @@ namespace PreloadAlert
                 // Special Strongboxes
                 {
                     // base-type can be blacksmith or armourer's
+                    // Metadata/Chests/StrongBoxes/Unique/UniqueVaalStrongboxInteractionObject // ixchel torment unique box
                     "Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon",
                     new PreloadConfigLine {Text = "Ixchel's Torment Strongbox", FastColor = () => Settings.StrongboxColors.IxchelsTormentStrongbox}
                 },
@@ -1330,9 +1327,35 @@ namespace PreloadAlert
                 {
                     if (text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
                     {
+                        var configKey = kv.Key;
+                        var line = kv.Value;
+
+                        // Handle Abyss suppression even when alerts are coming from config
+                        if (line.Category == PreloadCategory.Abyss)
+                        {
+                            // If a specific Abyss chest is detected, remove the small baseline alert
+                            if (!configKey.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (TryGetDisplayTextForKey(AbyssSmallKey, out var smallText))
+                                {
+                                    lock (_locker)
+                                    {
+                                        TryRemoveAlertByTextInsensitive(smallText);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // This is the small baseline. Do not add it if any specific Abyss alert is already present
+                                var hasSpecific = AnyAbyssSpecificPresent();
+                                if (hasSpecific)
+                                    return;
+                            }
+                        }
+
                         lock (_locker)
                         {
-                            alerts[kv.Value.Text] = kv.Value;
+                            alerts[line.Text] = line;
                         }
                         return;
                     }
@@ -1478,18 +1501,16 @@ namespace PreloadAlert
                         // If a specific Abyss chest is detected, remove the small baseline alert
                         if (!matchedKey.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (Abyss.TryGetValue(AbyssSmallKey, out var small))
+                            if (TryGetDisplayTextForKey(AbyssSmallKey, out var smallText))
                             {
-                                // Only remove if the stored alert is the actual 'small' instance
-                                if (alerts.TryGetValue(small.Text, out var existing) && ReferenceEquals(existing, small))
-                                    alerts.Remove(small.Text);
+                                TryRemoveAlertByTextInsensitive(smallText);
                             }
                             alerts[matched.Text] = matched;
                         }
                         else
                         {
                             // Only add the small baseline if no specific Abyss alert is already present
-                            var hasSpecific = Abyss.Any(kv2 => !kv2.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase) && alerts.ContainsKey(kv2.Value.Text));
+                            var hasSpecific = AnyAbyssSpecificPresent();
                             if (!hasSpecific)
                                 alerts[matched.Text] = matched;
                         }
@@ -1634,12 +1655,21 @@ namespace PreloadAlert
         {
             lock (_locker)
             {
-                if (Abyss != null && Abyss.TryGetValue(AbyssSmallKey, out var small))
+                if (Abyss != null)
                 {
-                    var hasSpecific = Abyss.Any(kv => !kv.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase) && alerts.ContainsKey(kv.Value.Text));
-                    if (hasSpecific && alerts.TryGetValue(small.Text, out var existing) && ReferenceEquals(existing, small))
+                    var hasSpecific = AnyAbyssSpecificPresent();
+                    if (hasSpecific && TryGetDisplayTextForKey(AbyssSmallKey, out var smallText))
                     {
-                        alerts.Remove(small.Text);
+                        TryRemoveAlertByTextInsensitive(smallText);
+                        // Also remove any Abyss entry that uses the baseline text regardless of its source
+                        var baselineText = GetAbyssBaselineText();
+                        var keysToRemove = alerts.Where(kv => kv.Value.Category == PreloadCategory.Abyss && kv.Key.Equals(baselineText, StringComparison.OrdinalIgnoreCase))
+                                                 .Select(kv => kv.Key)
+                                                 .ToList();
+                        foreach (var k in keysToRemove)
+                        {
+                            alerts.Remove(k);
+                        }
                     }
                 }
             }
@@ -1696,6 +1726,105 @@ namespace PreloadAlert
                 PreloadCategory.Custom => true,
                 _ => true,
             };
+        }
+
+        // Resolve the display text used for a given config/built-in key
+        private bool TryGetDisplayTextForKey(string key, out string text)
+        {
+            text = null;
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                if (alertStrings != null && alertStrings.Count > 0)
+                {
+                    if (alertStrings.TryGetValue(key, out var line) && line != null && !string.IsNullOrEmpty(line.Text))
+                    {
+                        text = line.Text;
+                        return true;
+                    }
+                    // Fallback: allow prefix-equality in case user shortened/extended the key in config
+                    foreach (var kv in alertStrings)
+                    {
+                        if (kv.Key.Equals(key, StringComparison.OrdinalIgnoreCase) || key.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (!string.IsNullOrEmpty(kv.Value?.Text))
+                            {
+                                text = kv.Value.Text;
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                // Fallback to built-in mapping
+                var builtIn = EnumerateBuiltIns().FirstOrDefault(b => b.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+                if (!builtIn.Equals(default(KeyValuePair<string, PreloadConfigLine>)))
+                {
+                    text = builtIn.Value.Text;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Helper: obtain the display text used for the Abyss baseline (small) entry
+        private string GetAbyssBaselineText()
+        {
+            if (TryGetDisplayTextForKey(AbyssSmallKey, out var text) && !string.IsNullOrWhiteSpace(text))
+                return text;
+            if (Abyss != null && Abyss.TryGetValue(AbyssSmallKey, out var line) && !string.IsNullOrWhiteSpace(line?.Text))
+                return line.Text;
+            return "Abyss";
+        }
+
+        // Check if any non-small Abyss alert is already queued for drawing
+        private bool AnyAbyssSpecificPresent()
+        {
+            // Fast path: inspect current alerts for any Abyss entry whose text is not the baseline
+            var baseline = GetAbyssBaselineText();
+            if (alerts != null && alerts.Count > 0)
+            {
+                foreach (var entry in alerts)
+                {
+                    var v = entry.Value;
+                    if (v?.Category == PreloadCategory.Abyss && !string.Equals(v.Text, baseline, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+
+            // Fallback: consult built-in keys
+            foreach (var kv in Abyss)
+            {
+                if (kv.Key.Equals(AbyssSmallKey, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (TryGetDisplayTextForKey(kv.Key, out var specificText))
+                {
+                    // Case-insensitive presence check
+                    if (alerts.ContainsKey(specificText) || alerts.Keys.Any(k => k.Equals(specificText, StringComparison.OrdinalIgnoreCase)))
+                        return true;
+                }
+                else
+                {
+                    // Fall back to built-in text if config not found
+                    var text = kv.Value.Text;
+                    if (alerts.ContainsKey(text) || alerts.Keys.Any(k => k.Equals(text, StringComparison.OrdinalIgnoreCase)))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        // Safely remove an alert by its display text, case-insensitive
+        private bool TryRemoveAlertByTextInsensitive(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return false;
+            if (alerts.Remove(text)) return true;
+            var key = alerts.Keys.FirstOrDefault(k => k.Equals(text, StringComparison.OrdinalIgnoreCase));
+            if (key != null)
+            {
+                alerts.Remove(key);
+                return true;
+            }
+            return false;
         }
     }
     public static class DictionaryExtensions
