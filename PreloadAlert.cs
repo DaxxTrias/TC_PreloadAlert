@@ -1278,6 +1278,7 @@ namespace PreloadAlert
                     "Metadata/Chests/Abyss/AbyssLargeChestFinalArmour", // Large Abyssal Armoury
                     new PreloadConfigLine { Text = "Abyssal Armoury (large)", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
+                // Metadata/Chests/Abyss/AbyssLargeChestRareFinalGeneric // rare abyssal trove
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer", FastColor = () => Settings.AbyssColors.AbyssCurrency }
@@ -1290,6 +1291,8 @@ namespace PreloadAlert
                     "Metadata/Chests/Abyss/AbyssChestRareFinalCurrency", // Abyssal Currency
                     new PreloadConfigLine { Text = "Abyssal Coffer (rare)", FastColor = () => Settings.AbyssColors.AbyssCurrency }
                 },
+                //Metadata/Chests/Abyss/AbyssChestWeapons // Abyssal Arsenal
+                //Metadata/Chests/Abyss/AbyssChestRareFinalWeapons
                 {
                     "Metadata/Chests/Abyss/AbyssChestFinalWeapons", // Abyssal Arsenal
                     new PreloadConfigLine { Text = "Abyssal Arsenal", FastColor = () => Settings.AbyssColors.AbyssWeapons }
