@@ -1130,6 +1130,10 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
                 },
                 {
+                    "Metadata/Chests/StrongBoxes/ResearchStrongbox",
+                    new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
+                },
+                {
                     "Metadata/Chests/StrongBoxes/ResearchStrongboxHigh",
                     new PreloadConfigLine {Text = "Researcher's Strongbox", FastColor = () => Settings.StrongboxColors.ResearchStrongbox}
                 },
