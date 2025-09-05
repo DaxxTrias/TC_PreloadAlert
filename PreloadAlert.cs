@@ -259,6 +259,7 @@ namespace PreloadAlert
                         var globalConfigDir = ConfigDirectory;
                         Directory.CreateDirectory(globalConfigDir);
                         var globalMainPath = Path.Combine(globalConfigDir, Path.GetFileName(PRELOAD_ALERTS));
+                        var globalPersonalPath = Path.Combine(globalConfigDir, Path.GetFileName(PRELOAD_ALERTS_PERSONAL));
 
                         if (File.Exists(globalMainPath))
                         {
@@ -281,6 +282,14 @@ namespace PreloadAlert
                         GenerateDefaultMainConfig(globalMainPath);
                         alertStrings = LoadConfig(globalMainPath);
                         BindConfigColorsToBuiltIns();
+
+                        // Ensure personal stub exists
+                        if (!File.Exists(globalPersonalPath))
+                        {
+                            WritePersonalConfigHeader(globalPersonalPath);
+                            DebugWindow.LogMsg($"Created personal preload config stub at: {globalPersonalPath}");
+                        }
+
                         DebugWindow.LogMsg($"Regenerated default config at: {globalMainPath} ({alertStrings.Count} entries).");
                         parseCts = new CancellationTokenSource();
                         Parse(parseCts.Token);
@@ -378,6 +387,19 @@ namespace PreloadAlert
             catch (Exception ex)
             {
                 DebugWindow.LogError($"Failed to migrate main config to global: {ex.Message}");
+            }
+
+            try
+            {
+                if (!File.Exists(globalPersonalPath) && !File.Exists(legacyPersonalPath))
+                {
+                    WritePersonalConfigHeader(globalPersonalPath);
+                    DebugWindow.LogMsg($"Created personal preload config stub at: {globalPersonalPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"Failed to create personal preload stub: {ex.Message}");
             }
 
             DebugWindow.LogMsg($"PreloadAlert config directory: {globalConfigDir}\n  Main: {globalMainPath} {(File.Exists(globalMainPath) ? "(exists)" : "(missing)")}\n  Personal: {globalPersonalPath} {(File.Exists(globalPersonalPath) ? "(exists)" : "(missing)")}");
@@ -1656,18 +1678,18 @@ namespace PreloadAlert
             File.WriteAllLines(path, lines);
         }
 
-        // private void WritePersonalConfigHeader(string path)
-        // {
-        //     var header = new[]
-        //     {
-        //         "# PreloadAlert personal config (overrides)",
-        //         "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
-        //         "# If you omit the color, the plugin will use the live color from the settings menu.",
-        //         "# Example:",
-        //         "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
-        //     };
-        //     File.WriteAllLines(path, header);
-        // }
+        private void WritePersonalConfigHeader(string path)
+        {
+            var header = new[]
+            {
+                "# PreloadAlert personal config (overrides)",
+                "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
+                "# If you omit the color, the plugin will use the live color from the settings menu.",
+                "# Example:",
+                "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
+            };
+            File.WriteAllLines(path, header);
+        }
 
         private void ApplyAlertSuppressions()
         {
