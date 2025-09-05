@@ -1989,15 +1989,15 @@ namespace PreloadAlert
             return name.StartsWith("shrine_experience", StringComparison.OrdinalIgnoreCase);
         }
     }
-    // public static class DictionaryExtensions
-    // {
-    //     public static Dictionary<TKey, TValue> MergeLeft<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> other)
-    //     {
-    //         foreach (var kvp in other)
-    //         {
-    //             source[kvp.Key] = kvp.Value;
-    //         }
-    //         return source;
-    //     }
-    // }
+    public static class DictionaryExtensions
+    {
+        public static Dictionary<TKey, TValue> MergeLeft<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> other)
+        {
+            foreach (var kvp in other)
+            {
+                source[kvp.Key] = kvp.Value;
+            }
+            return source;
+        }
+    }
 }
