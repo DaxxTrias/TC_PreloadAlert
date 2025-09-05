@@ -132,6 +132,7 @@ namespace PreloadAlert
         public ColorNode ShrineOfLightning { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode ShrineOfCold { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode ShrineOfDivine { get; set; } = Color.FromArgb(255, 255, 255);
+        public ColorNode ShrineOfExperience { get; set; } = Color.FromArgb(255, 255, 255);
     }
 
     [Submenu]

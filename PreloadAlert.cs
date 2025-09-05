@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Globalization;
 using Vector2 = System.Numerics.Vector2;
 using RectangleF = ExileCore2.Shared.RectangleF;
+using ExileCore2.PoEMemory.Components;
 
 namespace PreloadAlert
 {
@@ -54,6 +55,9 @@ namespace PreloadAlert
         private CancellationTokenSource debugDummyCts;
         private CancellationTokenSource parseCts;
         private HashSet<string> _personalExplicitColorKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly string GenericShrinePath = "Metadata/Shrines/Shrine";
+        private HashSet<string> _lastPreloadKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private CancellationTokenSource _expShrineProbeCts;
 
         public PreloadAlert()
         {
@@ -72,6 +76,8 @@ namespace PreloadAlert
                 PreloadDebug.Clear();
             }
             PreloadDebugAction = null;
+            _expShrineProbeCts?.Cancel();
+            _expShrineProbeCts = null;
         }
 
         private void ScheduleInitialParseRetry()
@@ -628,6 +634,10 @@ namespace PreloadAlert
 
                                 CheckForPreload(text);
                             }
+
+                            // Snapshot keys for post-processing (e.g., generic shrine buff detection)
+                            _lastPreloadKeys = new HashSet<string>(allFiles.Keys, StringComparer.OrdinalIgnoreCase);
+                            DetectAndApplySpecialShrines();
                         }
                         catch (ArgumentOutOfRangeException ex)
                         {
@@ -1617,7 +1627,7 @@ namespace PreloadAlert
                 }
                 if (newLines.Count == 0) return false;
                 File.AppendAllLines(path, newLines);
-                DebugWindow.LogMsg($"PreloadAlert: Added {newLines.Count} new built-in entries to {path}");
+                // DebugWindow.LogMsg($"PreloadAlert: Added {newLines.Count} new built-in entries to {path}");
                 return true;
             }
             catch (Exception ex)
@@ -1646,18 +1656,18 @@ namespace PreloadAlert
             File.WriteAllLines(path, lines);
         }
 
-        private void WritePersonalConfigHeader(string path)
-        {
-            var header = new[]
-            {
-                "# PreloadAlert personal config (overrides)",
-                "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
-                "# If you omit the color, the plugin will use the live color from the settings menu.",
-                "# Example:",
-                "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
-            };
-            File.WriteAllLines(path, header);
-        }
+        // private void WritePersonalConfigHeader(string path)
+        // {
+        //     var header = new[]
+        //     {
+        //         "# PreloadAlert personal config (overrides)",
+        //         "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
+        //         "# If you omit the color, the plugin will use the live color from the settings menu.",
+        //         "# Example:",
+        //         "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
+        //     };
+        //     File.WriteAllLines(path, header);
+        // }
 
         private void ApplyAlertSuppressions()
         {
@@ -1834,16 +1844,160 @@ namespace PreloadAlert
             }
             return false;
         }
-    }
-    public static class DictionaryExtensions
-    {
-        public static Dictionary<TKey, TValue> MergeLeft<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> other)
+
+        // Identify and handle special shrine cases that cannot be derived from a single path match
+        private void DetectAndApplySpecialShrines()
         {
-            foreach (var kvp in other)
+            try
             {
-                source[kvp.Key] = kvp.Value;
+                if (_lastPreloadKeys == null || _lastPreloadKeys.Count == 0) return;
+                if (!Settings.Shrines.Value) return;
+
+                // Never alert on the generic shrine metadata directly
+                if (TryGetDisplayTextForKey(GenericShrinePath, out var genericText))
+                {
+                    lock (_locker)
+                    {
+                        TryRemoveAlertByTextInsensitive(genericText);
+                    }
+                }
+
+                // If the generic shrine metadata is present (prefix), probe for experience shrine via entity buffs
+                var hasGenericShrine = _lastPreloadKeys.Any(k => k.StartsWith(GenericShrinePath, StringComparison.OrdinalIgnoreCase));
+                // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Generic shrine present={hasGenericShrine}; preloads={_lastPreloadKeys.Count}");
+                if (hasGenericShrine)
+                    StartExperienceShrineProbe();
             }
-            return source;
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"{nameof(PreloadAlert)}: DetectAndApplySpecialShrines failed: {ex.Message}");
+            }
+        }
+
+        private void StartExperienceShrineProbe()
+        {
+            // Avoid duplicate probes and avoid re-adding if already present
+            lock (_locker)
+            {
+                if (alerts.ContainsKey("Experience Shrine"))
+                    return;
+            }
+            if (_expShrineProbeCts != null && !_expShrineProbeCts.IsCancellationRequested)
+                return;
+
+            _expShrineProbeCts = new CancellationTokenSource();
+            var token = _expShrineProbeCts.Token;
+            Task.Run(async () =>
+            {
+                try
+                {
+                    // Try quickly first
+                    if (TryDetectExperienceShrineFromEntities())
+                    {
+                        // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Experience Shrine found immediately via entity buffs.");
+                        AddExperienceShrineAlert();
+                        return;
+                    }
+
+                    // Probe for a short window to accommodate entity initialization and buff application
+                    var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(8);
+                    while (!token.IsCancellationRequested && DateTime.UtcNow < deadline)
+                    {
+                        await Task.Delay(250, token);
+                        if (token.IsCancellationRequested) break;
+                        if (TryDetectExperienceShrineFromEntities())
+                        {
+                            DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Experience Shrine found during probe.");
+                            AddExperienceShrineAlert();
+                            break;
+                        }
+                    }
+                    if (!token.IsCancellationRequested)
+                        DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Experience Shrine probe ended (timeout or no match).");
+                }
+                catch
+                {
+                    // ignore
+                }
+            }, token);
+        }
+
+        private void AddExperienceShrineAlert()
+        {
+            var expShrine = new PreloadConfigLine
+            {
+                Text = "Experience Shrine",
+                FastColor = () => Settings.ShrineColors.ShrineOfExperience,
+                Category = PreloadCategory.Shrine
+            };
+            lock (_locker)
+            {
+                alerts[expShrine.Text] = expShrine;
+                DrawAlerts = alerts.OrderBy(x => x.Value.Text).Select(x => x.Value).ToList();
+            }
+            // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Added alert 'Experience Shrine'.");
+        }
+
+        // Detect Experience/Enlightenment shrine by inspecting live shrine entities and their buffs
+        private bool TryDetectExperienceShrineFromEntities()
+        {
+            try
+            {
+                var entities = GameController?.EntityListWrapper?.OnlyValidEntities;
+                if (entities == null) return false;
+                foreach (var e in entities)
+                {
+                    if (e == null || !e.IsValid) continue;
+                    if (!e.TryGetComponent<Shrine>(out var shrine)) continue;
+                    if (shrine?.IsAvailable != true) continue;
+
+                    // Fast path: direct entity buffs
+                    var directBuffs = e.Buffs;
+                    if (directBuffs != null && directBuffs.Count > 0)
+                    {
+                        for (int i = 0; i < directBuffs.Count; i++)
+                        {
+                            var b = directBuffs[i];
+                            if (BuffIsExperience(b)) return true;
+                        }
+                    }
+
+                    // Fallback: Buffs component list
+                    // var buffsComp = e.GetComponent<Buffs>();
+                    // if (buffsComp?.BuffsList != null)
+                    // {
+                    //     foreach (var b in buffsComp.BuffsList)
+                    //     {
+                    //         if (BuffIsExperience(b)) return true;
+                    //     }
+                    // }
+                }
+            }
+            catch
+            {
+                // ignore, fall back to no detection
+            }
+            return false;
+        }
+
+        // Match an experience/enlightenment style shrine buff by name
+        private static bool BuffIsExperience(ExileCore2.PoEMemory.Components.Buff buff)
+        {
+            if (buff == null) return false;
+            var name = buff.Name;
+            if (string.IsNullOrWhiteSpace(name)) return false;
+            return name.StartsWith("shrine_experience", StringComparison.OrdinalIgnoreCase);
         }
     }
+    // public static class DictionaryExtensions
+    // {
+    //     public static Dictionary<TKey, TValue> MergeLeft<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> other)
+    //     {
+    //         foreach (var kvp in other)
+    //         {
+    //             source[kvp.Key] = kvp.Value;
+    //         }
+    //         return source;
+    //     }
+    // }
 }
