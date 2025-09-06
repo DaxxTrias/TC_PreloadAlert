@@ -1319,6 +1319,10 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Abyssal Armoury", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
                 {
+                    "Metadata/Chests/Abyss/AbyssChestRareFinalArmour", // Abyssal Armoury (rare)
+                    new PreloadConfigLine { Text = "Abyssal Armoury (rare)", FastColor = () => Settings.AbyssColors.AbyssArmour }
+                },
+                {
                     "Metadata/Chests/Abyss/AbyssChestFinalArmour", // Large Abyssal Armoury
                     new PreloadConfigLine { Text = "Abyssal Armoury", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
