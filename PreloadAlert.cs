@@ -1307,6 +1307,10 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Abyssal Trove Large", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
                 {
+                    "Metadata/Chests/Abyss/AbyssChestRareFinalGeneric", // Abyssal Trove (rare-large)
+                    new PreloadConfigLine { Text = "Abyssal Trove (rare)", FastColor = () => Settings.AbyssColors.AbyssGeneric }
+                },
+                {
                     "Metadata/Chests/Abyss/AbyssLargeChestRareFinalGeneric", // Abyssal Trove (rare-large)
                     new PreloadConfigLine { Text = "Abyssal Trove Large (rare)", FastColor = () => Settings.AbyssColors.AbyssGeneric }
                 },
