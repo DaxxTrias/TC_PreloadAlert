@@ -1179,10 +1179,17 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Ornate Strongbox", FastColor = () => Settings.StrongboxColors.OrnateStrongbox}
                 },
                 {
+                    "Metadata/Chests/StrongBoxes/OrnateStrongboxHigh",
+                    new PreloadConfigLine {Text = "Ornate Strongbox (Rain Festival Beetle?)", FastColor = () => Settings.StrongboxColors.OrnateStrongbox}
+                },
+                {
+                    "Metadata/Chests/StrongBoxes/LargeStrongboxLow",
+                    new PreloadConfigLine {Text = "Large Strongbox (Ogham's Unique?)", FastColor = () => Settings.StrongboxColors.LargeStrongbox}
+                },
+                {
                     "Metadata/Chests/StrongBoxes/Large",
                     new PreloadConfigLine {Text = "Large Strongbox", FastColor = () => Settings.StrongboxColors.LargeStrongbox}
                 },
-                // Metadata/Chests/StrongBoxes/LargeStrongboxLow for ogham's unique strongbox (unconfirmed)
                 {
                     "Metadata/Chests/StrongBoxes/BasicStrongbox",
                     new PreloadConfigLine {Text = "Basic Strongbox", FastColor = () => Settings.StrongboxColors.BasicStrongbox}
