@@ -29,7 +29,7 @@ namespace PreloadAlert
         [ConditionalDisplay(nameof(ReparsePreloads), true)]
         public RangeNode<int> ReparseDelay { get; set; } = new(45, 5, 300);
         public ColorNode BackgroundColor { get; set; } = Color.FromArgb(0, 0, 0);
-        public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(210, 210, 210);
+        public ColorNode DefaultTextColor { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode AreaTextColor { get; set; } = Color.FromArgb(150, 200, 250);
         [Menu("Display Position", "X and Y coordinates to draw on screen")]
         public RangeNode<Vector2> DisplayPosition { get; set; } = new(new Vector2(1040, 0), new Vector2(-4000, -4000), Vector2.One * 4000);

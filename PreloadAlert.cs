@@ -806,7 +806,8 @@ namespace PreloadAlert
         {
             return LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
             {
-                var color = ParseRgba(line.Length > 2 ? line[2] : null);
+                var parsed = ParseRgba(line.Length > 2 ? line[2] : null);
+                Color? color = parsed.ToArgb() == 0 ? (Color?)null : parsed;
                 var preloadAlerConfigLine = new PreloadConfigLine {Text = line[1], Color = color};
                 return preloadAlerConfigLine;
             });
@@ -1683,10 +1684,14 @@ namespace PreloadAlert
             var header = new[]
             {
                 "# PreloadAlert personal config (overrides)",
-                "# Format: <Prefix or FullKey> ; <Display Text> ; <R,G,B,A>",
-                "# If you omit the color, the plugin will use the live color from the settings menu.",
-                "# Example:",
-                "# Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
+                "# Format: <Prefix or FullKey> ; <Display Text> ; <Color>",
+                "# Color formats:",
+                "#   - CSV RGBA: r,g,b[,a] (alpha optional; defaults to 255)",
+                "#   - Hex: #RRGGBB or #AARRGGBB (0x prefix also supported)",
+                "# If you omit the color, the plugin uses Default Text Color from settings.",
+                "# Examples:",
+                "#   CSV: Metadata/Monsters/UniqueBoss/SomeBoss;Scary Boss;255,64,64,255",
+                "#   Hex: Metadata/MiscellaneousObjects/Checkpoint;Checkpoint;#FFFF00",
             };
             File.WriteAllLines(path, header);
         }
