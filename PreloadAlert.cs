@@ -118,12 +118,24 @@ namespace PreloadAlert
 
                     DebugWindow.LogMsg(path);
 
-                    File.WriteAllLines(path, PreloadDebug);
+                    // Snapshot under lock to avoid concurrent modification during enumeration
+                    List<string> snapshot;
+                    lock (_locker)
+                    {
+                        snapshot = PreloadDebug.ToList();
+                    }
+                    File.WriteAllLines(path, snapshot);
                 }
 
                 if (ImGui.Button("Dump grouped preloads"))
                 {
-                    var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
+                    // Snapshot under lock to avoid concurrent modification during enumeration
+                    List<string> snapshot;
+                    lock (_locker)
+                    {
+                        snapshot = PreloadDebug.ToList();
+                    }
+                    var groupBy = snapshot.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
                     var serializeObject = JsonConvert.SerializeObject(groupBy, Formatting.Indented);
 
                     // Replace invalid characters in the file name and append current time to avoid overwriting  
@@ -141,7 +153,13 @@ namespace PreloadAlert
 
                 if (ImGui.Button("Show all preloads"))
                 {
-                    var groupBy = PreloadDebug.OrderBy(x => x).GroupBy(x => x.IndexOf('/')).ToList();
+                    // Snapshot under lock to avoid concurrent modification during enumeration
+                    List<string> snapshot;
+                    lock (_locker)
+                    {
+                        snapshot = PreloadDebug.ToList();
+                    }
+                    var groupBy = snapshot.OrderBy(x => x).GroupBy(x => x.IndexOf('/')).ToList();
                     var result = new Dictionary<string, List<string>>(groupBy.Count);
 
                     foreach (var gr in groupBy)
