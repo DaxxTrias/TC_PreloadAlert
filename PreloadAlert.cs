@@ -58,6 +58,8 @@ namespace PreloadAlert
         private static readonly string GenericShrinePath = "Metadata/Shrines/Shrine";
         private HashSet<string> _lastPreloadKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private CancellationTokenSource _expShrineProbeCts;
+        private readonly object _traceLock = new object();
+        private string _traceLogPath;
 
         public PreloadAlert()
         {
@@ -78,6 +80,8 @@ namespace PreloadAlert
             PreloadDebugAction = null;
             _expShrineProbeCts?.Cancel();
             _expShrineProbeCts = null;
+            // Reset trace file so a new area/session creates a fresh log when enabled
+            _traceLogPath = null;
         }
 
         private void ScheduleInitialParseRetry()
@@ -107,6 +111,29 @@ namespace PreloadAlert
         {
             if (ImGui.CollapsingHeader("Debug"))
             {
+                // Trace log controls (programmatic debug UI)
+                ImGui.Separator();
+                var traceEnabled = Settings.TraceLogEnabled.Value;
+                if (ImGui.Checkbox("Enable timestamped preload trace log", ref traceEnabled))
+                {
+                    Settings.TraceLogEnabled.Value = traceEnabled;
+                    if (!traceEnabled)
+                    {
+                        // On disable, close current file by resetting path; next enable will create anew
+                        _traceLogPath = null;
+                    }
+                }
+
+                ImGui.SameLine();
+                ImGui.TextDisabled("(writes every detected preload; no de-dup)");
+
+                var filterText = Settings.TraceFilter.Value ?? string.Empty;
+                ImGui.SetNextItemWidth(360f);
+                if (ImGui.InputText("Trace filter (contains, case-insensitive)", ref filterText, 512u))
+                {
+                    Settings.TraceFilter.Value = filterText;
+                }
+
                 if (ImGui.Button("Dump preloads"))
                 {
                     Directory.CreateDirectory(Path.Combine(DirectoryFullName, "Dumps"));
@@ -672,6 +699,9 @@ namespace PreloadAlert
                                     PreloadDebug.Add(text);
                                 }
 
+                                // Append to trace log (no de-dup) if enabled and filter matches
+                                AppendPreloadTrace(text);
+
                                 CheckForPreload(text);
                             }
 
@@ -735,6 +765,63 @@ namespace PreloadAlert
                     }
                 }
             }, token);
+        }
+
+        private void AppendPreloadTrace(string preloadKey)
+        {
+            try
+            {
+                if (Settings?.TraceLogEnabled?.Value != true) return;
+                if (string.IsNullOrEmpty(preloadKey)) return;
+
+                var filterText = Settings?.TraceFilter?.Value;
+                if (!string.IsNullOrWhiteSpace(filterText))
+                {
+                    if (preloadKey.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) < 0)
+                        return;
+                }
+
+                EnsureTraceFile();
+                if (string.IsNullOrEmpty(_traceLogPath)) return;
+
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                var line = $"{timestamp}\t{preloadKey}";
+                lock (_traceLock)
+                {
+                    File.AppendAllText(_traceLogPath, line + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Swallow to avoid disrupting parsing; log once per session would be nicer, but keep simple
+                DebugWindow.LogError($"{nameof(PreloadAlert)}: Failed to append trace: {ex.Message}");
+            }
+        }
+
+        private void EnsureTraceFile()
+        {
+            if (_traceLogPath != null) return;
+            try
+            {
+                // Place trace logs under the plugin's Dumps/PreloadTrace folder; one file per enable-session
+                var dumps = Path.Combine(DirectoryFullName, "Dumps", "PreloadTrace");
+                Directory.CreateDirectory(dumps);
+
+                var areaName = GameController?.Area?.CurrentArea?.Name ?? "UnknownArea";
+                areaName = string.Join("_", areaName.Split(Path.GetInvalidFileNameChars()));
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                var fileName = $"preload_trace_{areaName}_{timestamp}.txt";
+                _traceLogPath = Path.Combine(dumps, fileName);
+
+                // Create with a small header for readability
+                var header = $"# Preload trace started {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} | Area={areaName}{Environment.NewLine}";
+                File.WriteAllText(_traceLogPath, header);
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"{nameof(PreloadAlert)}: Failed to initialize trace log: {ex.Message}");
+                _traceLogPath = null;
+            }
         }
 
         public override void Tick()

@@ -3,6 +3,7 @@ using ExileCore2.Shared.Interfaces;
 using ExileCore2.Shared.Nodes;
 using System.Drawing;
 using System.Numerics;
+using System.Text.Json.Serialization;
 using System.Runtime.CompilerServices;
 
 namespace PreloadAlert
@@ -73,6 +74,13 @@ namespace PreloadAlert
         public ToggleNode Misc { get; set; }
         [ConditionalDisplay(nameof(Misc), true)]
         public MiscSettings MiscColors { get; set; } = new MiscSettings();
+
+        [IgnoreMenu]
+        public ToggleNode TraceLogEnabled { get; set; } = new ToggleNode(false);
+
+        [JsonIgnore]
+        [IgnoreMenu]
+        public TextNode TraceFilter { get; set; } = new TextNode();
     }
     [Submenu]
     public class ExileSettings
