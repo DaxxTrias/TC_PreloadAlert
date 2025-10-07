@@ -60,6 +60,7 @@ namespace PreloadAlert
         private CancellationTokenSource _expShrineProbeCts;
         private readonly object _traceLock = new object();
         private string _traceLogPath;
+        private HashSet<string> _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         public PreloadAlert()
         {
@@ -82,6 +83,8 @@ namespace PreloadAlert
             _expShrineProbeCts = null;
             // Reset trace file so a new area/session creates a fresh log when enabled
             _traceLogPath = null;
+            // Reset in-area traced keys so reparse duplicates are suppressed per area
+            _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
         private void ScheduleInitialParseRetry()
@@ -788,6 +791,10 @@ namespace PreloadAlert
                 var line = $"{timestamp}\t{preloadKey}";
                 lock (_traceLock)
                 {
+                    // Suppress duplicates caused by periodic reparses within the same area
+                    if (_tracedKeysThisArea.Contains(preloadKey))
+                        return;
+                    _tracedKeysThisArea.Add(preloadKey);
                     File.AppendAllText(_traceLogPath, line + Environment.NewLine);
                 }
             }
