@@ -13,6 +13,7 @@ namespace PreloadAlert
         Azmeri,
         Expedition,
         Abyss,
+        Incursion,
         Misc,
         Custom,
     }

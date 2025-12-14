@@ -20,6 +20,7 @@ namespace PreloadAlert
             Azmeri = new ToggleNode(true);
             Abyss = new ToggleNode(true);
             Expedition = new ToggleNode(true);
+            Incursion = new ToggleNode(true);
             Misc = new ToggleNode(true);
         }
 
@@ -69,6 +70,11 @@ namespace PreloadAlert
         public ToggleNode Expedition { get; set; }
         [ConditionalDisplay(nameof(Expedition), true)]
         public ExpeditionSettings ExpeditionColors { get; set; } = new ExpeditionSettings();
+
+        [Menu("Show Incursion", "Enable or Disable the showing of Incursion NPCs")]
+        public ToggleNode Incursion { get; set; }
+        [ConditionalDisplay(nameof(Incursion), true)]
+        public IncursionSettings IncursionColors { get; set; } = new IncursionSettings();
 
         [Menu("Show Misc", "Enable or Disable the showing of Miscellaneous items")]
         public ToggleNode Misc { get; set; }
@@ -212,5 +218,11 @@ namespace PreloadAlert
     public class MiscSettings
     {
         public ColorNode TimeLostCache { get; set; } = Color.FromArgb(255, 120, 0);
+    }
+
+    [Submenu]
+    public class IncursionSettings
+    {
+        public ColorNode Incursion { get; set; } = Color.FromArgb(255, 0, 0);
     }
 }

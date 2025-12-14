@@ -36,6 +36,7 @@ namespace PreloadAlert
         public static Dictionary<string, PreloadConfigLine> AzmeriLeague;
         public static Dictionary<string, PreloadConfigLine> ExpeditionLeague;
         public static Dictionary<string, PreloadConfigLine> Misc;
+        public static Dictionary<string, PreloadConfigLine> Incursion;
         public static Dictionary<string, PreloadConfigLine> Abyss;
         private const string AbyssSmallKey = "Metadata/Chests/Abyss/AbyssChestSmallMagic";
         public static Color AreaNameColor;
@@ -1398,6 +1399,15 @@ namespace PreloadAlert
             };
             SetCategory(Misc, PreloadCategory.Misc);
 
+            Incursion = new Dictionary<string, PreloadConfigLine>
+            {
+                {
+                    "Metadata/MiscellaneousObjects/LeagueIncursionNew/IncursionPedestalEncounter",
+                    new PreloadConfigLine { Text = "Incursion", FastColor = () => Settings.IncursionColors.Incursion }
+                },
+            };
+            SetCategory(Incursion, PreloadCategory.Incursion);
+
             Abyss = new Dictionary<string, PreloadConfigLine>
             {
                 // TODO: Metadata/MiscellaneousObjects/Abyss/AbyssPlinth can be used to count the total # of chests in an instance (unconfirmed)
@@ -1645,6 +1655,21 @@ namespace PreloadAlert
                 }
             }
 
+            if (Settings.Incursion)
+            {
+                var incursionAlert = Incursion.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+                    .Select(kv => kv.Value)
+                    .FirstOrDefault();
+                if (incursionAlert != null)
+                {
+                    lock (_locker)
+                    {
+                        alerts[incursionAlert.Text] = incursionAlert;
+                    }
+                    return;
+                }
+            }
+
             if (Settings.Misc)
             {
                 var misc_alert = Misc.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
@@ -1745,7 +1770,6 @@ namespace PreloadAlert
             //}
             #endregion perandus
         }
-
         private static string FormatColor(Color c) => $"{c.R},{c.G},{c.B},{c.A}";
 
         private IEnumerable<KeyValuePair<string, PreloadConfigLine>> EnumerateBuiltIns()
