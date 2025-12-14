@@ -1322,6 +1322,7 @@ namespace PreloadAlert
 
             Exiles = new Dictionary<string, PreloadConfigLine>
             {
+                //TODO: 0.4.0 re-added Taua, Ulfred, Drusian, and Doran. Verify they are detected
                 {
                     "ExileMonk1", 
                     new PreloadConfigLine {Text = "Sondar the Stormbinder (Monk Exile)", FastColor = () => Settings.ExileColors.Sondar}
