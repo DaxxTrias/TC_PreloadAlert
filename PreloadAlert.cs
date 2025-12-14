@@ -193,45 +193,28 @@ namespace PreloadAlert
                     {
                         snapshot = PreloadDebug.ToList();
                     }
-                    var groupBy = snapshot.OrderBy(x => x).GroupBy(x => x.IndexOf('/')).ToList();
-                    var result = new Dictionary<string, List<string>>(groupBy.Count);
-
-                    foreach (var gr in groupBy)
-                    {
-                        var g = gr.ToList();
-
-                        if (gr.Key != -1)
-                        {
-                            var list = new List<string>(g.Count);
-                            result[g.First().Substring(0, gr.Key)] = list;
-
-                            foreach (var str in g)
-                            {
-                                list.Add(str);
-                            }
-                        }
-                        else
-                        {
-                            var list = new List<string>(g.Count);
-                            var key = gr.Key.ToString();
-                            result[key] = list;
-
-                            foreach (var str in g)
-                            {
-                                list.Add(str);
-                            }
-                        }
-                    }
-
-                    groupBy = null;
-
+                    var totalCount = snapshot.Count;
+                    var filterTextDebug = string.Empty;
                     PreloadDebugAction = () =>
                     {
-                        foreach (var res in result)
+                        // Live filter box
+                        ImGui.SetNextItemWidth(280f);
+                        ImGui.InputText("Filter (contains, case-insensitive)", ref filterTextDebug, 256u);
+
+                        var filtered = string.IsNullOrWhiteSpace(filterTextDebug)
+                            ? snapshot
+                            : snapshot.Where(s => s.IndexOf(filterTextDebug, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+
+                        ImGui.Text($"Total preloads: {totalCount} | Filtered: {filtered.Count}");
+
+                        var grouped = filtered.OrderBy(x => x).GroupBy(x => x.IndexOf('/'));
+                        foreach (var gr in grouped)
                         {
-                            if (ImGui.TreeNode(res.Key))
+                            var g = gr.ToList();
+                            var key = gr.Key != -1 ? g.First().Substring(0, gr.Key) : gr.Key.ToString();
+                            if (ImGui.TreeNode(key))
                             {
-                                foreach (var str in res.Value)
+                                foreach (var str in g)
                                 {
                                     ImGui.Text(str);
                                 }
