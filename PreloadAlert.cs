@@ -62,6 +62,7 @@ namespace PreloadAlert
         private readonly object _traceLock = new object();
         private string _traceLogPath;
         private HashSet<string> _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private int _areaChangeCount = -1;
 
         public PreloadAlert()
         {
@@ -86,6 +87,8 @@ namespace PreloadAlert
             _traceLogPath = null;
             // Reset in-area traced keys so reparse duplicates are suppressed per area
             _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            // Drop any prior preload snapshot to avoid cross-area leakage
+            _lastPreloadKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
         private void ScheduleInitialParseRetry()
@@ -606,6 +609,7 @@ namespace PreloadAlert
             // Clear any stale state and perform initial parse with a retry to avoid warm-up races
             parseCts?.Cancel();
             ResetCaches();
+            _areaChangeCount = GameController.Game?.AreaChangeCount ?? -1;
             AreaChange(GameController.Area.CurrentArea);
             ScheduleInitialParseRetry();
             return true;
@@ -614,6 +618,7 @@ namespace PreloadAlert
         public override void AreaChange(AreaInstance area)
         {
             isLoading = true;
+            _areaChangeCount = GameController.Game?.AreaChangeCount ?? _areaChangeCount;
             // Cancel any in-flight parse from the previous area and clear current drawings atomically
             parseCts?.Cancel();
             ResetCaches();
@@ -834,6 +839,14 @@ namespace PreloadAlert
 
         public override void Tick()
         {
+            // Safety net: if the core fails to raise AreaChange, detect via AreaChangeCount and re-init
+            var currentAreaChange = GameController.Game?.AreaChangeCount ?? -1;
+            if (currentAreaChange >= 0 && currentAreaChange != _areaChangeCount)
+            {
+                _areaChangeCount = currentAreaChange;
+                HandleAreaChangeFallback();
+            }
+
             canRender = true;
 
             if (!Settings.Enable || GameController.Area.CurrentArea != null && GameController.Area.CurrentArea.IsTown ||
@@ -2168,6 +2181,38 @@ namespace PreloadAlert
             var name = buff.Name;
             if (string.IsNullOrWhiteSpace(name)) return false;
             return name.StartsWith("shrine_experience", StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Handles area change when the engine fails to call AreaChange override (defensive)
+        private void HandleAreaChangeFallback()
+        {
+            try
+            {
+                isLoading = true;
+                parseCts?.Cancel();
+                ResetCaches();
+                if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
+                {
+                    isLoading = false;
+                    return;
+                }
+
+                parseCts = new CancellationTokenSource();
+                Parse(parseCts.Token);
+                if (Settings.ReparsePreloads)
+                {
+                    StartPeriodicCheck();
+                }
+                ScheduleInitialParseRetry();
+            }
+            catch (Exception ex)
+            {
+                DebugWindow.LogError($"{nameof(PreloadAlert)}: Fallback area change handling failed: {ex.Message}");
+            }
+            finally
+            {
+                isLoading = false;
+            }
         }
     }
     public static class DictionaryExtensions
