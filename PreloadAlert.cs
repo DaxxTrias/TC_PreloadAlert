@@ -1920,6 +1920,7 @@ namespace PreloadAlert
                 PreloadCategory.Azmeri => Settings.Azmeri.Value,
                 PreloadCategory.Expedition => Settings.Expedition.Value,
                 PreloadCategory.Abyss => Settings.Abyss.Value,
+                PreloadCategory.Incursion => Settings.Incursion.Value,
                 PreloadCategory.Misc => Settings.Misc.Value,
                 PreloadCategory.Custom => true,
                 _ => true,
