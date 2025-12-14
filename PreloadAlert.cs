@@ -1459,6 +1459,7 @@ namespace PreloadAlert
                     new PreloadConfigLine { Text = "Abyssal Armoury (rare)", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
                 {
+                    //TODO: whats up with this one and it lingering as a preload and triggering false positives?
                     "Metadata/Chests/Abyss/AbyssChestFinalArmour", // Large Abyssal Armoury
                     new PreloadConfigLine { Text = "Abyssal Armoury", FastColor = () => Settings.AbyssColors.AbyssArmour }
                 },
