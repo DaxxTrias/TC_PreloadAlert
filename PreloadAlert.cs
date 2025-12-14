@@ -1781,6 +1781,7 @@ namespace PreloadAlert
             foreach (var kv in AzmeriLeague) yield return kv;
             foreach (var kv in ExpeditionLeague) yield return kv;
             foreach (var kv in Abyss) yield return kv;
+            foreach (var kv in Incursion) yield return kv;
             foreach (var kv in Misc) yield return kv;
         }
 
