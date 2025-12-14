@@ -1883,18 +1883,14 @@ namespace PreloadAlert
                 var line = kv.Value;
                 if (line == null) continue;
 
+                var hasExplicitColor = line.Color.HasValue && line.Color.Value.ToArgb() != 0;
                 var personalOverride = _personalExplicitColorKeys.Contains(configKey);
-                // Priority: personal explicit color -> menu/built-in color -> config/default
+                // If personal has explicit color, respect it. Otherwise, always bind to menu FastColor
                 if (!personalOverride)
                 {
-                    // Accept either direction of prefix to handle shortened/extended keys
-                    var match = builtIns.FirstOrDefault(b =>
-                        b.Key.Equals(configKey, StringComparison.OrdinalIgnoreCase) ||
-                        b.Key.StartsWith(configKey, StringComparison.OrdinalIgnoreCase) ||
-                        configKey.StartsWith(b.Key, StringComparison.OrdinalIgnoreCase));
+                    var match = builtIns.FirstOrDefault(b => b.Key.StartsWith(configKey, StringComparison.OrdinalIgnoreCase));
                     if (!match.Equals(default(KeyValuePair<string, PreloadConfigLine>)))
                     {
-                        // Menu color (FastColor) wins over default config color
                         line.FastColor = match.Value.FastColor;
                         if (line.Category == PreloadCategory.Unknown)
                             line.Category = match.Value.Category;
@@ -1902,12 +1898,6 @@ namespace PreloadAlert
                         if ((!line.Color.HasValue || line.Color.Value.ToArgb() == 0) && match.Value.Color.HasValue && match.Value.Color.Value.ToArgb() != 0)
                             line.Color = match.Value.Color;
                     }
-                }
-
-                // Final fallback to default text color if nothing else bound
-                if (line.FastColor == null && (!line.Color.HasValue || line.Color.Value.ToArgb() == 0))
-                {
-                    line.FastColor = () => Settings.DefaultTextColor;
                 }
             }
         }
