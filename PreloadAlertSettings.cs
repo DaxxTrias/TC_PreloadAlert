@@ -129,6 +129,7 @@ namespace PreloadAlert
         public ColorNode BasicStrongbox { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode ArcaneStrongbox { get; set; } = Color.FromArgb(255, 255, 255);
         public ColorNode IxchelsTormentStrongbox { get; set; } = Color.FromArgb(255, 120, 0);
+        public ColorNode RainFestivalBeetleStrongbox { get; set; } = Color.FromArgb(255, 120, 0);
     }
 
     [Submenu]

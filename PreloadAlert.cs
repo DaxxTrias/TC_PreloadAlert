@@ -1314,10 +1314,11 @@ namespace PreloadAlert
                     "Metadata/Monsters/Strongbox/Daemon/SummonVaalMonstersDaemon",
                     new PreloadConfigLine {Text = "Ixchel's Torment Strongbox", FastColor = () => Settings.StrongboxColors.IxchelsTormentStrongbox}
                 },
-                //TODO: see if any of these will help verify Rain Festival Beetle unique box
-                //Metadata/Effects/Environment/Endgame/Strongboxes/epk/etched_jewel_beetle_strongbox_idle.epk
-                //Metadata/Chests/StrongBoxes/Unique/LargeEtchedBeetleBossChest.ao
-                //Metadata/Effects/Environment/Endgame/Strongboxes/fx/etched_jewel_beetle_idle.pet
+                {
+                    // Ornate Strongbox appears to be its base-type it derives from
+                    "Metadata/Chests/StrongBoxes/Unique/LargeEtchedBeetleBossChest.ao",
+                    new PreloadConfigLine {Text = "Rain Festival Beetle Strongbox", FastColor = () => Settings.StrongboxColors.RainFestivalBeetleStrongbox}
+                },
             };
             SetCategory(Strongboxes, PreloadCategory.Strongbox);
 
