@@ -63,6 +63,12 @@ namespace PreloadAlert
         private string _traceLogPath;
         private HashSet<string> _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private int _areaChangeCount = -1;
+        
+        // Zone-based preload tracking to handle cross-area contamination
+        private readonly object _zonePreloadLock = new object();
+        private Dictionary<string, ZonePreloadData> _zonePreloads = new Dictionary<string, ZonePreloadData>(StringComparer.OrdinalIgnoreCase);
+        private string _currentZoneId = string.Empty;
+        private const int MaxZoneHistory = 3;
 
         public PreloadAlert()
         {
@@ -89,6 +95,47 @@ namespace PreloadAlert
             _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             // Drop any prior preload snapshot to avoid cross-area leakage
             _lastPreloadKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            
+            // Prune old zone history, keeping only the last MaxZoneHistory zones
+            PruneZoneHistory();
+        }
+        
+        /// <summary>
+        /// Removes old zone preload data, keeping only the most recent MaxZoneHistory zones
+        /// </summary>
+        private void PruneZoneHistory()
+        {
+            lock (_zonePreloadLock)
+            {
+                if (_zonePreloads.Count <= MaxZoneHistory)
+                    return;
+                    
+                // Sort by LastSeen descending and keep only the most recent MaxZoneHistory entries
+                var toKeep = _zonePreloads
+                    .OrderByDescending(kvp => kvp.Value.LastSeen)
+                    .Take(MaxZoneHistory)
+                    .Select(kvp => kvp.Key)
+                    .ToHashSet(StringComparer.OrdinalIgnoreCase);
+                    
+                var toRemove = _zonePreloads.Keys.Where(k => !toKeep.Contains(k)).ToList();
+                foreach (var key in toRemove)
+                {
+                    _zonePreloads.Remove(key);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Generates a unique zone identifier from the current area
+        /// </summary>
+        private string GetCurrentZoneId()
+        {
+            var area = GameController?.Area?.CurrentArea;
+            if (area == null)
+                return "unknown";
+                
+            // Combine area name, hash, and change count to create a unique ID per zone instance
+            return $"{area.Name}_{area.Hash}_{_areaChangeCount}";
         }
 
         private void ScheduleInitialParseRetry()
@@ -602,6 +649,29 @@ namespace PreloadAlert
         {
             isLoading = true;
             _areaChangeCount = GameController.Game?.AreaChangeCount ?? _areaChangeCount;
+            
+            // Update current zone identifier
+            _currentZoneId = GetCurrentZoneId();
+            
+            // Initialize zone data if this is a new zone
+            lock (_zonePreloadLock)
+            {
+                if (!_zonePreloads.ContainsKey(_currentZoneId))
+                {
+                    _zonePreloads[_currentZoneId] = new ZonePreloadData
+                    {
+                        ZoneId = _currentZoneId,
+                        ZoneName = area?.Name ?? "Unknown",
+                        LastSeen = DateTime.UtcNow
+                    };
+                }
+                else
+                {
+                    // Update last seen timestamp for returning to a previous zone
+                    _zonePreloads[_currentZoneId].LastSeen = DateTime.UtcNow;
+                }
+            }
+            
             // Cancel any in-flight parse from the previous area and clear current drawings atomically
             parseCts?.Cancel();
             ResetCaches();
@@ -670,6 +740,10 @@ namespace PreloadAlert
                             }
 
                             // DebugWindow.LogMsg($"{nameof(PreloadAlert)}: Filtering files to 'Metadata/' prefix; ignoring ChangeCount.");
+                            
+                            // Track preloads observed in this parse cycle for the current zone
+                            var observedThisParse = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                            
                             foreach (var file in allFiles)
                             {
                                 if (token.IsCancellationRequested) return;
@@ -690,11 +764,35 @@ namespace PreloadAlert
                                 {
                                     PreloadDebug.Add(text);
                                 }
+                                
+                                // Track that we observed this preload file
+                                observedThisParse.Add(text);
 
                                 // Append to trace log (no de-dup) if enabled and filter matches
                                 AppendPreloadTrace(text);
 
                                 CheckForPreload(text);
+                            }
+                            
+                            // Associate observed preloads and alerts with the current zone
+                            lock (_zonePreloadLock)
+                            {
+                                if (!string.IsNullOrEmpty(_currentZoneId) && _zonePreloads.TryGetValue(_currentZoneId, out var zoneData))
+                                {
+                                    // Update observed preloads for this zone
+                                    foreach (var preload in observedThisParse)
+                                    {
+                                        zoneData.ObservedPreloads.Add(preload);
+                                    }
+                                    
+                                    // Snapshot current alerts into this zone (under main lock to avoid race)
+                                    lock (_locker)
+                                    {
+                                        zoneData.Alerts = new Dictionary<string, PreloadConfigLine>(alerts);
+                                    }
+                                    
+                                    zoneData.LastSeen = DateTime.UtcNow;
+                                }
                             }
 
                             // Snapshot keys for post-processing (e.g., generic shrine buff detection)
@@ -874,7 +972,24 @@ namespace PreloadAlert
 
             var drawPoint = Settings.DisplayPosition.Value;
 
-            var visibleAlerts = DrawAlerts.Where(a => IsCategoryEnabled(a.Category)).ToList();
+            // Filter alerts to only show those from the current zone
+            List<PreloadConfigLine> visibleAlerts;
+            lock (_zonePreloadLock)
+            {
+                if (!string.IsNullOrEmpty(_currentZoneId) && _zonePreloads.TryGetValue(_currentZoneId, out var zoneData))
+                {
+                    // Only show alerts that were discovered during parsing the current zone
+                    visibleAlerts = zoneData.Alerts.Values
+                        .Where(a => IsCategoryEnabled(a.Category))
+                        .OrderBy(x => x.Text)
+                        .ToList();
+                }
+                else
+                {
+                    // Fallback to showing all alerts if zone tracking isn't initialized yet
+                    visibleAlerts = DrawAlerts.Where(a => IsCategoryEnabled(a.Category)).ToList();
+                }
+            }
 
             var textSize = isLoading
                 ? Graphics.MeasureText(loadingText)
@@ -2183,6 +2298,30 @@ namespace PreloadAlert
             try
             {
                 isLoading = true;
+                
+                // Update current zone identifier
+                _currentZoneId = GetCurrentZoneId();
+                
+                // Initialize zone data if this is a new zone
+                var area = GameController?.Area?.CurrentArea;
+                lock (_zonePreloadLock)
+                {
+                    if (!_zonePreloads.ContainsKey(_currentZoneId))
+                    {
+                        _zonePreloads[_currentZoneId] = new ZonePreloadData
+                        {
+                            ZoneId = _currentZoneId,
+                            ZoneName = area?.Name ?? "Unknown",
+                            LastSeen = DateTime.UtcNow
+                        };
+                    }
+                    else
+                    {
+                        // Update last seen timestamp for returning to a previous zone
+                        _zonePreloads[_currentZoneId].LastSeen = DateTime.UtcNow;
+                    }
+                }
+                
                 parseCts?.Cancel();
                 ResetCaches();
                 if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
