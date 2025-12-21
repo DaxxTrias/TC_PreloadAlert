@@ -1319,6 +1319,11 @@ namespace PreloadAlert
                     "Metadata/Chests/StrongBoxes/Unique/LargeEtchedBeetleBossChest.ao",
                     new PreloadConfigLine {Text = "Rain Festival Beetle Strongbox", FastColor = () => Settings.StrongboxColors.RainFestivalBeetleStrongbox}
                 },
+                {
+                    // Ezomyte Strongbox (Oghams Unique?)
+                    "Metadata/Chests/StrongBoxes/EzomyteStrongBox.ao",
+                    new PreloadConfigLine {Text = "Ezomyte Strongbox (Oghams Unique?)", FastColor = () => Settings.StrongboxColors.EzomyteStrongbox}
+                },
             };
             SetCategory(Strongboxes, PreloadCategory.Strongbox);
 
