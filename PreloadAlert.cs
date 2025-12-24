@@ -1482,10 +1482,12 @@ namespace PreloadAlert
                     new PreloadConfigLine {Text = "Bronnach the Manhunter (Ranger Exile)", FastColor = () => Settings.ExileColors.Bronnach}
                 },
                 {
-                    "ExileWarrior2", new PreloadConfigLine {Text = "Raok, the Bloodthirsty (Warrior Exile)", FastColor = () => Settings.ExileColors.Raok}
+                    "ExileWarrior2",
+                    new PreloadConfigLine {Text = "Raok, the Bloodthirsty (Warrior Exile)", FastColor = () => Settings.ExileColors.Raok}
                 },
                 {
-                    "ExileWarrior1", new PreloadConfigLine {Text = "Taua, the Ruthless (Warrior Exile)", FastColor = () => Settings.ExileColors.Taua}
+                    "ExileWarrior1",
+                    new PreloadConfigLine {Text = "Taua, the Ruthless (Warrior Exile)", FastColor = () => Settings.ExileColors.Taua}
                 },
                 {
                     "ExileMarauder1", new PreloadConfigLine {Text = "Marauder Exile", FastColor = () => Settings.ExileColors.Marauder1}
@@ -1500,7 +1502,8 @@ namespace PreloadAlert
                     "ExileDuelist1", new PreloadConfigLine {Text = "Duelist Exile", FastColor = () => Settings.ExileColors.Duelist}
                 },
                 {
-                    "ExileMercenary2", new PreloadConfigLine {Text = "Mercenary Exile", FastColor = () => Settings.ExileColors.Mercenary2}
+                    "ExileMercenary2",
+                    new PreloadConfigLine {Text = "Drusian, the Artillerist (Merc Exile)", FastColor = () => Settings.ExileColors.Mercenary2}
                 },
                 {
                     "ExileTemplar1", new PreloadConfigLine {Text = "Templar Exile", FastColor = () => Settings.ExileColors.Templar}
