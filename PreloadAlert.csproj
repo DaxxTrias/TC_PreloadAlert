@@ -4,6 +4,8 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <LangVersion>14</LangVersion>
+    <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>embedded</DebugType>
