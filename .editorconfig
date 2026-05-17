@@ -1,0 +1,43 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Visual Studio solution files
+[*.sln]
+indent_style = tab
+
+# MSBuild and XML-like project files
+[*.{csproj,props,targets,xml,config,resx,ruleset}]
+indent_size = 2
+
+# JSON and YAML files
+[*.{json,jsonc,json5,yml,yaml}]
+indent_size = 2
+
+# Web and Node tooling files
+[*.{js,mjs,cjs,ts,tsx,css,scss,html,svg}]
+indent_size = 2
+
+# Shell scripts should keep Unix line endings.
+[*.sh]
+end_of_line = lf
+
+# C# files
+[*.cs]
+indent_size = 4
+tab_width = 4
+dotnet_separate_import_directive_groups = true
+dotnet_sort_system_directives_first = true
+csharp_using_directive_placement = outside_namespace:silent
+csharp_style_namespace_declarations = file_scoped:suggestion
