@@ -21,7 +21,7 @@ namespace PreloadAlert
 
     public class PreloadConfigLine : ConfigLineBase
     {
-        public Func<Color> FastColor;
+        public Func<Color>? FastColor;
         public PreloadCategory Category { get; set; } = PreloadCategory.Unknown;
     }
 
@@ -30,21 +30,21 @@ namespace PreloadAlert
     /// </summary>
     public class ZonePreloadData
     {
-        public string ZoneId { get; set; }
-        public string ZoneName { get; set; }
+        public string ZoneId { get; set; } = string.Empty;
+        public string ZoneName { get; set; } = string.Empty;
         public DateTime LastSeen { get; set; }
-        public Dictionary<string, PreloadConfigLine> Alerts { get; set; } = new Dictionary<string, PreloadConfigLine>();
+        public Dictionary<string, PreloadConfigLine> Alerts { get; set; } = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> ObservedPreloads { get; set; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 
     public abstract class ConfigLineBase
     {
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
         public Color? Color { get; set; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return Text == ((ConfigLineBase) obj).Text;
+            return obj is ConfigLineBase other && Text == other.Text;
         }
 
         public override int GetHashCode()

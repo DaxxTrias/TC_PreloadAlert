@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -29,38 +29,36 @@ namespace PreloadAlert
         private const string PreloadEnd = "preload-end.png";
         private const string PreloadNew = "preload-new.png";
         private const string PreloadNewBase64 = "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";
-        public static Dictionary<string, PreloadConfigLine> Essences;
-        public static Dictionary<string, PreloadConfigLine> Shrines;
-        public static Dictionary<string, PreloadConfigLine> Strongboxes;
-        public static Dictionary<string, PreloadConfigLine> Exiles;
-        public static Dictionary<string, PreloadConfigLine> AzmeriLeague;
-        public static Dictionary<string, PreloadConfigLine> ExpeditionLeague;
-        public static Dictionary<string, PreloadConfigLine> Misc;
-        public static Dictionary<string, PreloadConfigLine> Incursion;
-        public static Dictionary<string, PreloadConfigLine> Abyss;
+        public static Dictionary<string, PreloadConfigLine> Essences = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Shrines = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Strongboxes = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Exiles = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> AzmeriLeague = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> ExpeditionLeague = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Misc = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Incursion = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
+        public static Dictionary<string, PreloadConfigLine> Abyss = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
         private const string AbyssSmallKey = "Metadata/Chests/Abyss/AbyssChestSmallMagic";
         public static Color AreaNameColor;
         private readonly object _locker = new object();
-        private Dictionary<string, PreloadConfigLine> alertStrings;
+        private Dictionary<string, PreloadConfigLine> alertStrings = new Dictionary<string, PreloadConfigLine>(StringComparer.OrdinalIgnoreCase);
         private bool canRender;
-        private DebugInformation debugInformation;
+        private DebugInformation debugInformation = null!;
         private List<PreloadConfigLine> DrawAlerts = new List<PreloadConfigLine>();
-        private bool essencefound;
-        private bool shrinefound;
         private bool isLoading;
         private Vector2 lastLine;
         private readonly List<string> PreloadDebug = new List<string>();
-        private Action PreloadDebugAction;
+        private Action? PreloadDebugAction;
         private bool working;
-        private CancellationTokenSource cancellationTokenSource;
-        private CancellationTokenSource debugDummyCts;
-        private CancellationTokenSource parseCts;
+        private CancellationTokenSource? cancellationTokenSource;
+        private CancellationTokenSource? debugDummyCts;
+        private CancellationTokenSource? parseCts;
         private HashSet<string> _personalExplicitColorKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private static readonly string GenericShrinePath = "Metadata/Shrines/Shrine";
         private HashSet<string> _lastPreloadKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        private CancellationTokenSource _expShrineProbeCts;
+        private CancellationTokenSource? _expShrineProbeCts;
         private readonly object _traceLock = new object();
-        private string _traceLogPath;
+        private string? _traceLogPath;
         private HashSet<string> _tracedKeysThisArea = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private int _areaChangeCount = -1;
         
@@ -588,8 +586,8 @@ namespace PreloadAlert
             // Load personal config read-only (prefer global; fallback to legacy) and merge over main only if it has entries
             try
             {
-                Dictionary<string, PreloadConfigLine> personal = null;
-                string personalPathUsed = null;
+                Dictionary<string, PreloadConfigLine>? personal = null;
+                string? personalPathUsed = null;
 
                 if (File.Exists(globalPersonalPath) && new FileInfo(globalPersonalPath).Length > 0)
                 {
@@ -675,7 +673,8 @@ namespace PreloadAlert
             // Cancel any in-flight parse from the previous area and clear current drawings atomically
             parseCts?.Cancel();
             ResetCaches();
-            if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
+            var currentArea = GameController?.Area?.CurrentArea;
+            if (currentArea == null || currentArea.IsHideout || currentArea.IsTown)
             {
                 isLoading = false;
                 return;
@@ -937,14 +936,22 @@ namespace PreloadAlert
                 return;
             }
 
-            if (GameController.Game.IngameState.IngameUi.StashElement.IsVisibleLocal)
+            var ingameState = GameController.Game?.IngameState;
+            var ingameUi = ingameState?.IngameUi;
+            if (ingameUi == null)
             {
                 canRender = false;
                 return;
             }
 
-            var UIHover = GameController.Game.IngameState.UIHover;
-            var miniMap = GameController.Game.IngameState.IngameUi.Map.SmallMiniMap;
+            if (ingameUi.StashElement.IsVisibleLocal)
+            {
+                canRender = false;
+                return;
+            }
+
+            var UIHover = ingameState?.UIHover;
+            var miniMap = ingameUi.Map.SmallMiniMap;
 
             if (Settings.Enable.Value && UIHover?.Tooltip != null && UIHover.IsValid && UIHover.Address != 0x00 &&
                 UIHover.Tooltip.Address != 0x00 && UIHover.Tooltip.IsVisibleLocal &&
@@ -958,7 +965,8 @@ namespace PreloadAlert
                                              !UIHover.Tooltip.IsVisibleLocal))
                 canRender = true;
 
-            if (Input.GetKeyState(Keys.F5)) AreaChange(GameController.Area.CurrentArea);
+            if (Input.GetKeyState(Keys.F5) && GameController.Area.CurrentArea != null)
+                AreaChange(GameController.Area.CurrentArea);
 
             return;
         }
@@ -1673,8 +1681,6 @@ namespace PreloadAlert
 
                 if (essence_alert != null)
                 {
-                    essencefound = true;
-
                     if (alerts.ContainsKey("Remnant of Corruption"))
 
                         //TODO: TEST ESSENCE
@@ -1715,8 +1721,6 @@ namespace PreloadAlert
 
                 if (shrine_alert != null)
                 {
-                    shrinefound = true;
-
                     lock (_locker)
                     {
                         alerts[shrine_alert.Text] = shrine_alert;
@@ -2055,7 +2059,7 @@ namespace PreloadAlert
         // Resolve the display text used for a given config/built-in key
         private bool TryGetDisplayTextForKey(string key, out string text)
         {
-            text = null;
+            text = string.Empty;
             if (!string.IsNullOrWhiteSpace(key))
             {
                 if (alertStrings != null && alertStrings.Count > 0)
@@ -2095,7 +2099,7 @@ namespace PreloadAlert
         {
             if (TryGetDisplayTextForKey(AbyssSmallKey, out var text) && !string.IsNullOrWhiteSpace(text))
                 return text;
-            if (Abyss != null && Abyss.TryGetValue(AbyssSmallKey, out var line) && !string.IsNullOrWhiteSpace(line?.Text))
+            if (Abyss.TryGetValue(AbyssSmallKey, out var line) && !string.IsNullOrWhiteSpace(line?.Text))
                 return line.Text;
             return "Abyss";
         }
@@ -2105,7 +2109,7 @@ namespace PreloadAlert
         {
             // Fast path: inspect current alerts for any Abyss entry whose text is not the baseline
             var baseline = GetAbyssBaselineText();
-            if (alerts != null && alerts.Count > 0)
+            if (alerts.Count > 0)
             {
                 foreach (var entry in alerts)
                 {
@@ -2123,14 +2127,15 @@ namespace PreloadAlert
                 if (TryGetDisplayTextForKey(kv.Key, out var specificText))
                 {
                     // Case-insensitive presence check
-                    if (alerts.ContainsKey(specificText) || alerts.Keys.Any(k => k.Equals(specificText, StringComparison.OrdinalIgnoreCase)))
+                    if (alerts.Keys.Any(k => string.Equals(k, specificText, StringComparison.OrdinalIgnoreCase)))
                         return true;
                 }
                 else
                 {
                     // Fall back to built-in text if config not found
                     var text = kv.Value.Text;
-                    if (alerts.ContainsKey(text) || alerts.Keys.Any(k => k.Equals(text, StringComparison.OrdinalIgnoreCase)))
+                    if (!string.IsNullOrEmpty(text) &&
+                        alerts.Keys.Any(k => string.Equals(k, text, StringComparison.OrdinalIgnoreCase)))
                         return true;
                 }
             }
@@ -2327,7 +2332,8 @@ namespace PreloadAlert
                 
                 parseCts?.Cancel();
                 ResetCaches();
-                if (GameController.Area.CurrentArea.IsHideout || GameController.Area.CurrentArea.IsTown)
+                var currentArea = GameController?.Area?.CurrentArea;
+                if (currentArea == null || currentArea.IsHideout || currentArea.IsTown)
                 {
                     isLoading = false;
                     return;
@@ -2354,6 +2360,7 @@ namespace PreloadAlert
     public static class DictionaryExtensions
     {
         public static Dictionary<TKey, TValue> MergeLeft<TKey, TValue>(this Dictionary<TKey, TValue> source, Dictionary<TKey, TValue> other)
+            where TKey : notnull
         {
             foreach (var kvp in other)
             {
