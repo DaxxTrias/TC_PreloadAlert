@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -1784,20 +1784,20 @@ namespace PreloadAlert
                 }
             }
 
-            if (Settings.Incursion)
-            {
-                var incursionAlert = Incursion.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
-                    .Select(kv => kv.Value)
-                    .FirstOrDefault();
-                if (incursionAlert != null)
-                {
-                    lock (_locker)
-                    {
-                        alerts[incursionAlert.Text] = incursionAlert;
-                    }
-                    return;
-                }
-            }
+            // if (Settings.Incursion)
+            // {
+            //     var incursionAlert = Incursion.Where(kv => text.StartsWith(kv.Key, StringComparison.OrdinalIgnoreCase))
+            //         .Select(kv => kv.Value)
+            //         .FirstOrDefault();
+            //     if (incursionAlert != null)
+            //     {
+            //         lock (_locker)
+            //         {
+            //             alerts[incursionAlert.Text] = incursionAlert;
+            //         }
+            //         return;
+            //     }
+            // }
 
             if (Settings.Misc)
             {
