@@ -1447,6 +1447,11 @@ namespace PreloadAlert
                     "Metadata/Chests/StrongBoxes/EzomyteStrongBox.ao",
                     new PreloadConfigLine {Text = "Ezomyte Strongbox (Oghams Unique?)", FastColor = () => Settings.StrongboxColors.EzomyteStrongbox}
                 },
+                {
+                    // Ventor's Contraption (Unique Researcher Strongbox)
+                    "Metadata/Monsters/Strongbox/Daemon/SummonVentorsDelayDaemon",
+                    new PreloadConfigLine {Text = "Ventor's Contraption (Unique Researcher's Strongbox)", FastColor = () => Settings.StrongboxColors.VentorsContraptionStrongbox}
+                },
             };
             SetCategory(Strongboxes, PreloadCategory.Strongbox);
 
