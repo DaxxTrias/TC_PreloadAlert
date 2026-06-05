@@ -177,7 +177,7 @@ namespace PreloadAlert
                 }
 
                 ImGui.SameLine();
-                ImGui.TextDisabled("(writes every detected preload; no de-dup)");
+                ImGui.TextDisabled("(writes every detected preload; de-duped)");
 
                 var filterText = Settings.TraceFilter.Value ?? string.Empty;
                 ImGui.SetNextItemWidth(360f);
@@ -767,7 +767,7 @@ namespace PreloadAlert
                                 // Track that we observed this preload file
                                 observedThisParse.Add(text);
 
-                                // Append to trace log (no de-dup) if enabled and filter matches
+                                // Append to trace log (de-duped) if enabled and filter matches
                                 AppendPreloadTrace(text);
 
                                 CheckForPreload(text);
